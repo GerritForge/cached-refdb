@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.gerritcachedrefdb;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -25,6 +27,7 @@ public class LibDbModule extends FactoryModule {
   @Override
   protected void configure() {
     DynamicItem.itemOf(binder(), RefByNameCache.class);
+    DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
 
     factory(RefUpdateWithCacheUpdate.Factory.class);
     factory(RefRenameWithCacheUpdate.Factory.class);
