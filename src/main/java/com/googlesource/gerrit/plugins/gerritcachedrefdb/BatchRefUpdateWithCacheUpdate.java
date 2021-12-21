@@ -22,7 +22,6 @@ import java.util.List;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -30,17 +29,17 @@ import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   interface Factory {
-    BatchRefUpdateWithCacheUpdate create(Repository repo, BatchRefUpdate delegate);
+    BatchRefUpdateWithCacheUpdate create(CachedRefRepository repo, BatchRefUpdate delegate);
   }
 
-  private final Repository repo;
+  private final CachedRefRepository repo;
   private final RefByNameCacheWrapper refsCache;
   private final BatchRefUpdate delegate;
 
   @Inject
   BatchRefUpdateWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
-      @Assisted Repository repo,
+      @Assisted CachedRefRepository repo,
       @Assisted BatchRefUpdate delegate) {
     super(repo.getRefDatabase());
     this.refsCache = refsCache;
@@ -177,7 +176,7 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
         .forEach(
             cmd -> {
               if (cmd.getResult() == ReceiveCommand.Result.OK) {
-                refsCache.evict(repo.getIdentifier(), cmd.getRefName());
+                refsCache.evict(repo.getProjectName(), cmd.getRefName());
               }
             });
   }

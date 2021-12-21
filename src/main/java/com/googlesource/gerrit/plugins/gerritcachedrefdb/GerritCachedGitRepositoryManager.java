@@ -37,12 +37,12 @@ class GerritCachedGitRepositoryManager implements GitRepositoryManager {
 
   @Override
   public Repository openRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(repoManager.openRepository(name));
+    return repoWrapperFactory.create(name.get(), repoManager.openRepository(name));
   }
 
   @Override
   public Repository createRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(repoManager.createRepository(name));
+    return repoWrapperFactory.create(name.get(), repoManager.createRepository(name));
   }
 
   @Override

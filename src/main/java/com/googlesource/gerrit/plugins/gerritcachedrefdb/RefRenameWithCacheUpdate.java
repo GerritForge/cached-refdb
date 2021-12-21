@@ -22,12 +22,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
-import org.eclipse.jgit.lib.Repository;
 
 class RefRenameWithCacheUpdate extends RefRename {
   interface Factory {
     RefRenameWithCacheUpdate create(
-        Repository repo,
+        CachedRefRepository repo,
         RefRename delegate,
         @Assisted("src") RefUpdate src,
         @Assisted("dst") RefUpdate dst);
@@ -38,14 +37,14 @@ class RefRenameWithCacheUpdate extends RefRename {
       EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
   private final RefByNameCacheWrapper refsCache;
-  private final Repository repo;
+  private final CachedRefRepository repo;
   private final RefRename delegate;
   private final RefUpdate src;
 
   @Inject
   RefRenameWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
-      @Assisted Repository repo,
+      @Assisted CachedRefRepository repo,
       @Assisted RefRename delegate,
       @Assisted("src") RefUpdate src,
       @Assisted("dst") RefUpdate dst) {
@@ -95,7 +94,7 @@ class RefRenameWithCacheUpdate extends RefRename {
   public Result rename() throws IOException {
     Result r = delegate.rename();
     if (SUCCESSFUL_RENAMES.contains(r)) {
-      refsCache.evict(repo.getIdentifier(), src.getName());
+      refsCache.evict(repo.getProjectName(), src.getName());
     }
     return r;
   }
