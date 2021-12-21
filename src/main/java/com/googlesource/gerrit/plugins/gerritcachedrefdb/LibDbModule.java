@@ -17,12 +17,26 @@ package com.googlesource.gerrit.plugins.gerritcachedrefdb;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.ModuleImpl;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager;
+import com.google.inject.Inject;
 
-public class LibDbModule extends FactoryModule {
+@ModuleImpl(name = GitRepositoryManagerModule.MANAGER_MODULE)
+public class LibDbModule extends LifecycleModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final RepositoryConfig repoConfig;
+
+  @Inject
+  LibDbModule(RepositoryConfig repoConfig) {
+    this.repoConfig = repoConfig;
+  }
 
   @Override
   protected void configure() {
@@ -36,6 +50,12 @@ public class LibDbModule extends FactoryModule {
     factory(CachedRefRepository.Factory.class);
 
     bind(GitRepositoryManager.class).to(GerritCachedGitRepositoryManager.class);
+
+    // part responsible for physical repositories handling
+    listener().to(LocalDiskRepositoryManager.Lifecycle.class);
+    if (!repoConfig.getAllBasePaths().isEmpty()) {
+      bind(LocalDiskRepositoryManager.class).to(MultiBaseLocalDiskRepositoryManager.class);
+    }
     logger.atInfo().log("DB library loaded");
   }
 }
