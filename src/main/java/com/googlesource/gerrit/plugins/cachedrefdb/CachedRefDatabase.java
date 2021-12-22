@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 
 class CachedRefDatabase extends RefDatabase {
   interface Factory {
-    CachedRefDatabase create(CachedRefRepository repo);
+    CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate);
   }
 
   private final RefByNameCacheWrapper refsCache;
@@ -47,12 +47,13 @@ class CachedRefDatabase extends RefDatabase {
       BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
-      @Assisted CachedRefRepository repo) {
+      @Assisted CachedRefRepository repo,
+      @Assisted RefDatabase delegate) {
     this.refsCache = refsCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.updateFactory = updateFactory;
     this.renameFactory = renameFactory;
-    this.delegate = repo.getDelegate().getRefDatabase();
+    this.delegate = delegate;
     this.repo = repo;
   }
 
