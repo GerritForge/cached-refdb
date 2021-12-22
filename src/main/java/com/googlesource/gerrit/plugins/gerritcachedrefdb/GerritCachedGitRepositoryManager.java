@@ -51,6 +51,11 @@ class GerritCachedGitRepositoryManager implements GitRepositoryManager {
     return repoManager.list();
   }
 
+  @Override
+  public Boolean canPerformGC() {
+    return repoManager.canPerformGC();
+  }
+
   @VisibleForTesting
   LocalDiskRepositoryManager getRepoManager() {
     return repoManager;
