@@ -48,9 +48,10 @@ import org.eclipse.jgit.util.FS;
 
 class CachedRefRepository extends DelegateRepository {
   interface Factory {
-    CachedRefRepository create(Repository repo);
+    CachedRefRepository create(String projectName, Repository repo);
   }
 
+  private final String projectName;
   private final CachedRefDatabase refDb;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
@@ -60,8 +61,10 @@ class CachedRefRepository extends DelegateRepository {
       CachedRefDatabase.Factory refDbFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
+      @Assisted String projectName,
       @Assisted Repository repo) {
     super(repo);
+    this.projectName = projectName;
     this.updateFactory = updateFactory;
     this.renameFactory = renameFactory;
     this.refDb = refDbFactory.create(this);
@@ -346,5 +349,9 @@ class CachedRefRepository extends DelegateRepository {
   @Override
   public void create() throws IOException {
     getDelegate().create();
+  }
+
+  public String getProjectName() {
+    return projectName;
   }
 }

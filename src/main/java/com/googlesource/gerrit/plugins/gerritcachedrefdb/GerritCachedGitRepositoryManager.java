@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.gerritcachedrefdb;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -37,16 +38,21 @@ class GerritCachedGitRepositoryManager implements GitRepositoryManager {
 
   @Override
   public Repository openRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(repoManager.openRepository(name));
+    return repoWrapperFactory.create(name.get(), repoManager.openRepository(name));
   }
 
   @Override
   public Repository createRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(repoManager.createRepository(name));
+    return repoWrapperFactory.create(name.get(), repoManager.createRepository(name));
   }
 
   @Override
   public SortedSet<Project.NameKey> list() {
     return repoManager.list();
+  }
+
+  @VisibleForTesting
+  LocalDiskRepositoryManager getRepoManager() {
+    return repoManager;
   }
 }

@@ -21,6 +21,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -40,6 +42,23 @@ public class GerritCachedRefDbIT extends AbstractDaemonTest {
       value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallGerritCachedGitRepoManager() {
     assertThat(gitRepoManager).isInstanceOf(GerritCachedGitRepositoryManager.class);
+    assertThat(((GerritCachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
+        .isEqualTo(LocalDiskRepositoryManager.class);
+    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameGerritCache.class);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibSysModule")
+  @GerritConfig(name = "repository.r1.basePath", value = "/tmp/git1")
+  public void shouldMultiBaseRepoManagerBeUsedWhenConfigured() {
+    assertThat(gitRepoManager).isInstanceOf(GerritCachedGitRepositoryManager.class);
+    assertThat(((GerritCachedGitRepositoryManager) gitRepoManager).getRepoManager())
+        .isInstanceOf(MultiBaseLocalDiskRepositoryManager.class);
     assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameGerritCache.class);
   }
 }

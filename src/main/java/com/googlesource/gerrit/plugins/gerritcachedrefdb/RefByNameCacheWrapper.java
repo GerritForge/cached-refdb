@@ -24,22 +24,26 @@ import org.eclipse.jgit.lib.Ref;
 class RefByNameCacheWrapper implements RefByNameCache {
   private static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
 
-  @Inject(optional = true)
-  private DynamicItem<RefByNameCache> refByNameCache;
+  private final RefByNameCache cache;
+
+  @Inject
+  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
+    this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+  }
 
   @Override
   public Ref computeIfAbsent(
       String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache().computeIfAbsent(identifier, ref, loader);
+    return cache.computeIfAbsent(identifier, ref, loader);
   }
 
   @Override
   public void evict(String identifier, String ref) {
-    cache().evict(identifier, ref);
+    cache.evict(identifier, ref);
   }
 
   @VisibleForTesting
   RefByNameCache cache() {
-    return Optional.ofNullable(refByNameCache).map(DynamicItem::get).orElse(NOOP_CACHE);
+    return cache;
   }
 }

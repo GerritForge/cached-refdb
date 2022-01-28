@@ -16,7 +16,8 @@ import org.eclipse.jgit.transport.PushCertificate;
 
 class RefUpdateWithCacheUpdate extends RefUpdate {
   interface Factory {
-    RefUpdateWithCacheUpdate create(RefDatabase refDb, Repository repo, RefUpdate delegate);
+    RefUpdateWithCacheUpdate create(
+        RefDatabase refDb, CachedRefRepository repo, RefUpdate delegate);
   }
 
   private static final String NOT_SUPPORTED_MSG = "Should never be called";
@@ -25,14 +26,14 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   private final RefByNameCacheWrapper refsCache;
   private final RefDatabase refDb;
-  private final Repository repo;
+  private final CachedRefRepository repo;
   private final RefUpdate delegate;
 
   @Inject
   RefUpdateWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
       @Assisted RefDatabase refDb,
-      @Assisted Repository repo,
+      @Assisted CachedRefRepository repo,
       @Assisted RefUpdate delegate) {
     super(delegate.getRef());
     this.refsCache = refsCache;
@@ -208,7 +209,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   private Result evictCache(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.evict(repo.getIdentifier(), getName());
+      refsCache.evict(repo.getProjectName(), getName());
     }
     return r;
   }
