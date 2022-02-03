@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
-class RefByNameGerritCache implements RefByNameCache {
+class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
 
@@ -43,7 +43,7 @@ class RefByNameGerritCache implements RefByNameCache {
   private final Cache<String, Optional<Ref>> refByName;
 
   @Inject
-  RefByNameGerritCache(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
+  RefByNameCacheImpl(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
     this.refByName = refByName;
   }
 

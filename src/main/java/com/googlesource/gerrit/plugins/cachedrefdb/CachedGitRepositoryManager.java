@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
@@ -25,12 +25,12 @@ import java.util.SortedSet;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-class GerritCachedGitRepositoryManager implements GitRepositoryManager {
+class CachedGitRepositoryManager implements GitRepositoryManager {
   private final LocalDiskRepositoryManager repoManager;
   private final CachedRefRepository.Factory repoWrapperFactory;
 
   @Inject
-  GerritCachedGitRepositoryManager(
+  CachedGitRepositoryManager(
       LocalDiskRepositoryManager repoManager, CachedRefRepository.Factory repoWrapperFactory) {
     this.repoManager = repoManager;
     this.repoWrapperFactory = repoWrapperFactory;

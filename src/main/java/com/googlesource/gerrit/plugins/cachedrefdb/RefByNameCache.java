@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
-import com.google.gerrit.extensions.config.FactoryModule;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.Ref;
 
-public class CachedRefsModule extends FactoryModule {
-  @Override
-  protected void configure() {
-  }
+interface RefByNameCache {
+  Ref computeIfAbsent(String identifier, String ref, Callable<? extends Optional<Ref>> loader);
+
+  void evict(String identifier, String ref);
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
 import java.util.Optional;

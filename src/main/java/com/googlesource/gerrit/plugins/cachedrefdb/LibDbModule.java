@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import static com.google.inject.Scopes.SINGLETON;
 
@@ -49,7 +49,7 @@ public class LibDbModule extends LifecycleModule {
     factory(CachedRefDatabase.Factory.class);
     factory(CachedRefRepository.Factory.class);
 
-    bind(GitRepositoryManager.class).to(GerritCachedGitRepositoryManager.class);
+    bind(GitRepositoryManager.class).to(CachedGitRepositoryManager.class);
 
     // part responsible for physical repositories handling
     listener().to(LocalDiskRepositoryManager.Lifecycle.class);

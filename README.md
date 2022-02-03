@@ -53,27 +53,27 @@ Example:
 ```
 git clone --recursive https://gerrit.googlesource.com/gerrit
 cd plugins
-git clone "https://review.gerrithub.io/geminicaprograms/gerrit-cached-refdb"
-cd .. && bazel build plugins/gerrit-cached-refdb
+git clone "https://gerrit.googlesource.com/modules/cached-refdb"
+cd .. && bazel build plugins/cached-refdb
 ```
 
 The output plugin jar is created in:
 
 ```
-bazel-bin/plugins/gerrit-cached-refdb/gerrit-cached-refdb.jar
+bazel-bin/plugins/cached-refdb/cached-refdb.jar
 ```
 
 ## How to install
 
-Copy the gerrit-cached-refdb.jar into the `${GERRIT_SITE}/lib/` so that it is
+Copy the cached-refdb.jar into the `${GERRIT_SITE}/lib/` so that it is
 being loaded when the Gerrit instance is started. Note that the following
 configuration options need to be added
 
 ```
 git config --file ${GERRIT_SITE}/etc/gerrit.config gerrit.installDbModule\
-  com.googlesource.gerrit.plugins.gerritcachedrefdb.LibDbModule
+  com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule
 git config --file ${GERRIT_SITE}/etc/gerrit.config gerrit.installModule\
-  com.googlesource.gerrit.plugins.gerritcachedrefdb.LibSysModule
+  com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
 ```
 
 By default cache can hold up to `1024` refs which will not be sufficient for
@@ -84,5 +84,5 @@ cache configuration means e.g.
 git config --file ${GERRIT_SITE}/etc/gerrit.config cache.ref_by_name.memoryLimit 10240
 ```
 
-Note that libraty module requires the Gerrit instance restart in order to pick
+Note that library module requires the Gerrit instance restart in order to pick
 up the configuration changes.
