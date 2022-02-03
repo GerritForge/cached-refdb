@@ -27,16 +27,16 @@ It was called against:
 
 Note that `TRS` is `Reqs/Sec` for each Thread.
 
----
-| version | TRS Avg | TRS Std Dev | TRS Max | Total Reqs/sec | Transfer/sec(MB)|
-| -- | -- | -- | -- | -- | -- |
-| stable-3.1 | 57,33 | 8,26 | 80 | 456,95 | 4,34 |
-| stable-3.2 | 13,87 | 4,92 | 20 | 110,18 | 1,07 |
-| stable-3.2-libCache | 105,27 | 14,55 | 150 | 834,88 | 8,41 |
-| stable-3.1 vs stable-3.2 | 313,34% | 67,89% | 300,00% | 314,73% | 305,61% |
-| stable-3.2-libCache vs stable-3.2 | 658,98% | 195,73% | 650,00% | 657,74% | 685,98% |
-| stable-3.2-libCache vs stable-3.1 | 83,62% | 76,15% | 87,50% | 82,71% | 93,78% |
----
+```
+| version                           | TRS Avg | TRS Std Dev | TRS Max | Total Reqs/sec | Transfer/sec(MB)|
+| --------------------------------- | ------- | ----------- | ------- | -------------- | --------------- |
+| stable-3.1                        | 57,33   | 8,26        | 80      | 456,95         | 4,34            |
+| stable-3.2                        | 13,87   | 4,92        | 20      | 110,18         | 1,07            |
+| stable-3.2-libCache               | 105,27  | 14,55       | 150     | 834,88         | 8,41            |
+| stable-3.1 vs stable-3.2          | 313,34% | 67,89%      | 300,00% | 314,73%        | 305,61%         |
+| stable-3.2-libCache vs stable-3.2 | 658,98% | 195,73%     | 650,00% | 657,74%        | 685,98%         |
+| stable-3.2-libCache vs stable-3.1 | 83,62%  | 76,15%      | 87,50%  | 82,71%         | 93,78%          |
+```
 
 One can clearly see that in this setup using this library module outperforms both
 Gerrit 3.2 and 3.1 by factor of *6* and *2* correspondingly.
@@ -70,9 +70,9 @@ being loaded when the Gerrit instance is started. Note that the following
 configuration options need to be added
 
 ```
-git config --file ${GERRIT_SITE}/etc/gerrit.config gerrit.installDbModule\
+git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
   com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule
-git config --file ${GERRIT_SITE}/etc/gerrit.config gerrit.installModule\
+git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
   com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
 ```
 
