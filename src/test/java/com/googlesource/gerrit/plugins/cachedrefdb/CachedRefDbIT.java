@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -28,7 +28,7 @@ import org.junit.Test;
 
 @UseLocalDisk
 @NoHttpd
-public class GerritCachedRefDbIT extends AbstractDaemonTest {
+public class CachedRefDbIT extends AbstractDaemonTest {
   @Inject private GitRepositoryManager gitRepoManager;
 
   @Inject private RefByNameCacheWrapper refByNameCacheWrapper;
@@ -36,29 +36,29 @@ public class GerritCachedRefDbIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
-      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibDbModule")
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
   @GerritConfig(
       name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibSysModule")
-  public void shouldBeAbleToInstallGerritCachedGitRepoManager() {
-    assertThat(gitRepoManager).isInstanceOf(GerritCachedGitRepositoryManager.class);
-    assertThat(((GerritCachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldBeAbleToInstallCachedGitRepoManager() {
+    assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
+    assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
         .isEqualTo(LocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameGerritCache.class);
+    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
   }
 
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
-      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibDbModule")
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
   @GerritConfig(
       name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.gerritcachedrefdb.LibSysModule")
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
   @GerritConfig(name = "repository.r1.basePath", value = "/tmp/git1")
   public void shouldMultiBaseRepoManagerBeUsedWhenConfigured() {
-    assertThat(gitRepoManager).isInstanceOf(GerritCachedGitRepositoryManager.class);
-    assertThat(((GerritCachedGitRepositoryManager) gitRepoManager).getRepoManager())
+    assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
+    assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager())
         .isInstanceOf(MultiBaseLocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameGerritCache.class);
+    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
   }
 }

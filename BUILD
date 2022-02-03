@@ -9,27 +9,27 @@ load(
 )
 
 gerrit_plugin(
-    name = "gerrit-cached-refdb",
+    name = "cached-refdb",
     srcs = glob(["src/main/java/**/*.java"]),
     manifest_entries = [
-        "Gerrit-PluginName: gerrit-cached-refdb",
-        "Implementation-Title: gerrit-cached-refdb plugin",
-        "Implementation-URL: TODO",
+        "Gerrit-PluginName: cached-refdb",
+        "Implementation-Title: cached-refdb plugin",
+        "Implementation-URL: https://gerrit-review.googlesource.com/admin/repos/modules/cached-refdb",
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [],
 )
 
 junit_tests(
-    name = "gerrit-cached-refdb_tests",
+    name = "cached-refdb_tests",
     srcs = glob(["src/test/java/**/*Test.java"]),
     resources = glob(["src/test/resources/**/*"]),
     tags = [
         "local",
-        "gerrit-cached-refdb",
+        "cached-refdb",
     ],
     deps = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
-        ":gerrit-cached-refdb__plugin",
+        ":cached-refdb__plugin",
     ],
 )
 
@@ -39,6 +39,6 @@ acceptance_tests(
     labels = ["server"],
     vm_args = ["-Xmx2G"],
     deps = [
-        ":gerrit-cached-refdb__plugin",
+        ":cached-refdb__plugin",
     ],
 )

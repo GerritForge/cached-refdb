@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.gerritcachedrefdb;
+package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -27,35 +27,34 @@ public class LibSysModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    install(RefByNameGerritCache.module());
-    listener().to(RefByNameGerritCacheSetter.class);
+    install(RefByNameCacheImpl.module());
+    listener().to(RefByNameCacheSetter.class);
     logger.atInfo().log("Sys library loaded");
   }
 
   @Singleton
-  private static class RefByNameGerritCacheSetter implements LifecycleListener {
-    private final RefByNameGerritCache refByNameGerritCache;
+  private static class RefByNameCacheSetter implements LifecycleListener {
+    private final RefByNameCacheImpl refByNameCache;
     private final DynamicItem<RefByNameCache> cacheRef;
     private RegistrationHandle handle;
 
     @Inject
-    RefByNameGerritCacheSetter(
-        RefByNameGerritCache refByNameGerritCache, DynamicItem<RefByNameCache> cacheRef) {
-      this.refByNameGerritCache = refByNameGerritCache;
+    RefByNameCacheSetter(RefByNameCacheImpl refByNameCache, DynamicItem<RefByNameCache> cacheRef) {
+      this.refByNameCache = refByNameCache;
       this.cacheRef = cacheRef;
     }
 
     @Override
     public void start() {
-      handle = cacheRef.set(refByNameGerritCache, "gerrit");
-      logger.atInfo().log("Gerrit-cache-backed RefDB loaded");
+      handle = cacheRef.set(refByNameCache, "gerrit");
+      logger.atInfo().log("Cache-backed RefDB loaded");
     }
 
     @Override
     public void stop() {
       if (handle != null) {
         handle.remove();
-        logger.atInfo().log("Gerrit-cache-backed RefDB unloaded");
+        logger.atInfo().log("Cache-backed RefDB unloaded");
       }
     }
   }
