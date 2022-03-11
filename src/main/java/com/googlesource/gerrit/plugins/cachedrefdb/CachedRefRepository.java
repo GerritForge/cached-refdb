@@ -172,7 +172,7 @@ class CachedRefRepository extends DelegateRepository {
   }
 
   @Override
-  public Set<ObjectId> getAdditionalHaves() {
+  public Set<ObjectId> getAdditionalHaves() throws IOException {
     return delegate.getAdditionalHaves();
   }
 
@@ -195,7 +195,7 @@ class CachedRefRepository extends DelegateRepository {
   }
 
   @Override
-  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
+  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() throws IOException {
     return delegate.getAllRefsByPeeledObjectId();
   }
 
