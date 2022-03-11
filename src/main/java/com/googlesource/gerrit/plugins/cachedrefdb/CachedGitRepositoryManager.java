@@ -60,4 +60,9 @@ class CachedGitRepositoryManager implements GitRepositoryManager {
   LocalDiskRepositoryManager getRepoManager() {
     return repoManager;
   }
+
+  @Override
+  public Status getRepositoryStatus(Project.NameKey name) {
+    return repoManager.getRepositoryStatus(name);
+  }
 }
