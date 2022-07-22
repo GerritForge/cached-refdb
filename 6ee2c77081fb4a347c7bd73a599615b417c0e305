@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d356c40f_0526d7b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-07-22T08:12:53Z",
+      "side": 1,
+      "message": "Would it make sense to match it with the current cache capacity or we don\u0027t care if people misconfigured it?",
+      "revId": "6ee2c77081fb4a347c7bd73a599615b417c0e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
