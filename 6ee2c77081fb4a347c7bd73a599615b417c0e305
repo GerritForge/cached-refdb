@@ -16,6 +16,24 @@
       "message": "Would it make sense to match it with the current cache capacity or we don\u0027t care if people misconfigured it?",
       "revId": "6ee2c77081fb4a347c7bd73a599615b417c0e305",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d3cc2c_f430cbea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-23T22:59:35Z",
+      "side": 1,
+      "message": "If the cache isn\u0027t big enough to store all of them, it will still work but will keep only the last N of them (where N is the size of the cache).\n\nSo, I believe we are still OK with that.",
+      "parentUuid": "d356c40f_0526d7b8",
+      "revId": "6ee2c77081fb4a347c7bd73a599615b417c0e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
