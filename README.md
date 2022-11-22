@@ -76,6 +76,19 @@ git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
   com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
 ```
 
+> NOTE: There are situations where the binding of the module to the Gerrit's
+> GitRepositoryManager is not desired; e.g., when using this module together
+> with others that are trying to override it at the same time.
+>
+> It is possible to just load the module using the following two options:
+>
+> ```
+> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
+>   com.googlesource.gerrit.plugins.cachedrefdb.LibModule
+> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
+>   com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
+> ```
+
 By default cache can hold up to `1024` refs which will not be sufficient for
 any production site therefore one can configure it through the standard Gerrit
 cache configuration means e.g.
