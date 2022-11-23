@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.DelegateRepository;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -143,6 +144,13 @@ class CachedRefRepository extends DelegateRepository {
   public ObjectId resolve(String revstr)
       throws AmbiguousObjectException, IncorrectObjectTypeException, RevisionSyntaxException,
           IOException {
+    if (revstr.startsWith(RefNames.REFS)) {
+      Ref ref = refDb.exactRef(revstr);
+      if (ref != null) {
+        return ref.getLeaf().getObjectId();
+      }
+    }
+
     return delegate.resolve(revstr);
   }
 
