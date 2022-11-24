@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72e2fbf7_85bfb7d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-11-24T09:59:51Z",
+      "side": 1,
+      "message": "LGTM but we should address the nits",
+      "revId": "d2e8ff7338d05d027ba073574bf8b79e18fc1440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "812725c0_7f6dc267",
