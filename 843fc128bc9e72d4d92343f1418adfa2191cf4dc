@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc34f32e_ba554450",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-24T09:12:10Z",
+      "side": 1,
+      "message": "Not sure this is enough: what if the caller adds a `^` at the end of the ref?\n\nExample: `refs/heads/master^`\n\nI\u0027m sure that the `refDb.exactRef(\"refs/heads/master^\")` will fail, whilst the previous calle to `resolve(\"refs/heads/master^\")` wasn\u0027t failing",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 40
+      },
+      "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
