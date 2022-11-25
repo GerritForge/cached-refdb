@@ -22,6 +22,30 @@
       },
       "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27528652_32322d19",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-25T06:58:18Z",
+      "side": 1,
+      "message": "I can\u0027t see that as an option to the `resolve` method\u0027s javadoc:\n\n\u003e Parse a git revision string and return an object id. Combinations of these operators are supported:\n\u003e \n\u003e HEAD, MERGE_HEAD, FETCH_HEAD\n\u003e SHA-1: a complete or abbreviated SHA-1\n\u003e refs/...: a complete reference name\n\u003e short-name: a short reference name under refs/heads, refs/tags, or refs/remotes namespace\n\u003e tag-NN-gABBREV: output from describe, parsed by treating ABBREV as an abbreviated \u003e SHA-1.\n\u003e id^: first parent of commit id, this is the same as id^1\n\u003e id^0: ensure id is a commit\n\u003e id^n: n-th parent of commit id\n\u003e id~n: n-th historical ancestor of id, by first parent. id~3 is equivalent to id^1^1^1 or id^^^.\n\u003e id:path: Lookup path under tree named by id\n\u003e id^{commit}: ensure id is a commit\n\u003e id^{tree}: ensure id is a tree\n\u003e id^{tag}: ensure id is a tag\n\u003e id^{blob}: ensure id is a blob\n\u003e The following operators are specified by Git conventions, but are not supported by this method:\n\u003e \n\u003e ref@{n}: n-th version of ref as given by its reflog\n\u003e ref@{time}: value of ref at the designated time\n\nHaving said that I believe that I could develop some sort of the integration test where expected values are taken from the original `resolve` method and cached version would be verified against them. WDYT?",
+      "parentUuid": "cc34f32e_ba554450",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 40
+      },
+      "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
