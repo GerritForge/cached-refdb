@@ -46,6 +46,30 @@
       },
       "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7582b606_f16e18ac",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-26T12:42:22Z",
+      "side": 1,
+      "message": "@luca I have added the integration test",
+      "parentUuid": "27528652_32322d19",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 40
+      },
+      "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
