@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0cb5fb3_1f967769",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/LibModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-28T22:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "812725c0_7f6dc267",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "d2e8ff7338d05d027ba073574bf8b79e18fc1440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e354769a_22f3ce89",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-11-23T09:44:34Z",
       "side": 1,
       "message": "nit: would probably called it `Ref repository and db`",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "d2e8ff7338d05d027ba073574bf8b79e18fc1440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97cb869d_8b87f312",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/LibModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-28T22:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e354769a_22f3ce89",
       "range": {
         "startLine": 37,
         "startChar": 25,
