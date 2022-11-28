@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ecab233_c899a597",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-28T22:44:26Z",
+      "side": 1,
+      "message": "Just a nit on the splitting of the tests.",
+      "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ddeb2b_d9ae145a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepositoryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-28T22:44:26Z",
+      "side": 1,
+      "message": "This method is actually 3 different tests: why not breaking this down into 3 test methods? One test should fail for one reason, and only one.",
+      "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24845e95_4f8f5afd",
