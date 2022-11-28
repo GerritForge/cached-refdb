@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24845e95_4f8f5afd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepositoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-11-28T21:20:51Z",
+      "side": 1,
+      "message": "It might be worth explaining why in one case is supposed to be cached and in another case isn\u0027t. WDYT?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
