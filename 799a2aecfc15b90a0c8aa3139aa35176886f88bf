@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e86fbea6_51fc7694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-30T23:05:41Z",
+      "side": 1,
+      "message": "Ping @maczech@gmail.com @geminica.programs@gmail.com ?",
+      "revId": "799a2aecfc15b90a0c8aa3139aa35176886f88bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
