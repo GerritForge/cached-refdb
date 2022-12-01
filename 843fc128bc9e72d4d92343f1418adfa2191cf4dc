@@ -94,6 +94,30 @@
       },
       "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64ae0cc_f55ddfb5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-01T07:25:34Z",
+      "side": 1,
+      "message": "Adjusted",
+      "parentUuid": "ac3293ec_6322bd9e",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 40
+      },
+      "revId": "843fc128bc9e72d4d92343f1418adfa2191cf4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

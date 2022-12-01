@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3211c0e_ef633367",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepositoryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-01T07:25:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84ddeb2b_d9ae145a",
+      "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24845e95_4f8f5afd",
