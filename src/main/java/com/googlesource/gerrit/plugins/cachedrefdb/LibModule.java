@@ -19,12 +19,19 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.inject.name.Names;
 
 public class LibModule extends LifecycleModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure() {
+    bind(GitRepositoryManager.class)
+        .annotatedWith(Names.named(LocalDiskRepositoryManager.class.getSimpleName()))
+        .to(CachedGitRepositoryManager.class);
+
     DynamicItem.itemOf(binder(), RefByNameCache.class);
     DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
 
