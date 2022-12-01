@@ -19,12 +19,20 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.name.Names;
 
 public class LibModule extends LifecycleModule {
+  public static final String LOCAL_DISK_REPOSITORY_MANAGER = "local_disk_repository_manager";
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure() {
+    bind(GitRepositoryManager.class)
+        .annotatedWith(Names.named(LOCAL_DISK_REPOSITORY_MANAGER))
+        .to(CachedGitRepositoryManager.class);
+
     DynamicItem.itemOf(binder(), RefByNameCache.class);
     DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
 
@@ -33,6 +41,10 @@ public class LibModule extends LifecycleModule {
     factory(BatchRefUpdateWithCacheUpdate.Factory.class);
     factory(CachedRefDatabase.Factory.class);
     factory(CachedRefRepository.Factory.class);
+
+    bind(GitRepositoryManager.class)
+        .annotatedWith(Names.named(LOCAL_DISK_REPOSITORY_MANAGER))
+        .to(CachedGitRepositoryManager.class);
 
     logger.atInfo().log("DB library loaded");
   }
