@@ -140,7 +140,12 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefs() throws IOException {
-    return delegate.getRefs();
+    List<Ref> allRefs = delegate.getRefs();
+    for (Ref ref : allRefs) {
+      refsCache.computeIfAbsent(
+          repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
+    }
+    return allRefs;
   }
 
   @Override
