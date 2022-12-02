@@ -16,6 +16,24 @@
       "message": "Have you created those two checkers in Gerrit?\nAlternatively, you can use the Zuul CI validation.",
       "revId": "7f1bd2c6012e2d72ee0379a207ede4494f4b5782",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a98066_6fdd1258",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-02T23:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a419b816_a5e52ee8",
+      "revId": "7f1bd2c6012e2d72ee0379a207ede4494f4b5782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
