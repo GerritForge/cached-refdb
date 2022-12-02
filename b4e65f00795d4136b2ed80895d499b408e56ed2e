@@ -74,6 +74,30 @@
       },
       "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56e5622_a6fe5c97",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepositoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-02T23:10:20Z",
+      "side": 1,
+      "message": "I guess one has a ref and the other as an objectId?\n\n@geminica.programs@gmail.com possibly just amend the test name to:\n`shouldResultFullRefNameFromCache` and `shouldNotResolveObjectIdFromCache`",
+      "parentUuid": "24845e95_4f8f5afd",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "b4e65f00795d4136b2ed80895d499b408e56ed2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

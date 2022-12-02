@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a991c598_7a26e0ff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-02T23:10:20Z",
+      "side": 1,
+      "message": "Also you should exclude `~`",
+      "range": {
+        "startLine": 147,
+        "startChar": 44,
+        "endLine": 147,
+        "endChar": 65
+      },
+      "revId": "144d7dd6e826a66aff848ed68e8369fceb4071d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
