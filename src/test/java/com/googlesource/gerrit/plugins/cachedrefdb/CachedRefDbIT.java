@@ -24,11 +24,16 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.junit.Test;
 
 @UseLocalDisk
 @NoHttpd
 public class CachedRefDbIT extends AbstractDaemonTest {
+  @Inject(optional = true)
+  @Named("LocalDiskRepositoryManager")
+  private GitRepositoryManager localGitRepositoryManager;
+
   @Inject private GitRepositoryManager gitRepoManager;
 
   @Inject private RefByNameCacheWrapper refByNameCacheWrapper;
@@ -60,5 +65,17 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager())
         .isInstanceOf(MultiBaseLocalDiskRepositoryManager.class);
     assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldBeAbleToInstallCachedGitRepoManagerAsNamedBinding() {
+    assertThat(localGitRepositoryManager).isNotNull();
+    assertThat(localGitRepositoryManager).isInstanceOf(CachedGitRepositoryManager.class);
   }
 }

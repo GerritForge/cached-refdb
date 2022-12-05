@@ -14,10 +14,7 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.RepositoryConfig;
@@ -40,14 +37,7 @@ public class LibDbModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    DynamicItem.itemOf(binder(), RefByNameCache.class);
-    DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
-
-    factory(RefUpdateWithCacheUpdate.Factory.class);
-    factory(RefRenameWithCacheUpdate.Factory.class);
-    factory(BatchRefUpdateWithCacheUpdate.Factory.class);
-    factory(CachedRefDatabase.Factory.class);
-    factory(CachedRefRepository.Factory.class);
+    install(new LibModule());
 
     bind(GitRepositoryManager.class).to(CachedGitRepositoryManager.class);
 
@@ -56,6 +46,6 @@ public class LibDbModule extends LifecycleModule {
     if (!repoConfig.getAllBasePaths().isEmpty()) {
       bind(LocalDiskRepositoryManager.class).to(MultiBaseLocalDiskRepositoryManager.class);
     }
-    logger.atInfo().log("DB library loaded");
+    logger.atInfo().log("GitRepositoryManager bind completed");
   }
 }
