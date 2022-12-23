@@ -21,10 +21,12 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -33,16 +35,28 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class CachedRefRepositoryIT {
-  TestRepository<Repository> tr;
-  CachedRefRepository objectUnderTest;
-  TestRefByNameCacheImpl cache;
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  private TestRepository<Repository> tr;
+  private CachedRefRepository objectUnderTest;
+  private TestRefByNameCacheImpl cache;
 
   @Before
   public void setUp() throws IOException {
-    Repository repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
+    Path repoPath = temporaryFolder.newFolder().toPath();
+    Repository repo = new FileRepository(repoPath.toFile());
+    repo.create(true);
+
+    // enable reflog for a repository so that references to it could be resolved
+    Files.write(
+        repoPath.resolve("config"),
+        "[core]\n  logAllRefUpdates = true\n".getBytes(StandardCharsets.UTF_8));
+
     objectUnderTest = createCachedRepository(repo);
     tr = new TestRepository<>(repo);
   }
@@ -72,7 +86,8 @@ public class CachedRefRepositoryIT {
   @Test
   public void shouldNotResolveRefsFromCache() throws Exception {
     String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    String filename = "first";
+    RevCommit first = tr.update(master, tr.commit().add(filename, "foo").create());
     String tag = "test_tag";
     String fullTag = RefNames.REFS_TAGS + tag;
     tr.update(fullTag, tr.tag(tag, first));
@@ -91,6 +106,14 @@ public class CachedRefRepositoryIT {
     ObjectId resolvedByTilde = objectUnderTest.resolve(mastersParentByTilde);
     assertThat(resolvedByTilde).isEqualTo(first);
     assertThat(resolvedByTilde).isEqualTo(repo().resolve(mastersParent));
+
+    String mastersFilename = master + ":" + filename;
+    ObjectId resolvedByFilename = objectUnderTest.resolve(mastersFilename);
+    assertThat(resolvedByFilename).isEqualTo(repo().resolve(mastersFilename));
+
+    String mastersPreviousRevision = master + "@{1}";
+    ObjectId resolvedByPreviousRevision = objectUnderTest.resolve(mastersPreviousRevision);
+    assertThat(resolvedByPreviousRevision).isEqualTo(repo().resolve(mastersPreviousRevision));
 
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
