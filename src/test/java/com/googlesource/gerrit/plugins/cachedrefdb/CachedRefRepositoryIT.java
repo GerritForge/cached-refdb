@@ -72,7 +72,8 @@ public class CachedRefRepositoryIT {
   @Test
   public void shouldNotResolveRefsFromCache() throws Exception {
     String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    String filename = "first";
+    RevCommit first = tr.update(master, tr.commit().add(filename, "foo").create());
     String tag = "test_tag";
     String fullTag = RefNames.REFS_TAGS + tag;
     tr.update(fullTag, tr.tag(tag, first));
@@ -91,6 +92,10 @@ public class CachedRefRepositoryIT {
     ObjectId resolvedByTilde = objectUnderTest.resolve(mastersParentByTilde);
     assertThat(resolvedByTilde).isEqualTo(first);
     assertThat(resolvedByTilde).isEqualTo(repo().resolve(mastersParent));
+
+    String mastersFilename = master + ":" + filename;
+    ObjectId resolvedByFilename = objectUnderTest.resolve(mastersFilename);
+    assertThat(resolvedByFilename).isEqualTo(repo().resolve(mastersFilename));
 
     assertThat(cache.cacheCalled).isEqualTo(0);
   }

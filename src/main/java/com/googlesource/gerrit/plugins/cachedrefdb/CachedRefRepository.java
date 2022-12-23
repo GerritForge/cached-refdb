@@ -365,6 +365,7 @@ class CachedRefRepository extends DelegateRepository {
   }
 
   private boolean isCacheableReference(String ref) {
-    return ref.startsWith(RefNames.REFS) && !(ref.contains("^") || ref.contains("~"));
+    return ref.startsWith(RefNames.REFS)
+        && !(ref.contains("^") || ref.contains("~") || ref.contains(":"));
   }
 }
