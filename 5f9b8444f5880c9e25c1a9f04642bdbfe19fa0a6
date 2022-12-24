@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9901657_77a91b74",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-24T07:40:15Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com, @sasa.zivkov@sap.com are you guys aware of other special chars that could be used to resolver either a commit or file? I have additionally tried `!@#$%\u0026*.|{}` but they are either not allowed (`*`) or recognised as ref name so OK...",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 74
+      },
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
