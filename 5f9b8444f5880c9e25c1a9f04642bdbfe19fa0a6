@@ -22,6 +22,23 @@
       },
       "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb989458_a5cd02c1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-24T09:55:57Z",
+      "side": 1,
+      "message": "Have you checked the impact of adding more `||` statements here? If the check becomes more and more complex, the advantage of caching *could* be lost.",
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
