@@ -63,6 +63,30 @@
       },
       "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da54a114_bb9821fe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-27T09:05:35Z",
+      "side": 1,
+      "message": "\u003e - you can use Repository#isValidRefName in JGit to validate ref names\n\nWe should also check the performance of `Repository#isValidRefName` to see if this change would really make a difference or not.\n\n\u003e - revision specifications are explained here https://git-scm.com/docs/git-rev-parse#_specifying_revisions\n\n+1",
+      "parentUuid": "94f9d9f2_cdfda260",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 74
+      },
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
