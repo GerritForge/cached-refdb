@@ -129,6 +129,30 @@
       "parentUuid": "cb989458_a5cd02c1",
       "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15d5e3d_cc255bcf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-29T15:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8f54f59_34dc7d9c",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 74
+      },
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
