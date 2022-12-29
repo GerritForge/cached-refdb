@@ -111,6 +111,24 @@
       },
       "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4718501a_66721f27",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-29T15:52:12Z",
+      "side": 1,
+      "message": "I have reworked the check to rely on Guava\u0027s `CharMatcher` that checks all chars in a single ref characters loop. The result is performance tested in [1] (so please review it) TL;DR it is about `~2 µs` overhead per call (which is netto `~78 µs` long) that is not cached. WDYT?\n\n[1] https://gerrit-review.googlesource.com/c/modules/cached-refdb/+/355697",
+      "parentUuid": "cb989458_a5cd02c1",
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
