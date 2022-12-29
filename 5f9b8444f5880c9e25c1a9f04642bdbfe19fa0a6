@@ -87,6 +87,30 @@
       },
       "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8f54f59_34dc7d9c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-29T09:28:44Z",
+      "side": 1,
+      "message": "Thanks for pointers!\n\nThe `isValidRefName` seems to be doing a lot of checks (that will be performed most likely again when it will eventually go to `exactRef`) OTOH  revision spec mentions the following characters: `^~:@` so it seems that we are still missing the `@` in our checks. I will add it and compare it against no check and publish results so that we can judge if it still brings anything ;)",
+      "parentUuid": "da54a114_bb9821fe",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 74
+      },
+      "revId": "5f9b8444f5880c9e25c1a9f04642bdbfe19fa0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
