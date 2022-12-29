@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import org.apache.commons.lang.time.StopWatch;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -154,6 +155,38 @@ public class CachedRefRepositoryIT {
     assertThat(objectUnderTest.resolve(tagAndSha)).isEqualTo(repo().resolve(tagAndSha));
 
     assertThat(cache.cacheCalled).isEqualTo(0);
+  }
+
+  @Test
+  public void performDirectAccessTests() throws Exception {
+    runPerformanceTests(repo(), "Direct");
+  }
+
+  @Test
+  public void performCachedAccessTests() throws Exception {
+    runPerformanceTests(objectUnderTest, "Cached");
+  }
+
+  private void runPerformanceTests(Repository repo, String type) throws Exception {
+    String master = RefNames.fullName("master");
+    tr.update(master, tr.commit().add("first", "foo").create());
+
+    int loops = 10000;
+    String tildeMaster = master + "~";
+    String caretMaster = master + "^";
+    String atMaster = master + "@{0}";
+    String fileMaster = master + ":first";
+
+    StopWatch watch = new StopWatch();
+    watch.start();
+    for (int i = 0; i < loops; i++) {
+      repo.resolve(tildeMaster);
+      repo.resolve(caretMaster);
+      repo.resolve(atMaster);
+      repo.resolve(fileMaster);
+    }
+    watch.stop();
+    System.out.println(String.format("%s repo access to resolve: %d ms", type, watch.getTime()));
   }
 
   private Repository repo() {
