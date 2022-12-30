@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.DelegateRepository;
 import com.google.inject.Inject;
@@ -57,6 +58,8 @@ class CachedRefRepository extends DelegateRepository {
   private final CachedRefDatabase refDb;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
+
+  private static final CharMatcher REVISION_CHARS = CharMatcher.anyOf("^~:@");
 
   @Inject
   CachedRefRepository(
@@ -365,6 +368,6 @@ class CachedRefRepository extends DelegateRepository {
   }
 
   private boolean isCacheableReference(String ref) {
-    return ref.startsWith(RefNames.REFS) && !(ref.contains("^") || ref.contains("~"));
+    return ref.startsWith(RefNames.REFS) && REVISION_CHARS.matchesNoneOf(ref);
   }
 }
