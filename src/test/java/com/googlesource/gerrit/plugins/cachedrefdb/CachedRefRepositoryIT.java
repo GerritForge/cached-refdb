@@ -15,21 +15,24 @@
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.plugins.cachedrefdb.CachedRefLibConfig.CACHED_REFDB;
+import static com.googlesource.gerrit.plugins.cachedrefdb.CachedRefLibConfig.IS_PER_REQUEST_CACHE_KEY;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -38,18 +41,20 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.mockito.Mockito;
 
 public class CachedRefRepositoryIT {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private TestRepository<Repository> tr;
   private CachedRefRepository objectUnderTest;
-  private TestRefByNameCacheImpl cache;
+  private RefByNameCacheWrapper cacheWrapper;
+  private Repository repo;
 
   @Before
   public void setUp() throws IOException {
     Path repoPath = temporaryFolder.newFolder().toPath();
-    Repository repo = new FileRepository(repoPath.toFile());
+    repo = new FileRepository(repoPath.toFile());
     repo.create(true);
 
     // enable reflog for a repository so that references to it could be resolved
@@ -57,7 +62,7 @@ public class CachedRefRepositoryIT {
         repoPath.resolve("config"),
         "[core]\n  logAllRefUpdates = true\n".getBytes(StandardCharsets.UTF_8));
 
-    objectUnderTest = createCachedRepository(repo);
+    objectUnderTest = createGlobalCachedRepository(repo);
     tr = new TestRepository<>(repo);
   }
 
@@ -69,6 +74,28 @@ public class CachedRefRepositoryIT {
   }
 
   @Test
+  public void shouldCreatePerRequestCacheWhenPerThreadCacheIsAvailable() {
+    try (PerThreadCache ignored = PerThreadCache.create();
+        CachedRefRepository objectUnderTest = createPerRequestCachedRepository(repo)) {
+      assertThat(cacheWrapper.cache()).isInstanceOf(PerThreadRefByNameCache.class);
+    }
+  }
+
+  @Test
+  public void shouldCreateNoOpCacheWhenPerThreadCacheIsNotAvailable() {
+    try (CachedRefRepository objectUnderTest = createPerRequestCachedRepository(repo)) {
+      assertThat(cacheWrapper.cache()).isInstanceOf(NoOpRefByNameCache.class);
+    }
+  }
+
+  @Test
+  public void shouldCreateGlobalCacheWhenConfigIsSetToFalse() {
+    try (CachedRefRepository objectUnderTest = createGlobalCachedRepository(repo)) {
+      assertThat(cacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+    }
+  }
+
+  @Test
   public void shouldResolveFullRefsFromCache() throws Exception {
     String master = RefNames.fullName("master");
     RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
@@ -77,10 +104,10 @@ public class CachedRefRepositoryIT {
     tr.update(fullTag, tr.tag(tag, first));
     tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
-    assertThat(cache.cacheCalled).isEqualTo(0);
+    verify(cacheWrapper, times(0)).computeIfAbsent(any(), any(), any());
     assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
     assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo().resolve(fullTag));
-    assertThat(cache.cacheCalled).isEqualTo(2);
+    verify(cacheWrapper, times(2)).computeIfAbsent(any(), any(), any());
   }
 
   @Test
@@ -115,7 +142,7 @@ public class CachedRefRepositoryIT {
     ObjectId resolvedByPreviousRevision = objectUnderTest.resolve(mastersPreviousRevision);
     assertThat(resolvedByPreviousRevision).isEqualTo(repo().resolve(mastersPreviousRevision));
 
-    assertThat(cache.cacheCalled).isEqualTo(0);
+    verify(cacheWrapper, times(0)).computeIfAbsent(any(), any(), any());
   }
 
   @Test
@@ -139,7 +166,7 @@ public class CachedRefRepositoryIT {
     assertThat(objectUnderTest.resolve(ensureIdIsCommit))
         .isEqualTo(repo().resolve(ensureIdIsCommit));
 
-    assertThat(cache.cacheCalled).isEqualTo(0);
+    verify(cacheWrapper, times(0)).computeIfAbsent(any(), any(), any());
   }
 
   @Test
@@ -153,40 +180,38 @@ public class CachedRefRepositoryIT {
     String tagAndSha = tag + "-1-g" + second.getName().substring(0, 6);
     assertThat(objectUnderTest.resolve(tagAndSha)).isEqualTo(repo().resolve(tagAndSha));
 
-    assertThat(cache.cacheCalled).isEqualTo(0);
+    verify(cacheWrapper, times(0)).computeIfAbsent(any(), any(), any());
   }
 
   private Repository repo() {
     return tr.getRepository();
   }
 
-  private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
-    RefByNameCacheWrapper wrapper =
-        new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
+  private CachedRefRepository createGlobalCachedRepository(Repository repo) {
+    Config cfg = new Config();
+    cfg.setBoolean(CACHED_REFDB, null, IS_PER_REQUEST_CACHE_KEY, false);
+    return createCachedRepository(repo, cfg);
+  }
+
+  private CachedRefRepository createPerRequestCachedRepository(Repository repo) {
+    Config cfg = new Config();
+    cfg.setBoolean(CACHED_REFDB, null, IS_PER_REQUEST_CACHE_KEY, true);
+    return createCachedRepository(repo, cfg);
+  }
+
+  private CachedRefRepository createCachedRepository(Repository repo, Config cfg) {
+    RefByNameCacheImpl cache = new RefByNameCacheImpl(CacheBuilder.newBuilder().build());
+    cacheWrapper =
+        Mockito.spy(
+            new RefByNameCacheWrapper(
+                DynamicItem.itemOf(RefByNameCache.class, cache), new CachedRefLibConfig(cfg)));
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override
           public CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate) {
-            return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
+            return new CachedRefDatabase(cacheWrapper, null, null, null, repo, delegate);
           }
         };
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
-  }
-
-  private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
-    private int cacheCalled;
-
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
-      super(refByName);
-      cacheCalled = 0;
-    }
-
-    @Override
-    public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-      cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
-    }
   }
 }
