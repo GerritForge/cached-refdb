@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager;
@@ -36,44 +37,39 @@ public class CachedRefDbIT extends AbstractDaemonTest {
 
   @Inject private GitRepositoryManager gitRepoManager;
 
-  @Inject private RefByNameCacheWrapper refByNameCacheWrapper;
-
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
-  @GerritConfig(
-      name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallCachedGitRepoManager() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
         .isEqualTo(LocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+    try (PerThreadCache ignored = PerThreadCache.create()) {
+      assertThat(new RefByNameCacheWrapper().cache()).isInstanceOf(RefByNameCacheImpl.class);
+    }
+    assertThat(new RefByNameCacheWrapper().cache()).isInstanceOf(NoOpRefByNameCache.class);
   }
 
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
-  @GerritConfig(
-      name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
   @GerritConfig(name = "repository.r1.basePath", value = "/tmp/git1")
   public void shouldMultiBaseRepoManagerBeUsedWhenConfigured() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager())
         .isInstanceOf(MultiBaseLocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+    try (PerThreadCache ignored = PerThreadCache.create()) {
+      assertThat(new RefByNameCacheWrapper().cache()).isInstanceOf(RefByNameCacheImpl.class);
+    }
+    assertThat(new RefByNameCacheWrapper().cache()).isInstanceOf(NoOpRefByNameCache.class);
   }
 
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibModule")
-  @GerritConfig(
-      name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallCachedGitRepoManagerAsNamedBinding() {
     assertThat(localGitRepositoryManager).isNotNull();
     assertThat(localGitRepositoryManager).isInstanceOf(CachedGitRepositoryManager.class);

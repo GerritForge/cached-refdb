@@ -14,10 +14,7 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -31,9 +28,6 @@ public class LibModule extends LifecycleModule {
     bind(GitRepositoryManager.class)
         .annotatedWith(Names.named(LocalDiskRepositoryManager.class.getSimpleName()))
         .to(CachedGitRepositoryManager.class);
-
-    DynamicItem.itemOf(binder(), RefByNameCache.class);
-    DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
 
     factory(RefUpdateWithCacheUpdate.Factory.class);
     factory(RefRenameWithCacheUpdate.Factory.class);

@@ -14,54 +14,43 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
-import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.server.cache.CacheModule;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Named;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 
-@Singleton
-class RefByNameCacheImpl implements RefByNameCache {
+public class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String REF_BY_NAME = "ref_by_name";
 
-  static com.google.inject.Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
-      }
-    };
-  }
+  private Map<String, Optional<Ref>> refByName;
 
-  private final Cache<String, Optional<Ref>> refByName;
-
-  @Inject
-  RefByNameCacheImpl(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
-    this.refByName = refByName;
+  RefByNameCacheImpl() {
+    refByName = new HashMap<>();
   }
 
   @Override
   public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    String uniqueRefName = getUniqueName(identifier, ref);
-    try {
-      return refByName.get(uniqueRefName, loader).orElse(null);
-    } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
-      return null;
-    }
+      String identifier, String refName, Callable<? extends Optional<Ref>> loader) {
+    String uniqueRefName = getUniqueName(identifier, refName);
+    return refByName
+        .computeIfAbsent(
+            uniqueRefName,
+            s -> {
+              try {
+                return loader.call();
+              } catch (Exception e) {
+                logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
+                return Optional.empty();
+              }
+            })
+        .orElse(null);
   }
 
   @Override
   public void evict(String identifier, String ref) {
-    refByName.invalidate(getUniqueName(identifier, ref));
+    refByName.remove(getUniqueName(identifier, ref));
   }
 
   private static String getUniqueName(String identifier, String ref) {

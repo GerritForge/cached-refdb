@@ -15,20 +15,25 @@
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.inject.Inject;
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
-  private static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
+  protected static final PerThreadCache.Key<RefByNameCache> REF_CACHE_KEY =
+      PerThreadCache.Key.create(RefByNameCache.class);
+  protected static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
 
-  private final RefByNameCache cache;
+  protected final RefByNameCache cache;
 
-  @Inject
-  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
-    this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+  public RefByNameCacheWrapper() {
+    PerThreadCache perThreadCache = PerThreadCache.get();
+    if (perThreadCache != null) {
+      cache = perThreadCache.get(REF_CACHE_KEY, RefByNameCacheImpl::new);
+    } else {
+      cache = NOOP_CACHE;
+    }
   }
 
   @Override
