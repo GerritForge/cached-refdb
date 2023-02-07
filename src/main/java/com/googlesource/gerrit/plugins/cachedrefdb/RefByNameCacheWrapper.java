@@ -14,11 +14,16 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
+import static com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule.isPerRequestCache;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
@@ -27,8 +32,18 @@ class RefByNameCacheWrapper implements RefByNameCache {
   private final RefByNameCache cache;
 
   @Inject
-  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
-    this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+  public RefByNameCacheWrapper(
+      DynamicItem<RefByNameCache> refByNameCache, @GerritServerConfig Config cfg) {
+    if (!isPerRequestCache(cfg)) {
+      this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+    } else {
+      PerThreadCache perThreadCache = PerThreadCache.get();
+      if (perThreadCache != null) {
+        cache = PerThreadRefByNameCache.get(perThreadCache);
+      } else {
+        cache = NOOP_CACHE;
+      }
+    }
   }
 
   @Override
