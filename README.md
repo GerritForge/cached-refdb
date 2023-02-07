@@ -9,10 +9,10 @@ NFS and `core.trustFolderStat = false` is configured in
 `${GERRIT_SITE}/etc/jgit.config` (quite common setup for HA/Multi-Site ens).
 
 This plugin was developed to introduce the in-memory cache (managed by Gerrit
-so that evictions could be coordinated to multiple nodes) that reduces the
-price for reaching to refs in JGit. It is a Gerrit native alternative (that can
-be applied to Gerrit 3.2) to work that is currently under progress for
-[caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
+so that evictions could be coordinated to multiple nodes) or per-thread cache
+that reduces the price for reaching to refs in JGit. It is a Gerrit native
+alternative (that can be applied to Gerrit 3.2) to work that is currently under
+progress for [caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
 
 Here is the short comparison of _heavy-refs-related_ operations performance.
 The test scenario was to get random change details (over the same REST API that

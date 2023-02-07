@@ -45,6 +45,7 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "gerrit.installModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+  @GerritConfig(name = "cached-refdb.isPerRequestCache", value = "false")
   public void shouldBeAbleToInstallCachedGitRepoManager() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
@@ -59,6 +60,7 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "gerrit.installModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+  @GerritConfig(name = "cached-refdb.isPerRequestCache", value = "false")
   @GerritConfig(name = "repository.r1.basePath", value = "/tmp/git1")
   public void shouldMultiBaseRepoManagerBeUsedWhenConfigured() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
@@ -71,9 +73,6 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "gerrit.installDbModule",
       value = "com.googlesource.gerrit.plugins.cachedrefdb.LibModule")
-  @GerritConfig(
-      name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallCachedGitRepoManagerAsNamedBinding() {
     assertThat(localGitRepositoryManager).isNotNull();
     assertThat(localGitRepositoryManager).isInstanceOf(CachedGitRepositoryManager.class);
