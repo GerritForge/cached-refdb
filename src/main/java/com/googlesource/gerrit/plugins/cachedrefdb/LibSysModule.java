@@ -25,10 +25,19 @@ import com.google.inject.Singleton;
 public class LibSysModule extends LifecycleModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final CachedRefLibConfig libConfig;
+
+  @Inject
+  LibSysModule(CachedRefLibConfig libConfig) {
+    this.libConfig = libConfig;
+  }
+
   @Override
   protected void configure() {
-    install(RefByNameCacheImpl.module());
-    listener().to(RefByNameCacheSetter.class);
+    if (!libConfig.isPerRequestCache()) {
+      install(RefByNameCacheImpl.module());
+      listener().to(RefByNameCacheSetter.class);
+    }
     logger.atInfo().log("Sys library loaded");
   }
 
