@@ -9,10 +9,10 @@ NFS and `core.trustFolderStat = false` is configured in
 `${GERRIT_SITE}/etc/jgit.config` (quite common setup for HA/Multi-Site ens).
 
 This plugin was developed to introduce the in-memory cache (managed by Gerrit
-so that evictions could be coordinated to multiple nodes) that reduces the
-price for reaching to refs in JGit. It is a Gerrit native alternative (that can
-be applied to Gerrit 3.2) to work that is currently under progress for
-[caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
+so that evictions could be coordinated to multiple nodes) or per-thread cache
+that reduces the price for reaching to refs in JGit. It is a Gerrit native
+alternative (that can be applied to Gerrit 3.2) to work that is currently under
+progress for [caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
 
 Here is the short comparison of _heavy-refs-related_ operations performance.
 The test scenario was to get random change details (over the same REST API that
@@ -89,7 +89,16 @@ git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
 >   com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
 > ```
 
-By default cache can hold up to `1024` refs which will not be sufficient for
+Global Ref cache may not be desirable when we have a multi-primary Gerrit setup,
+and we don't want any primary to return/use outdated ref data for new requests.
+In this case, we can use per request ref cache by setting `cached-refdb.isPerRequestCache`
+to true. By default, it is set to `false`.
+
+```
+git config --file ${GERRIT_SITE}/etc/gerrit.config cached-refdb.isPerRequestCache true
+```
+
+By default, global cache can hold up to `1024` refs which will not be sufficient for
 any production site therefore one can configure it through the standard Gerrit
 cache configuration means e.g.
 
