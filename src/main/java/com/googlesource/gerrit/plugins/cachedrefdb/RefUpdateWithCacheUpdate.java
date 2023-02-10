@@ -3,7 +3,6 @@ package com.googlesource.gerrit.plugins.cachedrefdb;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.EnumSet;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -21,8 +20,6 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   }
 
   private static final String NOT_SUPPORTED_MSG = "Should never be called";
-  private static final EnumSet<Result> SUCCESSFUL_UPDATES =
-      EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
   private final RefByNameCacheWrapper refsCache;
   private final RefDatabase refDb;
@@ -139,32 +136,56 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    try {
+      return delegate.forceUpdate();
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    try {
+      return delegate.update();
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    try {
+      return delegate.update(walk);
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public Result delete() throws IOException {
-    return evictCache(delegate.delete());
+    try {
+      return delegate.delete();
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public Result delete(RevWalk walk) throws IOException {
-    return evictCache(delegate.delete(walk));
+    try {
+      return delegate.delete(walk);
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public Result link(String target) throws IOException {
-    return evictCache(delegate.link(target));
+    try {
+      return delegate.link(target);
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
@@ -207,10 +228,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     throw new UnsupportedOperationException(NOT_SUPPORTED_MSG);
   }
 
-  private Result evictCache(Result r) {
-    if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.evict(repo.getProjectName(), getName());
-    }
-    return r;
+  private void evictCache() {
+    refsCache.evict(repo.getProjectName(), getName());
   }
 }

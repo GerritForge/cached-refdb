@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.cachedrefdb;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.EnumSet;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -33,8 +32,6 @@ class RefRenameWithCacheUpdate extends RefRename {
   }
 
   private static final String NOT_SUPPORTED_MSG = "Should never be called";
-  private static final EnumSet<Result> SUCCESSFUL_RENAMES =
-      EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
   private final RefByNameCacheWrapper refsCache;
   private final CachedRefRepository repo;
@@ -92,11 +89,11 @@ class RefRenameWithCacheUpdate extends RefRename {
 
   @Override
   public Result rename() throws IOException {
-    Result r = delegate.rename();
-    if (SUCCESSFUL_RENAMES.contains(r)) {
+    try {
+      return delegate.rename();
+    } finally {
       refsCache.evict(repo.getProjectName(), src.getName());
     }
-    return r;
   }
 
   @Override

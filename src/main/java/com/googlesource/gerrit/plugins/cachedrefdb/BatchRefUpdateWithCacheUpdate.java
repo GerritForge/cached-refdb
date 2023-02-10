@@ -160,14 +160,20 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   @Override
   public void execute(RevWalk walk, ProgressMonitor monitor, List<String> options)
       throws IOException {
-    delegate.execute(walk, monitor, options);
-    evictCache();
+    try {
+      delegate.execute(walk, monitor, options);
+    } finally {
+      evictCache();
+    }
   }
 
   @Override
   public void execute(RevWalk walk, ProgressMonitor monitor) throws IOException {
-    delegate.execute(walk, monitor);
-    evictCache();
+    try {
+      delegate.execute(walk, monitor);
+    } finally {
+      evictCache();
+    }
   }
 
   private void evictCache() {
@@ -175,9 +181,7 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
         .getCommands()
         .forEach(
             cmd -> {
-              if (cmd.getResult() == ReceiveCommand.Result.OK) {
-                refsCache.evict(repo.getProjectName(), cmd.getRefName());
-              }
+              refsCache.evict(repo.getProjectName(), cmd.getRefName());
             });
   }
 }
