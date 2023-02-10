@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3574e4b6_fedee131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-10T20:10:22Z",
+      "side": 1,
+      "message": "I think this merits more of an explanation before diving into the MP reasons. Maybe something like: \"If for some reason there is a miss-match between a persisted ref value and the cached value of that ref, it is likely to result in a ref-update failure. There are many places in Gerrit where code is retried on ref-update failures with the hopes that the failure can be recovered from. To make this recovery possible, it is essential to ensure that the outdated cached ref value no longer be used, and evicting the cached value even on failures makes this possible.\" \n\nAlso, maybe talk about some more of reasons why the cached value might be outdated, bugs in the software, 3rd party actors modifying the repos outside of Gerrit, multi-primary setups... Mentioning a specific MP use case which has this issue would also be great.",
+      "revId": "e0ebebd3e13989a31c33cda6e90cb2fee2fbfcb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
