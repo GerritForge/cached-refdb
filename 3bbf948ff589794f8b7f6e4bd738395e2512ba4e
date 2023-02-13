@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1ac9d6f_74c35169",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/LibSysModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Nope, I was using this from RefByNameCacheWrapper. Probably this is not the right place for this method. Moved to new class CachedRefLibConfig.",
+      "parentUuid": "71673252_4059587f",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57471692_50ce4b6f",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-10T19:38:04Z",
       "side": 1,
       "message": "nit: AFAIU can be package protected",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496fa7f9_0e01251c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/PerThreadRefByNameCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57471692_50ce4b6f",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "268c985d_9dd4137a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/PerThreadRefByNameCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1365d6e_f048f353",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebe37633_956ffec9",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1f882b_a6504ebb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/PerThreadRefByNameCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebe37633_956ffec9",
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7150b1b_5f328534",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-02-10T19:38:04Z",
       "side": 1,
       "message": "nit: package protected?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8b12cf_d8177335",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/PerThreadRefByNameCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7150b1b_5f328534",
       "range": {
         "startLine": 37,
         "startChar": 2,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4576e916_679428d3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "By mistake. Removed.",
+      "parentUuid": "6328bd05_e6aa2b7e",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b287e03_019e53bf",
@@ -146,6 +284,30 @@
       "writtenOn": "2023-02-10T19:38:04Z",
       "side": 1,
       "message": "nit: to consider\n```\nthis.cache \u003d Optional.ofNullable(PerThreadCache.get()).map(PerThreadRefByNameCache::get).orElse(NOOP_CACHE);\n```\nshould also work and be a bit more concise, WDYT?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43128e41_f78e7e25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Ack. Done",
+      "parentUuid": "9b287e03_019e53bf",
       "range": {
         "startLine": 40,
         "startChar": 6,
@@ -173,6 +335,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d91445_84c1bfc3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5f382ddb_19051507",
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d60bc67a_6259ff22",
@@ -186,6 +366,30 @@
       "writtenOn": "2023-02-10T19:38:04Z",
       "side": 1,
       "message": "nit: same as above",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 73
+      },
+      "revId": "3bbf948ff589794f8b7f6e4bd738395e2512ba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37af08e1_a4763442",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-02-13T08:27:39Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d60bc67a_6259ff22",
       "range": {
         "startLine": 63,
         "startChar": 2,
