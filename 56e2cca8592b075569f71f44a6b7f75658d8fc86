@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2cf1a90_80738e0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-02-16T07:58:19Z",
+      "side": 1,
+      "message": "LGTM 😊 @Martin, @Luca WDYT?",
+      "revId": "56e2cca8592b075569f71f44a6b7f75658d8fc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
