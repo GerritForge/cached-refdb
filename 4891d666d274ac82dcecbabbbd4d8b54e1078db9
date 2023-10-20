@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com, @luca.milanesio@gmail.com since this is available in core now [1], are you still interested in having this version in the cached-refdb module? We\u0027re using the version in core (backported to 3.5 in a local fork).\n\n[1] 360646: Add a new core.usePerRequestRefCache setting | https://gerrit-review.googlesource.com/c/gerrit/+/360646",
       "revId": "4891d666d274ac82dcecbabbbd4d8b54e1078db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b36d9c3_4458a0a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-20T15:38:05Z",
+      "side": 1,
+      "message": "Change was added to `stable-3.8`. There are no other alternatives before so I would say why not. @luca.milanesio@gmail.com, WDYT?",
+      "parentUuid": "c732368d_8c7e6278",
+      "revId": "4891d666d274ac82dcecbabbbd4d8b54e1078db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
