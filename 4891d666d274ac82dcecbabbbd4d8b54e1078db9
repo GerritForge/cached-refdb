@@ -6,12 +6,12 @@
       "updated": "2023-10-25T09:35:11Z"
     },
     "gerritforge:cached-refdb-code-style": {
-      "state": "RUNNING",
+      "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/module-cached-refdb-verifier/job/14%252F357714%252F7/1/console",
       "started": "2023-10-25T09:42:17Z",
-      "finished": "2023-02-16T17:47:31Z",
+      "finished": "2023-10-25T09:42:25Z",
       "created": "2023-02-16T17:47:21Z",
-      "updated": "2023-10-25T09:42:17Z"
+      "updated": "2023-10-25T09:42:26Z"
     }
   }
 }
