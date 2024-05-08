@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -153,7 +154,11 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    return delegate.getRefsByPrefix(prefix);
+    List<Ref> refs = refsCache.all(repo.getProjectName());
+    if (refs.isEmpty()) {
+      refs = getRefs();
+    }
+    return refs.stream().filter(r -> r.getName().startsWith(prefix)).collect(Collectors.toList());
   }
 
   @Override
