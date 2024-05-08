@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -38,6 +39,7 @@ class CachedRefDatabase extends RefDatabase {
   private final RefRenameWithCacheUpdate.Factory renameFactory;
   private final RefDatabase delegate;
   private final CachedRefRepository repo;
+  private List<Ref> cachedAllRefs;
 
   @Inject
   CachedRefDatabase(
@@ -138,11 +140,14 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefs() throws IOException {
+    if (cachedAllRefs != null) {
+      return cachedAllRefs;
+    }
     List<Ref> allRefs = delegate.getRefs();
     for (Ref ref : allRefs) {
-      refsCache.computeIfAbsent(
-          repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
+      refsCache.computeIfAbsent(repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
     }
+    cachedAllRefs = allRefs;
     return allRefs;
   }
 
@@ -153,7 +158,22 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    return delegate.getRefsByPrefix(prefix);
+    return getAllRefs().stream()
+        .filter(r -> r.getName().startsWith(prefix))
+        .collect(Collectors.toList());
+  }
+
+  private List<Ref> getAllRefs() throws IOException {
+    if (cachedAllRefs != null) {
+      return cachedAllRefs;
+    }
+
+    List<Ref> refs = refsCache.all(repo.getProjectName());
+    if (refs.isEmpty()) {
+      refs = getRefs();
+    }
+    cachedAllRefs = refs;
+    return cachedAllRefs;
   }
 
   @Override
@@ -179,5 +199,6 @@ class CachedRefDatabase extends RefDatabase {
   @Override
   public void refresh() {
     delegate.refresh();
+    cachedAllRefs = null;
   }
 }
