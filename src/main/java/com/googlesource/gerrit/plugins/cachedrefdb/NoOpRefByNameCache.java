@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
@@ -37,5 +38,10 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     // do nothing as there is no cache to be evicted
+  }
+
+  @Override
+  public List<Ref> all(String identifier) {
+    throw new UnsupportedOperationException();
   }
 }

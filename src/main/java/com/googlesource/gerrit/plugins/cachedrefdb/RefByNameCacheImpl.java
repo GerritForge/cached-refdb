@@ -21,9 +21,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
@@ -62,6 +65,16 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     refByName.invalidate(getUniqueName(identifier, ref));
+  }
+
+  @Override
+  public List<Ref> all(String identifier) {
+    return refByName.asMap().entrySet().stream()
+        .filter(e -> e.getValue().isPresent())
+        .filter(e -> e.getKey().startsWith(identifier + "$"))
+        .map(Map.Entry::getValue)
+        .map(Optional::get)
+        .collect(Collectors.toList());
   }
 
   private static String getUniqueName(String identifier, String ref) {
