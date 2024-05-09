@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1262bc3d_b9aa1b66",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-09T15:56:19Z",
+      "side": 1,
+      "message": "nit: can be removed as refDb.exactRef does exactly the same - it reaches to cache for value or reads it from the underlying refDB",
+      "range": {
+        "startLine": 188,
+        "startChar": 18,
+        "endLine": 189,
+        "endChar": 83
+      },
+      "revId": "767536a79e3f39dd244a1fb0f956af970c5259d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "615d1096_5ff3e94b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-09T15:56:19Z",
+      "side": 1,
+      "message": "nit: can be removed as `refDb.exactRef` does exactly the same - it reaches to cache for value or reads it from the underlying refDB",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 224,
+        "endChar": 85
+      },
+      "revId": "767536a79e3f39dd244a1fb0f956af970c5259d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
