@@ -61,7 +61,9 @@ class CachedRefDatabase extends RefDatabase {
     this.renameFactory = renameFactory;
     this.delegate = delegate;
     this.repo = repo;
-    getAllRefsFromDelegate();
+    if (refsCache.all(repo.getProjectName()).isEmpty()) {
+      getAllRefsFromDelegate();
+    }
   }
 
   @Override

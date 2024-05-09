@@ -19,9 +19,11 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -161,22 +163,33 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   public void execute(RevWalk walk, ProgressMonitor monitor, List<String> options)
       throws IOException {
     delegate.execute(walk, monitor, options);
-    evictCache();
+    evictCacheAndReload();
   }
 
   @Override
   public void execute(RevWalk walk, ProgressMonitor monitor) throws IOException {
     delegate.execute(walk, monitor);
-    evictCache();
+    evictCacheAndReload();
   }
 
-  private void evictCache() {
+  private void evictCacheAndReload() {
+
     delegate
         .getCommands()
         .forEach(
             cmd -> {
               if (cmd.getResult() == ReceiveCommand.Result.OK) {
-                refsCache.evict(repo.getProjectName(), cmd.getRefName());
+                String projectName = repo.getProjectName();
+                String refName = cmd.getRefName();
+
+                refsCache.evict(projectName, refName);
+                try {
+                  Ref updatedRef = repo.exactRef(refName);
+                  refsCache.computeIfAbsent(
+                      projectName, refName, () -> Optional.ofNullable(updatedRef));
+                } catch (IOException e) {
+                  throw new RuntimeException(e);
+                }
               }
             });
   }

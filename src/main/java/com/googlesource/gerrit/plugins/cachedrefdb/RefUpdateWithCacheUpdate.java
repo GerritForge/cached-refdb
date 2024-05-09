@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Optional;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -139,17 +140,17 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    return evictCacheAndReload(delegate.forceUpdate());
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    return evictCacheAndReload(delegate.update());
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    return evictCacheAndReload(delegate.update(walk));
   }
 
   @Override
@@ -164,7 +165,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result link(String target) throws IOException {
-    return evictCache(delegate.link(target));
+    return evictCacheAndReload(delegate.link(target));
   }
 
   @Override
@@ -210,6 +211,20 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result evictCache(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.evict(repo.getProjectName(), getName());
+    }
+    return r;
+  }
+
+  private Result evictCacheAndReload(Result r) {
+    if (SUCCESSFUL_UPDATES.contains(r)) {
+      evictCache(r);
+      try {
+        Ref updatedRef = refDb.exactRef(getName());
+        refsCache.computeIfAbsent(
+            repo.getProjectName(), getName(), () -> Optional.ofNullable(updatedRef));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
     return r;
   }
