@@ -17,7 +17,7 @@ import org.eclipse.jgit.transport.PushCertificate;
 class RefUpdateWithCacheUpdate extends RefUpdate {
   interface Factory {
     RefUpdateWithCacheUpdate create(
-        RefDatabase refDb, CachedRefRepository repo, RefUpdate delegate);
+        CachedRefDatabase refDb, CachedRefRepository repo, RefUpdate delegate);
   }
 
   private static final String NOT_SUPPORTED_MSG = "Should never be called";
@@ -25,14 +25,14 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
       EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
   private final RefByNameCacheWrapper refsCache;
-  private final RefDatabase refDb;
+  private final CachedRefDatabase refDb;
   private final CachedRefRepository repo;
   private final RefUpdate delegate;
 
   @Inject
   RefUpdateWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
-      @Assisted RefDatabase refDb,
+      @Assisted CachedRefDatabase refDb,
       @Assisted CachedRefRepository repo,
       @Assisted RefUpdate delegate) {
     super(delegate.getRef());
@@ -139,17 +139,17 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    return evictCacheAndReload(delegate.forceUpdate());
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    return evictCacheAndReload(delegate.update());
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    return evictCacheAndReload(delegate.update(walk));
   }
 
   @Override
@@ -164,7 +164,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result link(String target) throws IOException {
-    return evictCache(delegate.link(target));
+    return evictCacheAndReload(delegate.link(target));
   }
 
   @Override
@@ -210,6 +210,18 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result evictCache(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.evict(repo.getProjectName(), getName());
+    }
+    return r;
+  }
+
+  private Result evictCacheAndReload(Result r) {
+    if (SUCCESSFUL_UPDATES.contains(r)) {
+      evictCache(r);
+      try {
+        refDb.exactRef(getName());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
     return r;
   }
