@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -42,6 +43,11 @@ class NoOpRefByNameCache implements RefByNameCache {
 
   @Override
   public List<Ref> all(String identifier) {
-    throw new UnsupportedOperationException();
+    return Collections.emptyList();
+  }
+
+  @Override
+  public boolean hasRefs(String identifier) {
+    return false;
   }
 }

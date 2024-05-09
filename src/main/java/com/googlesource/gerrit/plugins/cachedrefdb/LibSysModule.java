@@ -47,14 +47,14 @@ public class LibSysModule extends LifecycleModule {
     @Override
     public void start() {
       handle = cacheRef.set(refByNameCache, "gerrit");
-      logger.atInfo().log("Cache-backed RefDB loaded");
+      logger.atInfo().log("Cache-backed RefDB on steroids loaded");
     }
 
     @Override
     public void stop() {
       if (handle != null) {
         handle.remove();
-        logger.atInfo().log("Cache-backed RefDB unloaded");
+        logger.atInfo().log("Cache-backed RefDB on steroids unloaded");
       }
     }
   }

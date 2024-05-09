@@ -17,7 +17,9 @@ gerrit_plugin(
         "Implementation-URL: https://gerrit-review.googlesource.com/admin/repos/modules/cached-refdb",
     ],
     resources = glob(["src/main/resources/**/*"]),
-    deps = [],
+    deps = [
+        "@error-prone-annotations//jar",
+    ],
 )
 
 junit_tests(
