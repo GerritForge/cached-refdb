@@ -11,15 +11,20 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -54,6 +59,7 @@ class CachedRefDatabase extends RefDatabase {
     this.renameFactory = renameFactory;
     this.delegate = delegate;
     this.repo = repo;
+    getAllRefsFromDelegate();
   }
 
   @Override
@@ -94,7 +100,10 @@ class CachedRefDatabase extends RefDatabase {
   @Deprecated
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
-    return delegate.getRefs(prefix);
+    List<Ref> found = getRefsByPrefix(prefix);
+    return found.isEmpty()
+        ? delegate.getRefs(prefix)
+        : found.stream().collect(toMap(Ref::getName, Function.identity()));
   }
 
   @Override
@@ -129,22 +138,25 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Map<String, Ref> exactRef(String... refs) throws IOException {
-    return delegate.exactRef(refs);
+    Set<String> exactRefs = Set.of(refs);
+    Map<String, Ref> foundRefs =
+        getAllRefs().stream()
+            .filter(ref -> exactRefs.contains(ref.getName()))
+            .collect(toMap(Ref::getName, Function.identity()));
+    return foundRefs.isEmpty() ? delegate.exactRef(refs) : foundRefs;
   }
 
   @Override
   public Ref firstExactRef(String... refs) throws IOException {
-    return delegate.firstExactRef(refs);
+    Set<String> exactRefs = Set.of(refs);
+    Optional<Ref> found =
+        getAllRefs().stream().filter(ref -> exactRefs.contains(ref.getName())).findFirst();
+    return found.isEmpty() ? delegate.firstExactRef(refs) : found.get();
   }
 
   @Override
   public List<Ref> getRefs() throws IOException {
-    List<Ref> allRefs = delegate.getRefs();
-    for (Ref ref : allRefs) {
-      refsCache.computeIfAbsent(
-          repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
-    }
-    return allRefs;
+    return getAllRefs();
   }
 
   @Override
@@ -154,16 +166,22 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    List<Ref> refs = refsCache.all(repo.getProjectName());
-    if (refs.isEmpty()) {
-      refs = getRefs();
-    }
-    return refs.stream().filter(r -> r.getName().startsWith(prefix)).collect(Collectors.toList());
+    List<Ref> refs = getAllRefs();
+    return RefDatabase.ALL.equals(prefix)
+        ? refs
+        : refs.stream().filter(r -> r.getName().startsWith(prefix)).collect(toList());
   }
 
   @Override
   public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
-    return delegate.getRefsByPrefix(prefixes);
+    List<Ref> refs = getAllRefs();
+    List<String> prefixesToCheck = List.of(prefixes);
+    List<Ref> foundRefs =
+        refs.stream()
+            .filter(
+                r -> prefixesToCheck.stream().anyMatch(prefix -> r.getName().startsWith(prefix)))
+            .collect(toList());
+    return foundRefs.isEmpty() ? delegate.getRefsByPrefix(prefixes) : foundRefs;
   }
 
   @Override
@@ -178,11 +196,33 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public boolean hasRefs() throws IOException {
-    return delegate.hasRefs();
+    return refsCache.hasRefs(repo.getProjectName()) || delegate.hasRefs();
   }
 
   @Override
   public void refresh() {
     delegate.refresh();
+    getAllRefsFromDelegate();
+  }
+
+  @CanIgnoreReturnValue
+  private List<Ref> getAllRefsFromDelegate() {
+    try {
+      List<Ref> allRefs = delegate.getRefs();
+      for (Ref ref : allRefs) {
+        refsCache.computeIfAbsent(repo.getProjectName(), ref.getName(), () -> Optional.of(ref));
+      }
+      return allRefs;
+    } catch (IOException e) {
+      return Collections.emptyList();
+    }
+  }
+
+  private List<Ref> getAllRefs() {
+    List<Ref> refs = refsCache.all(repo.getProjectName());
+    if (refs.isEmpty()) {
+      refs = getAllRefsFromDelegate();
+    }
+    return refs;
   }
 }

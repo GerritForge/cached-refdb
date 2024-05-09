@@ -22,4 +22,6 @@ interface RefByNameCache {
   void evict(String identifier, String ref);
 
   List<Ref> all(String identifier);
+
+  boolean hasRefs(String identifier);
 }

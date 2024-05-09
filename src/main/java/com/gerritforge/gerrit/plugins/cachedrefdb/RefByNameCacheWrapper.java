@@ -45,6 +45,11 @@ class RefByNameCacheWrapper implements RefByNameCache {
     return cache.all(identifier);
   }
 
+  @Override
+  public boolean hasRefs(String identifier) {
+    return cache.hasRefs(identifier);
+  }
+
   @VisibleForTesting
   RefByNameCache cache() {
     return cache;

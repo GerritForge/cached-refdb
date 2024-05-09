@@ -20,10 +20,12 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
@@ -66,15 +68,29 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public List<Ref> all(String identifier) {
-    return refByName.asMap().entrySet().stream()
-        .filter(e -> e.getValue().isPresent())
-        .filter(e -> e.getKey().startsWith(identifier + "$"))
+    String prefix = prefix(identifier);
+    return existingRefs()
+        .filter(e -> e.getKey().startsWith(prefix))
         .map(Map.Entry::getValue)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
+  @Override
+  public boolean hasRefs(String identifier) {
+    String prefix = prefix(identifier);
+    return existingRefs().anyMatch(e -> e.getKey().startsWith(prefix));
+  }
+
+  private Stream<Entry<String, Optional<Ref>>> existingRefs() {
+    return refByName.asMap().entrySet().stream().filter(e -> e.getValue().isPresent());
+  }
+
   private static String getUniqueName(String identifier, String ref) {
     return String.format("%s$%s", identifier, ref);
+  }
+
+  private static String prefix(String identifier) {
+    return identifier + "$";
   }
 }
