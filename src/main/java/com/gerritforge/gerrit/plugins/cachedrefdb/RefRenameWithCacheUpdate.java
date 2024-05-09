@@ -37,6 +37,7 @@ class RefRenameWithCacheUpdate extends RefRename {
   private final CachedRefRepository repo;
   private final RefRename delegate;
   private final RefUpdate src;
+  private final RefUpdate dst;
 
   @Inject
   RefRenameWithCacheUpdate(
@@ -50,6 +51,7 @@ class RefRenameWithCacheUpdate extends RefRename {
     this.repo = repo;
     this.delegate = delegate;
     this.src = src;
+    this.dst = dst;
   }
 
   @Override
@@ -92,6 +94,9 @@ class RefRenameWithCacheUpdate extends RefRename {
     Result r = delegate.rename();
     if (SUCCESSFUL_RENAMES.contains(r)) {
       refsCache.evict(repo.getProjectName(), src.getName());
+      refsCache.evict(repo.getProjectName(), dst.getName());
+      repo.exactRef(src.getName());
+      repo.exactRef(dst.getName());
     }
     return r;
   }
