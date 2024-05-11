@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b72281d_fdaa1ab8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-11T14:45:14Z",
+      "side": 1,
+      "message": "This is still veery slow, it may take up to 50ms to execute. I believe it should be responsibility of the cache to keep track if preloading needs to happen on not for a specific prefix.",
+      "revId": "ad98b2bd8f7f14524b61e04d3f236288bc5af4d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
