@@ -27,11 +27,12 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 class CachedGitRepositoryManager implements GitRepositoryManager {
   private final LocalDiskRepositoryManager repoManager;
-  private final CachedRefRepository.Factory repoWrapperFactory;
+  private final CachedRefRepository.CachingFactory repoWrapperFactory;
 
   @Inject
   CachedGitRepositoryManager(
-      LocalDiskRepositoryManager repoManager, CachedRefRepository.Factory repoWrapperFactory) {
+      LocalDiskRepositoryManager repoManager,
+      CachedRefRepository.CachingFactory repoWrapperFactory) {
     this.repoManager = repoManager;
     this.repoWrapperFactory = repoWrapperFactory;
   }
