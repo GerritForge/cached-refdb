@@ -15,12 +15,14 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.DelegateRepository;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -49,6 +51,22 @@ import org.eclipse.jgit.util.FS;
 class CachedRefRepository extends DelegateRepository {
   interface Factory {
     CachedRefRepository create(String projectName, Repository repo);
+  }
+
+  @Singleton
+  static class CachingFactory {
+    private final Factory repoWrapperFactory;
+    private final Map<String, CachedRefRepository> repos;
+
+    @Inject
+    CachingFactory(Factory repoWrapperFactory) {
+      this.repoWrapperFactory = repoWrapperFactory;
+      this.repos = new ConcurrentHashMap<>();
+    }
+
+    CachedRefRepository create(String projectName, Repository repo) {
+      return repos.computeIfAbsent(projectName, name -> repoWrapperFactory.create(name, repo));
+    }
   }
 
   private final String projectName;
