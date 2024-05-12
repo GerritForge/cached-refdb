@@ -21,29 +21,48 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Map;
 import java.util.NavigableSet;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 class CachedGitRepositoryManager implements GitRepositoryManager {
   private final LocalDiskRepositoryManager repoManager;
   private final CachedRefRepository.Factory repoWrapperFactory;
+  private final Map<Project.NameKey, Repository> repos;
 
   @Inject
   CachedGitRepositoryManager(
       LocalDiskRepositoryManager repoManager, CachedRefRepository.Factory repoWrapperFactory) {
     this.repoManager = repoManager;
     this.repoWrapperFactory = repoWrapperFactory;
+    this.repos = new ConcurrentHashMap<>();
   }
 
   @Override
   public Repository openRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(name.get(), repoManager.openRepository(name));
+    return repos.computeIfAbsent(name, (n) ->
+    {
+	    try {
+		    return repoWrapperFactory.create(n.get(), repoManager.openRepository(n));
+	    } catch (RepositoryNotFoundException e) {
+		    throw new RuntimeException(e);
+	    }
+    });
   }
 
   @Override
   public Repository createRepository(Project.NameKey name) throws IOException {
-    return repoWrapperFactory.create(name.get(), repoManager.createRepository(name));
+    return repos.computeIfAbsent(name, (n) -> {
+	    try {
+		    return repoWrapperFactory.create(name.get(), repoManager.createRepository(name));
+	    } catch (IOException e) {
+		    throw new RuntimeException(e);
+	    }
+    });
   }
 
   @Override
