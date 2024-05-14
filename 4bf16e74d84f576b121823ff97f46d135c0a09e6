@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1e9a3ad_91b1d304",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/CachedGitRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-14T07:01:49Z",
+      "side": 1,
+      "message": "I have created the alternative I13a9abfd28 that doesn\u0027t require `try..catch` and caches instances on the factory level. WDYT?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 11
+      },
+      "revId": "4bf16e74d84f576b121823ff97f46d135c0a09e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
