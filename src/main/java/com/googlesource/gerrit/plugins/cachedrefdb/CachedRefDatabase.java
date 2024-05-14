@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.cachedrefdb;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -40,6 +41,8 @@ class CachedRefDatabase extends RefDatabase {
     CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate);
   }
 
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final RefByNameCacheWrapper refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
@@ -61,9 +64,6 @@ class CachedRefDatabase extends RefDatabase {
     this.renameFactory = renameFactory;
     this.delegate = delegate;
     this.repo = repo;
-    if (refsCache.all(repo.getProjectName()).isEmpty()) {
-      getAllRefsFromDelegate();
-    }
   }
 
   @Override
@@ -206,6 +206,8 @@ class CachedRefDatabase extends RefDatabase {
 
   @CanIgnoreReturnValue
   private List<Ref> getAllRefsFromDelegate() {
+    logger.atInfo().log(
+        "Getting all refs from underlying ref DB for %s repository", repo.getProjectName());
     try {
       List<Ref> allRefs = delegate.getRefs();
       for (Ref ref : allRefs) {
