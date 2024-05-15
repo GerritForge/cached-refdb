@@ -105,9 +105,7 @@ class CachedRefDatabase extends RefDatabase {
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
     List<Ref> found = getRefsByPrefix(prefix);
-    return found.isEmpty()
-        ? delegate.getRefs(prefix)
-        : found.stream().collect(toMap(Ref::getName, Function.identity()));
+    return found.stream().collect(toMap(Ref::getName, Function.identity()));
   }
 
   @Override
@@ -147,7 +145,7 @@ class CachedRefDatabase extends RefDatabase {
         getAllRefs().stream()
             .filter(ref -> exactRefs.contains(ref.getName()))
             .collect(toMap(Ref::getName, Function.identity()));
-    return foundRefs.isEmpty() ? delegate.exactRef(refs) : foundRefs;
+    return foundRefs;
   }
 
   @Override
@@ -155,7 +153,7 @@ class CachedRefDatabase extends RefDatabase {
     Set<String> exactRefs = Set.of(refs);
     Optional<Ref> found =
         getAllRefs().stream().filter(ref -> exactRefs.contains(ref.getName())).findFirst();
-    return found.isEmpty() ? delegate.firstExactRef(refs) : found.get();
+    return found.orElse(null);
   }
 
   @Override
@@ -180,7 +178,7 @@ class CachedRefDatabase extends RefDatabase {
             .filter(
                 r -> prefixesToCheck.stream().anyMatch(prefix -> r.getName().startsWith(prefix)))
             .collect(toList());
-    return foundRefs.isEmpty() ? delegate.getRefsByPrefix(prefixes) : foundRefs;
+    return foundRefs;
   }
 
   @Override
