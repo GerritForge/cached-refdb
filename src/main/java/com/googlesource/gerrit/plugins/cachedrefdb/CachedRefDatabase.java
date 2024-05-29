@@ -22,13 +22,16 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -140,7 +143,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Map<String, Ref> exactRef(String... refs) throws IOException {
-    Set<String> exactRefs = Set.of(refs);
+    Set<String> exactRefs = new HashSet<>(Arrays.asList(refs));
     Map<String, Ref> foundRefs =
         getAllRefs().stream()
             .filter(ref -> exactRefs.contains(ref.getName()))
