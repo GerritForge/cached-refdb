@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
@@ -29,35 +31,53 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
 class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
+  private static final String REFS_BY_OBJECT_ID = "refs_by_object_id";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
+        cache(REFS_BY_OBJECT_ID, String.class, new TypeLiteral<ListMultimap<ObjectId, Ref>>() {});
       }
     };
   }
 
   private final Cache<String, Optional<Ref>> refByName;
+  private final Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId;
 
   @Inject
-  RefByNameCacheImpl(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
+  RefByNameCacheImpl(
+      @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
+      @Named(REFS_BY_OBJECT_ID) Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId) {
     this.refByName = refByName;
+    this.refsByObjectId = refsByObjectId;
   }
 
   @Override
   public Ref computeIfAbsent(
       String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
     String uniqueRefName = getUniqueName(identifier, ref);
+    Callable<Optional<Ref>> refsByObjectIdLoader =
+        () -> {
+          Optional<Ref> foundRef = loader.call();
+          foundRef.ifPresent(
+              r -> {
+                ListMultimap<ObjectId, Ref> refsByObjectIdForIdentifier =
+                    refsByObjectId(identifier);
+                refsByObjectIdForIdentifier.put(r.getObjectId(), r);
+              });
+          return foundRef;
+        };
     try {
-      return refByName.get(uniqueRefName, loader).orElse(null);
+      return refByName.get(uniqueRefName, refsByObjectIdLoader).orElse(null);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
       return null;
@@ -83,6 +103,17 @@ class RefByNameCacheImpl implements RefByNameCache {
   public boolean hasRefs(String identifier) {
     String prefix = prefix(identifier);
     return existingRefs().anyMatch(e -> e.getKey().startsWith(prefix));
+  }
+
+  @Override
+  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+    try {
+      return refsByObjectId.get(
+          identifier, () -> MultimapBuilder.hashKeys().arrayListValues().build());
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Getting refs by object id failed for [%s]", identifier);
+      return null;
+    }
   }
 
   private Stream<Entry<String, Optional<Ref>>> existingRefs() {

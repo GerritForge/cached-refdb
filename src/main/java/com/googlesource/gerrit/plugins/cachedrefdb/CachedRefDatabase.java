@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
@@ -53,8 +52,7 @@ class CachedRefDatabase extends RefDatabase {
   private final RefRenameWithCacheUpdate.Factory renameFactory;
   private final RefDatabase delegate;
   private final CachedRefRepository repo;
-  /** Contains all refs. */
-  private ListMultimap<ObjectId, Ref> refsByObjectId;
+  private final ListMultimap<ObjectId, Ref> refsByObjectId;
 
   @Inject
   CachedRefDatabase(
@@ -70,6 +68,7 @@ class CachedRefDatabase extends RefDatabase {
     this.renameFactory = renameFactory;
     this.delegate = delegate;
     this.repo = repo;
+    this.refsByObjectId = refsCache.refsByObjectId(repo.getProjectName());
   }
 
   @Override
@@ -103,15 +102,8 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Ref exactRef(String name) throws IOException {
-    lazilyInitRefMaps();
     return refsCache.computeIfAbsent(
-        repo.getProjectName(),
-        name,
-        () -> {
-          Optional<Ref> ref = Optional.ofNullable(delegate.exactRef(name));
-          ref.ifPresent(r -> refsByObjectId.put(r.getObjectId(), r));
-          return ref;
-        });
+        repo.getProjectName(), name, () -> Optional.ofNullable(delegate.exactRef(name)));
   }
 
   @Deprecated
@@ -196,8 +188,8 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
-    lazilyInitRefMaps();
-    return new HashSet<>(refsByObjectId.get(id));
+    HashSet<Ref> fromCache = new HashSet<>(refsByObjectId.get(id));
+    return fromCache.isEmpty() ? delegate.getTipsWithSha1(id) : fromCache;
   }
 
   @Override
@@ -223,13 +215,7 @@ class CachedRefDatabase extends RefDatabase {
     try {
       List<Ref> allRefs = delegate.getRefs();
       for (Ref ref : allRefs) {
-        refsCache.computeIfAbsent(
-            repo.getProjectName(),
-            ref.getName(),
-            () -> {
-              refsByObjectId.put(ref.getObjectId(), ref);
-              return Optional.of(ref);
-            });
+        refsCache.computeIfAbsent(repo.getProjectName(), ref.getName(), () -> Optional.of(ref));
       }
       return allRefs;
     } catch (IOException e) {
@@ -243,20 +229,5 @@ class CachedRefDatabase extends RefDatabase {
       refs = getAllRefsFromDelegate();
     }
     return refs;
-  }
-
-  private void lazilyInitRefMaps() {
-    if (refsByObjectId != null) {
-      return;
-    }
-
-    refsByObjectId = MultimapBuilder.hashKeys().arrayListValues().build();
-    List<Ref> allRefs = getAllRefs();
-    for (Ref ref : allRefs) {
-      ObjectId objectId = ref.getObjectId();
-      if (objectId != null) {
-        refsByObjectId.put(objectId, ref);
-      }
-    }
   }
 }
