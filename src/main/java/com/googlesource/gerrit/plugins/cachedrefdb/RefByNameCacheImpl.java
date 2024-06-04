@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.cache.Cache;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -52,6 +54,7 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   private final Cache<String, Optional<Ref>> refByName;
   private final Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId;
+  private final ListMultimap<String, ObjectId> objectIdsByRef;
 
   @Inject
   RefByNameCacheImpl(
@@ -59,6 +62,7 @@ class RefByNameCacheImpl implements RefByNameCache {
       @Named(REFS_BY_OBJECT_ID) Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId) {
     this.refByName = refByName;
     this.refsByObjectId = refsByObjectId;
+    this.objectIdsByRef = MultimapBuilder.hashKeys().arrayListValues().build();
   }
 
   @Override
@@ -73,6 +77,7 @@ class RefByNameCacheImpl implements RefByNameCache {
                 ListMultimap<ObjectId, Ref> refsByObjectIdForIdentifier =
                     refsByObjectId(identifier);
                 refsByObjectIdForIdentifier.put(r.getObjectId(), r);
+                objectIdsByRef.put(uniqueRefName, r.getObjectId());
               });
           return foundRef;
         };
@@ -86,7 +91,21 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public void evict(String identifier, String ref) {
-    refByName.invalidate(getUniqueName(identifier, ref));
+    String uniqueName = getUniqueName(identifier, ref);
+    refByName.invalidate(uniqueName);
+    Optional.ofNullable(refsByObjectId.getIfPresent(identifier))
+        .ifPresent(
+            repoRefsByObjectId ->
+                objectIdsByRef
+                    .removeAll(uniqueName)
+                    .forEach(
+                        objectToRemove ->
+                            repoRefsByObjectId.get(objectToRemove).stream()
+                                .filter(storedRef -> ref.equals(storedRef.getName()))
+                                .collect(toList())
+                                .forEach(
+                                    refToRemove ->
+                                        repoRefsByObjectId.remove(objectToRemove, refToRemove))));
   }
 
   @Override
