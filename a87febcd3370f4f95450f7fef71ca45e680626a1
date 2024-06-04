@@ -1,11 +1,12 @@
 {
   "checks": {
     "gerritforge:cached-refdb-build-test": {
-      "state": "RUNNING",
+      "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/module-cached-refdb-verifier/job/81%252F428381%252F1/1/console",
       "started": "2024-06-04T16:16:11Z",
+      "finished": "2024-06-04T16:17:55Z",
       "created": "2024-06-04T16:16:12Z",
-      "updated": "2024-06-04T16:16:12Z"
+      "updated": "2024-06-04T16:17:55Z"
     },
     "gerritforge:cached-refdb-code-style": {
       "state": "SUCCESSFUL",
