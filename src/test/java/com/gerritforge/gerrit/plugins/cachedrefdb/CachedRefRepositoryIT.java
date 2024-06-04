@@ -77,7 +77,8 @@ public class CachedRefRepositoryIT {
     assertThat(cache.cacheCalled).isEqualTo(0);
     assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
     assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo().resolve(fullTag));
-    assertThat(cache.cacheCalled).isEqualTo(2);
+    assertThat(cache.cacheCalled)
+        .isEqualTo(3 /* calls to build sha1-cache */ + 2 /* from resolve calls */);
   }
 
   @Test
