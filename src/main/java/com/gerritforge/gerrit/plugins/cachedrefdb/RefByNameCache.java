@@ -11,9 +11,11 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.collect.ListMultimap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 interface RefByNameCache {
@@ -24,4 +26,6 @@ interface RefByNameCache {
   List<Ref> all(String identifier);
 
   boolean hasRefs(String identifier);
+
+  ListMultimap<ObjectId, Ref> refsByObjectId(String identifier);
 }

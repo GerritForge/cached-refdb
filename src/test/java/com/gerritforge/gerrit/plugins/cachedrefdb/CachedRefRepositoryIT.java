@@ -15,6 +15,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
@@ -77,8 +78,7 @@ public class CachedRefRepositoryIT {
     assertThat(cache.cacheCalled).isEqualTo(0);
     assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
     assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo().resolve(fullTag));
-    assertThat(cache.cacheCalled)
-        .isEqualTo(3 /* calls to build sha1-cache */ + 2 /* from resolve calls */);
+    assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
   @Test
@@ -159,7 +159,9 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
+    cache =
+        new TestRefByNameCacheImpl(
+            CacheBuilder.newBuilder().build(), CacheBuilder.newBuilder().build());
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -175,8 +177,10 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
-      super(refByName);
+    private TestRefByNameCacheImpl(
+        Cache<String, Optional<Ref>> refByName,
+        Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId) {
+      super(refByName, refsByObjectId);
       cacheCalled = 0;
     }
 

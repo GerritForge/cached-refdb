@@ -12,11 +12,13 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
@@ -48,6 +50,11 @@ class RefByNameCacheWrapper implements RefByNameCache {
   @Override
   public boolean hasRefs(String identifier) {
     return cache.hasRefs(identifier);
+  }
+
+  @Override
+  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+    return cache.refsByObjectId(identifier);
   }
 
   @VisibleForTesting

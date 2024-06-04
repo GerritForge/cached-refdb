@@ -11,11 +11,14 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 class NoOpRefByNameCache implements RefByNameCache {
@@ -46,5 +49,10 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public boolean hasRefs(String identifier) {
     return false;
+  }
+
+  @Override
+  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+    return MultimapBuilder.hashKeys().arrayListValues().build();
   }
 }
