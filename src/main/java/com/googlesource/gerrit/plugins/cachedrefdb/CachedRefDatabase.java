@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
@@ -52,7 +53,7 @@ class CachedRefDatabase extends RefDatabase {
   private final RefRenameWithCacheUpdate.Factory renameFactory;
   private final RefDatabase delegate;
   private final CachedRefRepository repo;
-  private final ListMultimap<ObjectId, Ref> refsByObjectId;
+  private final SetMultimap<ObjectId, Ref> refsByObjectId;
 
   @Inject
   CachedRefDatabase(
@@ -188,7 +189,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
-    HashSet<Ref> fromCache = new HashSet<>(refsByObjectId.get(id));
+    Set<Ref> fromCache = refsByObjectId.get(id);
     return fromCache.isEmpty() ? delegate.getTipsWithSha1(id) : fromCache;
   }
 

@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.cachedrefdb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import java.util.List;
@@ -56,7 +57,7 @@ class RefByNameCacheWrapper implements RefByNameCache {
   }
 
   @Override
-  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+  public SetMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
     return cache.refsByObjectId(identifier);
   }
 
