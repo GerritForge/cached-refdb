@@ -14,6 +14,7 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
@@ -48,14 +49,16 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   private final Cache<String, Optional<Ref>> refByName;
-  private final Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId;
+  private final Cache<String, SetMultimap<ObjectId, Ref>> refsByObjectId;
+  private final SetMultimap<String, ObjectId> objectIdsByRef;
 
   @Inject
   RefByNameCacheImpl(
       @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
-      @Named(REFS_BY_OBJECT_ID) Cache<String, ListMultimap<ObjectId, Ref>> refsByObjectId) {
+      @Named(REFS_BY_OBJECT_ID) Cache<String, SetMultimap<ObjectId, Ref>> refsByObjectId) {
     this.refByName = refByName;
     this.refsByObjectId = refsByObjectId;
+    this.objectIdsByRef = newSetObjectIdByRefNameMultimap();
   }
 
   @Override
@@ -67,8 +70,7 @@ class RefByNameCacheImpl implements RefByNameCache {
           Optional<Ref> foundRef = loader.call();
           foundRef.ifPresent(
               r -> {
-                ListMultimap<ObjectId, Ref> refsByObjectIdForIdentifier =
-                    refsByObjectId(identifier);
+                SetMultimap<ObjectId, Ref> refsByObjectIdForIdentifier = refsByObjectId(identifier);
                 refsByObjectIdForIdentifier.put(r.getObjectId(), r);
               });
           return foundRef;
@@ -103,14 +105,21 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
-  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+  public SetMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
     try {
-      return refsByObjectId.get(
-          identifier, () -> MultimapBuilder.hashKeys().arrayListValues().build());
+      return refsByObjectId.get(identifier, RefByNameCacheImpl::newSetRefsByObjectIdMultimap);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Getting refs by object id failed for [%s]", identifier);
       return null;
     }
+  }
+
+  private static SetMultimap<ObjectId, Ref> newSetRefsByObjectIdMultimap() {
+    return MultimapBuilder.hashKeys().hashSetValues().build();
+  }
+
+  private static SetMultimap<String, ObjectId> newSetObjectIdByRefNameMultimap() {
+    return MultimapBuilder.hashKeys().hashSetValues().build();
   }
 
   private Stream<Entry<String, Optional<Ref>>> existingRefs() {
