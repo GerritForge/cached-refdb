@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d29f72_773af384",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-04T19:48:37Z",
+      "side": 1,
+      "message": "This creates a cache with a huge value with highly volatile size, that could be a big issue for fixed-size cache backends such cache-chroniclemap",
+      "range": {
+        "startLine": 59,
+        "startChar": 46,
+        "endLine": 59,
+        "endChar": 74
+      },
+      "revId": "4561b3c6e18b24167d52c7d0ef932a57e15eeea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e070b60_99212d05",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-04T19:48:37Z",
+      "side": 1,
+      "message": "This is the project name used as a key, therefore the cache should be called `projectsRefsByObjectId` IMHO.",
+      "range": {
+        "startLine": 59,
+        "startChar": 38,
+        "endLine": 59,
+        "endChar": 44
+      },
+      "revId": "4561b3c6e18b24167d52c7d0ef932a57e15eeea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995c6a22_9c69bb4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-04T19:48:37Z",
+      "side": 1,
+      "message": "nit: this should be projectName",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "4561b3c6e18b24167d52c7d0ef932a57e15eeea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62b7bc67_8ec3ee32",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-04T19:48:37Z",
+      "side": 1,
+      "message": "can be inlined at L80",
+      "revId": "4561b3c6e18b24167d52c7d0ef932a57e15eeea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
