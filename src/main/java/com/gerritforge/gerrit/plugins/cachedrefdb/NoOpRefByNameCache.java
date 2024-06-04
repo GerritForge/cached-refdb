@@ -11,8 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +52,7 @@ class NoOpRefByNameCache implements RefByNameCache {
   }
 
   @Override
-  public ListMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
-    return MultimapBuilder.hashKeys().arrayListValues().build();
+  public SetMultimap<ObjectId, Ref> refsByObjectId(String identifier) {
+    return MultimapBuilder.hashKeys().hashSetValues().build();
   }
 }
