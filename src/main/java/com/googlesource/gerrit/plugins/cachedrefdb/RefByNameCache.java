@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.plugins.cachedrefdb;
 
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.SetMultimap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -30,5 +30,5 @@ interface RefByNameCache {
 
   boolean hasRefs(String identifier);
 
-  ListMultimap<ObjectId, Ref> refsByObjectId(String identifier);
+  SetMultimap<ObjectId, Ref> refsByObjectId(String identifier);
 }
