@@ -110,12 +110,6 @@ class CachedRefRepository extends DelegateRepository {
     return delegate.getFS();
   }
 
-  @Deprecated
-  @Override
-  public boolean hasObject(AnyObjectId objectId) {
-    return delegate.hasObject(objectId);
-  }
-
   @Override
   public ObjectLoader open(AnyObjectId objectId) throws MissingObjectException, IOException {
     return delegate.open(objectId);
@@ -199,12 +193,6 @@ class CachedRefRepository extends DelegateRepository {
   @Override
   public Map<String, Ref> getTags() {
     return delegate.getTags();
-  }
-
-  @Deprecated
-  @Override
-  public Ref peel(Ref ref) {
-    return delegate.peel(ref);
   }
 
   @Override

@@ -28,6 +28,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.ReflogReader;
 
 class CachedRefDatabase extends RefDatabase {
   interface Factory {
@@ -146,6 +147,11 @@ class CachedRefDatabase extends RefDatabase {
           repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
     }
     return allRefs;
+  }
+
+  @Override
+  public ReflogReader getReflogReader(Ref ref) throws IOException {
+    return delegate.getReflogReader(ref);
   }
 
   @Override
