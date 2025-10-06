@@ -145,7 +145,9 @@ class CachedRefRepository extends DelegateRepository {
 
   @Override
   public ObjectId resolve(String revstr)
-      throws AmbiguousObjectException, IncorrectObjectTypeException, RevisionSyntaxException,
+      throws AmbiguousObjectException,
+          IncorrectObjectTypeException,
+          RevisionSyntaxException,
           IOException {
     if (isCacheableReference(revstr)) {
       Ref ref = refDb.exactRef(revstr);
