@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9d12c66_41860fb0",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-11-07T13:29:07Z",
+      "side": 1,
+      "message": "Package names need amending to `com.gerritforge...`",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 60
+      },
+      "revId": "115eadd34fdbf8fcf52be12631e27b78e21a6b17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
