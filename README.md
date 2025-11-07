@@ -71,9 +71,9 @@ configuration options need to be added
 
 ```
 git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
-  com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule
+  com.gerritforge.gerrit.plugins.cachedrefdb;.LibDbModule
 git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
-  com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
+  com.gerritforge.gerrit.plugins.cachedrefdb;.LibSysModule
 ```
 
 > NOTE: There are situations where the binding of the module to the Gerrit's
@@ -84,9 +84,9 @@ git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
 >
 > ```
 > git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
->   com.googlesource.gerrit.plugins.cachedrefdb.LibModule
+>   com.gerritforge.gerrit.plugins.cachedrefdb;.LibModule
 > git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
->   com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule
+>   com.gerritforge.gerrit.plugins.cachedrefdb;.LibSysModule
 > ```
 
 By default cache can hold up to `1024` refs which will not be sufficient for
