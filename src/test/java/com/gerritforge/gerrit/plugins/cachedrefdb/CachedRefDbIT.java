@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.cachedrefdb;
+package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -41,10 +41,10 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
   @GerritConfig(
       name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallCachedGitRepoManager() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
@@ -55,10 +55,10 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibDbModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
   @GerritConfig(
       name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
   @GerritConfig(name = "repository.r1.basePath", value = "/tmp/git1")
   public void shouldMultiBaseRepoManagerBeUsedWhenConfigured() {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
@@ -70,10 +70,10 @@ public class CachedRefDbIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "gerrit.installDbModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibModule")
   @GerritConfig(
       name = "gerrit.installModule",
-      value = "com.googlesource.gerrit.plugins.cachedrefdb.LibSysModule")
+      value = "plugins.cached-refdb.src.main.java.com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
   public void shouldBeAbleToInstallCachedGitRepoManagerAsNamedBinding() {
     assertThat(localGitRepositoryManager).isNotNull();
     assertThat(localGitRepositoryManager).isInstanceOf(CachedGitRepositoryManager.class);
