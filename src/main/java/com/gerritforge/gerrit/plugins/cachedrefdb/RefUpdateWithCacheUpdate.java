@@ -1,4 +1,4 @@
-package com.googlesource.gerrit.plugins.cachedrefdb;
+package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
