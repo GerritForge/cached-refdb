@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84786627_96c1bfec",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-11-07T16:16:02Z",
+      "side": 1,
+      "message": "This file was missing the licence header.\nAssume the correct thing here is to add it? Let me know if not.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "4a75f069e34270bf06721fc517bfc05d3ef88ef4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
