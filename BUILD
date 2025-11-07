@@ -14,7 +14,7 @@ gerrit_plugin(
     manifest_entries = [
         "Gerrit-PluginName: cached-refdb",
         "Implementation-Title: cached-refdb plugin",
-        "Implementation-URL: https://gerrit-review.googlesource.com/admin/repos/modules/cached-refdb",
+        "Implementation-URL: https://github.com/GerritForge/cached-refdb",
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [],
