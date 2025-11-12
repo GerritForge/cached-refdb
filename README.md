@@ -14,6 +14,20 @@ price for reaching to refs in JGit. It is a Gerrit native alternative (that can
 be applied to Gerrit 3.2) to work that is currently under progress for
 [caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
 
+## License
+
+This project is licensed under the **Business Source License 1.1** (BSL 1.1).
+This is a "source-available" license that balances free, open-source-style access to the code
+with temporary commercial restrictions.
+
+* The full text of the BSL 1.1 is available in the [LICENSE.md](LICENSE.md) file in this
+  repository.
+* If your intended use case falls outside the **Additional Use Grant** and you require a
+  commercial license, please contact [GerritForge Sales](https://gerritforge.com/contact).
+
+
+# Performance comparison
+
 Here is the short comparison of _heavy-refs-related_ operations performance.
 The test scenario was to get random change details (over the same REST API that
 is used in Gerrit's details page) in 8 parallel threads over 5mins period of
