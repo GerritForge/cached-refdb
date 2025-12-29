@@ -22,6 +22,30 @@
       },
       "revId": "051f56a2f2f89416d16b4b34aacb556b41761ea7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d653b0_58e1e182",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-29T08:40:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f7a47b95_fa973247",
+      "range": {
+        "startLine": 46,
+        "startChar": 63,
+        "endLine": 46,
+        "endChar": 75
+      },
+      "revId": "051f56a2f2f89416d16b4b34aacb556b41761ea7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
