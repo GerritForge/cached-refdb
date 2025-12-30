@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfa0673_228559c7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T10:39:43Z",
+      "side": 0,
+      "message": "This should be preserved: we want to avoid to have the cost of calculating the full reverse lookup for every new object-id.\n\nIf we do do the ref-map preload, then we will use the delegate\u0027s implementation that simply performs a full scanning.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "664852b3e2526754d31557b8b6f55fa2d8381a48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d5c67a1_e73965a3",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T10:39:43Z",
+      "side": 0,
+      "message": "This must be preserved.",
+      "range": {
+        "startLine": 202,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 24
+      },
+      "revId": "664852b3e2526754d31557b8b6f55fa2d8381a48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

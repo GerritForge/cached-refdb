@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c335338_35081cfc",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T10:39:43Z",
+      "side": 1,
+      "message": "We should also update the objectId -\u003e refs cache if the entry was absent.",
+      "range": {
+        "startLine": 104,
+        "startChar": 43,
+        "endLine": 104,
+        "endChar": 87
+      },
+      "revId": "808fb5680b587acd1a35f4254608bddd79fedde4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ff4e46_c3c52108",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T10:39:43Z",
+      "side": 1,
+      "message": "This is incorrect as the non-cached value is never remembered in cache.\nWe should use a computeIfAbsent on the objectId -\u003e refs cache.",
+      "range": {
+        "startLine": 194,
+        "startChar": 43,
+        "endLine": 194,
+        "endChar": 65
+      },
+      "revId": "808fb5680b587acd1a35f4254608bddd79fedde4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81917ce3_0dc11807",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T10:39:43Z",
+      "side": 1,
+      "message": "This is incorrect: the cache loading should be responsible to get the value form the delegate.",
+      "range": {
+        "startLine": 195,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 74
+      },
+      "revId": "808fb5680b587acd1a35f4254608bddd79fedde4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
