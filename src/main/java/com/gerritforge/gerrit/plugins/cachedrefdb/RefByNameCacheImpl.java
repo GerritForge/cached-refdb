@@ -45,7 +45,7 @@ class RefByNameCacheImpl implements RefByNameCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
+        cache(REF_BY_NAME, RefsByNameKey.class, new TypeLiteral<Optional<Ref>>() {});
         cache(REFS_BY_OBJECT_ID, RefsByObjectIdKey.class, new TypeLiteral<Set<Ref>>() {});
       }
     };
@@ -53,12 +53,14 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   public record RefsByObjectIdKey(Project.NameKey projectNameKey, ObjectId objectId) {}
 
-  private final Cache<String, Optional<Ref>> refByName;
+  public record RefsByNameKey(Project.NameKey projectNameKey, String refName) {}
+
+  private final Cache<RefsByNameKey, Optional<Ref>> refByName;
   private final Cache<RefsByObjectIdKey, Set<Ref>> refsByObjectIdCache;
 
   @Inject
   RefByNameCacheImpl(
-      @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
+      @Named(REF_BY_NAME) Cache<RefsByNameKey, Optional<Ref>> refByName,
       @Named(REFS_BY_OBJECT_ID) Cache<RefsByObjectIdKey, Set<Ref>> refsByObjectIdCache) {
     this.refByName = refByName;
     this.refsByObjectIdCache = refsByObjectIdCache;
@@ -66,8 +68,8 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    String uniqueRefName = getUniqueName(identifier, ref);
+      String projectName, String ref, Callable<? extends Optional<Ref>> loader) {
+    RefsByNameKey uniqueRefName = new RefsByNameKey(CachedProjectsNames.nameKey(projectName), ref);
     try {
       return refByName.get(uniqueRefName, loader).orElse(null);
     } catch (ExecutionException e) {
@@ -77,15 +79,14 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
-  public void evict(String identifier, String ref) {
-    refByName.invalidate(getUniqueName(identifier, ref));
+  public void evict(String projectName, String ref) {
+    refByName.invalidate(new RefsByNameKey(CachedProjectsNames.nameKey(projectName), ref));
   }
 
   @Override
-  public List<Ref> all(String identifier) {
-    String prefix = prefix(identifier);
+  public List<Ref> all(String projectName) {
     return existingRefs()
-        .filter(e -> e.getKey().startsWith(prefix))
+        .filter(e -> e.getKey().projectNameKey.get().equals(projectName))
         .map(Map.Entry::getValue)
         .map(Optional::get)
         .collect(Collectors.toList());
@@ -93,8 +94,7 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public boolean hasRefs(String identifier) {
-    String prefix = prefix(identifier);
-    return existingRefs().anyMatch(e -> e.getKey().startsWith(prefix));
+    return existingRefs().anyMatch(e -> e.getKey().projectNameKey.get().equals(identifier));
   }
 
   @Override
@@ -103,7 +103,7 @@ class RefByNameCacheImpl implements RefByNameCache {
     checkNotNull(oid);
 
     try {
-      RefsByObjectIdKey key = new RefsByObjectIdKey(Project.nameKey(projectName), oid);
+      RefsByObjectIdKey key = new RefsByObjectIdKey(CachedProjectsNames.nameKey(projectName), oid);
 
       Set<Ref> existing = refsByObjectIdCache.get(key, ConcurrentHashMap::newKeySet);
       existing.add(ref);
@@ -112,7 +112,7 @@ class RefByNameCacheImpl implements RefByNameCache {
     }
   }
 
-  private Stream<Entry<String, Optional<Ref>>> existingRefs() {
+  private Stream<Entry<RefsByNameKey, Optional<Ref>>> existingRefs() {
     return refByName.asMap().entrySet().stream().filter(e -> e.getValue().isPresent());
   }
 
@@ -122,13 +122,5 @@ class RefByNameCacheImpl implements RefByNameCache {
       throws ExecutionException {
     RefsByObjectIdKey key = new RefsByObjectIdKey(Project.nameKey(projectName), objectId);
     return refsByObjectIdCache.get(key, loader);
-  }
-
-  private static String getUniqueName(String identifier, String ref) {
-    return String.format("%s$%s", identifier, ref);
-  }
-
-  private static String prefix(String identifier) {
-    return identifier + "$";
   }
 }
