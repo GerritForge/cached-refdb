@@ -94,7 +94,13 @@ class RefRenameWithCacheUpdate extends RefRename {
     Result r = delegate.rename();
     if (SUCCESSFUL_RENAMES.contains(r)) {
       refsCache.evict(repo.getProjectName(), src.getName());
+      if (src.getRef() != null) {
+        refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), src.getRef());
+      }
       refsCache.evict(repo.getProjectName(), dst.getName());
+      if (dst.getRef() != null) {
+        refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), dst.getRef());
+      }
       repo.exactRef(src.getName());
       repo.exactRef(dst.getName());
     }
