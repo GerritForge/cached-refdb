@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a435659_cb45560a",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03c1e8f1_b29437d9",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 17
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ea9b300_57d09eba",
@@ -61,6 +85,30 @@
       "writtenOn": "2025-12-30T22:39:04Z",
       "side": 1,
       "message": "If we don\u0027t have any refs for `id`, that means that there are *no refs* pointing to it, and therefore we should return the empty ref.\n\nI would be shocked if a full scan would return something.\n\n```suggestion\n          () -\u003e ConcurrentHashMap::newKeySet);\n```",
+      "range": {
+        "startLine": 211,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 11
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae952d05_97338864",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea9b300_57d09eba",
       "range": {
         "startLine": 211,
         "startChar": 16,
@@ -88,6 +136,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "754c0b7c_e369848a",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce3a7dab_dbcd9b70",
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5622f86_e3b7c1bb",
@@ -101,6 +167,30 @@
       "writtenOn": "2025-12-30T22:39:04Z",
       "side": 1,
       "message": "```suggestion\n    for (Ref ref : getAllRefs()) {\n```",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 29
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "090624e1_bc219a5d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5622f86_e3b7c1bb",
       "range": {
         "startLine": 280,
         "startChar": 0,
@@ -134,6 +224,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e113a0fb_a09589c8",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2af0eaa9_86ec6f9a",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 283,
+        "endChar": 29
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d1dc809_38e07f36",
@@ -147,6 +261,30 @@
       "writtenOn": "2025-12-30T22:39:04Z",
       "side": 1,
       "message": "This should be a precondition and we should throw an exception if a ref is pointing to a null object.\n\n\n\n```suggestion\n      ObjectId oid \u003d ref.getObjectId();\n      checkNotNull(oid);\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2287f7fc_1ff08f4b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d1dc809_38e07f36",
       "range": {
         "startLine": 100,
         "startChar": 0,
@@ -180,6 +318,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e266cd_cbecf941",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a2db49d_4124823b",
+      "range": {
+        "startLine": 105,
+        "startChar": 30,
+        "endLine": 105,
+        "endChar": 86
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a335231_ce120fd3",
@@ -193,6 +355,30 @@
       "writtenOn": "2025-12-30T22:39:04Z",
       "side": 1,
       "message": "This is racy: what happens if two concurrent calls are happening for the same key?\nThey will both create two separate sets and then one overwrite the other.\n\n```suggestion\n      Set\u003cRef\u003e existing \u003d refsByObjectIdCache.get(key, ConcurrentHashMap::newKeySet);\n      existing.add(ref);\n```",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e53a7f7_5558ed24",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a335231_ce120fd3",
       "range": {
         "startLine": 106,
         "startChar": 0,
@@ -226,6 +412,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa470521_4012de67",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b9c268f_9f5b45d6",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddc056d9_1a25d50c",
@@ -249,6 +459,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68c05a2e_2bae70bf",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddc056d9_1a25d50c",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab929c66_648bb2fe",
@@ -262,6 +496,30 @@
       "writtenOn": "2025-12-30T22:39:04Z",
       "side": 1,
       "message": "Move it after L234 and use the `Ref` obtained by the `exactRef`",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 7
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65eca89b_387cafdd",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-30T22:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab929c66_648bb2fe",
       "range": {
         "startLine": 230,
         "startChar": 0,
