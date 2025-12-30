@@ -179,7 +179,8 @@ public class CachedRefRepositoryIT {
     private int cacheCalled;
 
     private TestRefByNameCacheImpl(
-        Cache<String, Optional<Ref>> refByName, Cache<RefsByObjectIdKey, Set<Ref>> refeByObjectId) {
+        Cache<RefsByNameKey, Optional<Ref>> refByName,
+        Cache<RefsByObjectIdKey, Set<Ref>> refeByObjectId) {
       super(refByName, refeByObjectId);
       cacheCalled = 0;
     }
