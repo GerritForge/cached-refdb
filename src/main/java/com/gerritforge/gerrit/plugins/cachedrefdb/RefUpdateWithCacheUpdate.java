@@ -224,14 +224,11 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     return r;
   }
 
-  private Result evictCacheAndReload(Result r) {
+  private Result evictCacheAndReload(Result r) throws IOException {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       evictCache(r);
-      try {
-        refDb.exactRef(getName());
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      Ref ref = refDb.exactRef(getName());
+      refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
     }
     return r;
   }

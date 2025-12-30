@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -176,8 +177,9 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
                 String refName = cmd.getRefName();
                 refsCache.evict(repo.getProjectName(), refName);
                 try {
-                  repo.exactRef(refName);
-                } catch (IOException e) {
+                  Ref ref = repo.exactRef(refName);
+                  refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
+                } catch (Exception e) {
                   throw new RuntimeException(e);
                 }
               }

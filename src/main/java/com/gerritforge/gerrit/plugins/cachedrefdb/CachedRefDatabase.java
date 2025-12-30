@@ -11,11 +11,10 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
@@ -29,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,8 +53,8 @@ class CachedRefDatabase extends RefDatabase {
   private final RefRenameWithCacheUpdate.Factory renameFactory;
   private final RefDatabase delegate;
   private final CachedRefRepository repo;
-  /** Contains all refs. */
-  private SetMultimap<ObjectId, Ref> refsByObjectId;
+
+  private final AtomicBoolean refMapsInitialized = new AtomicBoolean(false);
 
   @Inject
   CachedRefDatabase(
@@ -107,7 +109,15 @@ class CachedRefDatabase extends RefDatabase {
         name,
         () -> {
           Optional<Ref> ref = Optional.ofNullable(delegate.exactRef(name));
-          ref.ifPresent(r -> refsByObjectId.put(r.getObjectId(), r));
+          ref.ifPresent(
+              r -> {
+                try {
+                  refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), r);
+                } catch (IOException e) {
+                  logger.atSevere().withCause(e).log(
+                      "Unable to load ref %s into project %s", r, repo.getProjectName());
+                }
+              });
           return ref;
         });
   }
@@ -200,12 +210,20 @@ class CachedRefDatabase extends RefDatabase {
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
     lazilyInitRefMaps();
-    return refsByObjectId.get(id);
+    try {
+      return refsCache.getRefsForObjectId(repo.getProjectName(), id, ConcurrentHashMap::newKeySet);
+    } catch (ExecutionException e) {
+      throw new IOException(
+          String.format(
+              "Could not compute getTipsWithSha1 for objectId:[%s] in repo:[%s]",
+              id, repo.getProjectName()),
+          e);
+    }
   }
 
   @Override
   public boolean hasFastTipsWithSha1() throws IOException {
-    return delegate.hasFastTipsWithSha1();
+    return true;
   }
 
   @Override
@@ -230,7 +248,7 @@ class CachedRefDatabase extends RefDatabase {
             repo.getProjectName(),
             ref.getName(),
             () -> {
-              refsByObjectId.put(ref.getObjectId(), ref);
+              refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
               return Optional.of(ref);
             });
       }
@@ -248,17 +266,17 @@ class CachedRefDatabase extends RefDatabase {
     return refs;
   }
 
-  private void lazilyInitRefMaps() {
-    if (refsByObjectId != null) {
+  private void lazilyInitRefMaps() throws IOException {
+    if (!refMapsInitialized.compareAndSet(false, true)) {
       return;
     }
 
-    refsByObjectId = MultimapBuilder.hashKeys().hashSetValues().build();
-    List<Ref> allRefs = getAllRefs();
-    for (Ref ref : allRefs) {
-      ObjectId objectId = ref.getObjectId();
-      if (objectId != null) {
-        refsByObjectId.put(objectId, ref);
+    logger.atFine().log("[FULL SCAN TRIGGERED] Lazy init for repo:[%s].", repo.getProjectName());
+
+    for (Ref ref : getAllRefs()) {
+      if (!ref.isSymbolic()) {
+        checkNotNull(ref.getObjectId());
+        refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
       }
     }
   }

@@ -14,9 +14,13 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
@@ -48,6 +52,18 @@ class RefByNameCacheWrapper implements RefByNameCache {
   @Override
   public boolean hasRefs(String identifier) {
     return cache.hasRefs(identifier);
+  }
+
+  @Override
+  public void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) throws IOException {
+    cache.updateRefsByObjectIdCacheIfNeeded(projectName, ref);
+  }
+
+  @Override
+  public Set<Ref> getRefsForObjectId(
+      String projectName, ObjectId objectId, Callable<? extends Set<Ref>> loader)
+      throws ExecutionException {
+    return cache.getRefsForObjectId(projectName, objectId, loader);
   }
 
   @VisibleForTesting
