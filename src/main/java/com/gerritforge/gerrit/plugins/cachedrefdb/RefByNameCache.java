@@ -13,7 +13,10 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 interface RefByNameCache {
@@ -24,4 +27,14 @@ interface RefByNameCache {
   List<Ref> all(String identifier);
 
   boolean hasRefs(String identifier);
+
+  default void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  default Set<Ref> getRefsForObjectId(
+      String projectName, ObjectId objectId, Callable<? extends Set<Ref>> loader)
+      throws ExecutionException {
+    throw new UnsupportedOperationException("not implemented");
+  }
 }

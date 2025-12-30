@@ -15,7 +15,9 @@ import com.google.common.flogger.FluentLogger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 class NoOpRefByNameCache implements RefByNameCache {
@@ -46,5 +48,14 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public boolean hasRefs(String identifier) {
     return false;
+  }
+
+  @Override
+  public void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) {}
+
+  @Override
+  public Set<Ref> getRefsForObjectId(
+      String projectName, ObjectId objectId, Callable<? extends Set<Ref>> loader) {
+    return Set.of();
   }
 }
