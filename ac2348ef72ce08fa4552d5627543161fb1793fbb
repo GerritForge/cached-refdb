@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de21380f_cdbdff74",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-12-30T16:26:52Z",
+      "side": 1,
+      "message": "This is never executed unfortunately, `cmd.getRef()` is always null.",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 17
+      },
+      "revId": "ac2348ef72ce08fa4552d5627543161fb1793fbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
