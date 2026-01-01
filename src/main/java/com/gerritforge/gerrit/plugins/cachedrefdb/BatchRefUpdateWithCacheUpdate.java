@@ -178,7 +178,7 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
                 refsCache.evict(repo.getProjectName(), refName);
                 try {
                   Ref ref = repo.exactRef(refName);
-                  refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
+                  refsCache.updateRefsCache(repo.getProjectName(), ref);
                 } catch (Exception e) {
                   throw new RuntimeException(e);
                 }

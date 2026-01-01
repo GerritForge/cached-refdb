@@ -46,12 +46,17 @@ class NoOpRefByNameCache implements RefByNameCache {
   }
 
   @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) {
+    return Collections.emptyList();
+  }
+
+  @Override
   public boolean hasRefs(String identifier) {
     return false;
   }
 
   @Override
-  public void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) {}
+  public void updateRefsCache(String projectName, Ref ref) {}
 
   @Override
   public Set<Ref> getRefsForObjectId(
