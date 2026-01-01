@@ -112,7 +112,7 @@ class CachedRefDatabase extends RefDatabase {
           ref.ifPresent(
               r -> {
                 try {
-                  refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), r);
+                  refsCache.updateRefsCache(repo.getProjectName(), r);
                 } catch (IOException e) {
                   logger.atSevere().withCause(e).log(
                       "Unable to load ref %s into project %s", r, repo.getProjectName());
@@ -189,10 +189,11 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    List<Ref> refs = getAllRefs();
-    return RefDatabase.ALL.equals(prefix)
-        ? refs
-        : refs.stream().filter(r -> r.getName().startsWith(prefix)).collect(toList());
+    if (RefDatabase.ALL.equals(prefix)) {
+      return getAllRefs();
+    }
+
+    return getByPrefix(prefix);
   }
 
   @Override
@@ -248,7 +249,7 @@ class CachedRefDatabase extends RefDatabase {
             repo.getProjectName(),
             ref.getName(),
             () -> {
-              refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
+              refsCache.updateRefsCache(repo.getProjectName(), ref);
               return Optional.of(ref);
             });
       }
@@ -266,6 +267,10 @@ class CachedRefDatabase extends RefDatabase {
     return refs;
   }
 
+  private List<Ref> getByPrefix(String prefix) throws IOException {
+    return refsCache.allByPrefix(repo.getProjectName(), prefix);
+  }
+
   private void lazilyInitRefMaps() throws IOException {
     if (!refMapsInitialized.compareAndSet(false, true)) {
       return;
@@ -276,7 +281,7 @@ class CachedRefDatabase extends RefDatabase {
     for (Ref ref : getAllRefs()) {
       if (!ref.isSymbolic()) {
         checkNotNull(ref.getObjectId());
-        refsCache.updateRefsByObjectIdCacheIfNeeded(repo.getProjectName(), ref);
+        refsCache.updateRefsCache(repo.getProjectName(), ref);
       }
     }
   }

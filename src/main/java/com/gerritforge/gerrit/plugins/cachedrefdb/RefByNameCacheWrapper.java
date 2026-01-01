@@ -50,13 +50,18 @@ class RefByNameCacheWrapper implements RefByNameCache {
   }
 
   @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) throws IOException {
+    return cache.allByPrefix(projectName, prefix);
+  }
+
+  @Override
   public boolean hasRefs(String identifier) {
     return cache.hasRefs(identifier);
   }
 
   @Override
-  public void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) throws IOException {
-    cache.updateRefsByObjectIdCacheIfNeeded(projectName, ref);
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
+    cache.updateRefsCache(projectName, ref);
   }
 
   @Override
