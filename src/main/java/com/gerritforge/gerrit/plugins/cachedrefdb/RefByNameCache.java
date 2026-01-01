@@ -27,9 +27,11 @@ interface RefByNameCache {
 
   List<Ref> all(String identifier);
 
+  List<Ref> allByPrefix(String projectName, String prefix) throws IOException;
+
   boolean hasRefs(String identifier);
 
-  default void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) throws IOException {
+  default void updateRefsCache(String projectName, Ref ref) throws IOException {
     throw new UnsupportedOperationException("not implemented");
   }
 
