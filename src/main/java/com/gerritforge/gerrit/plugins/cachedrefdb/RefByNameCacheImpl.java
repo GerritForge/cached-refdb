@@ -13,23 +13,24 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Splitter;
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
@@ -40,6 +41,7 @@ class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
   public static final String REFS_BY_OBJECT_ID = "refs_by_object_id";
+  private static final String REFS_NAMES_BY_PREFIX = "refs_names_by_prefix";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
@@ -47,6 +49,7 @@ class RefByNameCacheImpl implements RefByNameCache {
       protected void configure() {
         cache(REF_BY_NAME, RefsByNameKey.class, new TypeLiteral<Optional<Ref>>() {});
         cache(REFS_BY_OBJECT_ID, RefsByObjectIdKey.class, new TypeLiteral<Set<Ref>>() {});
+        cache(REFS_NAMES_BY_PREFIX, RefsByPrefixKey.class, new TypeLiteral<Set<String>>() {});
       }
     };
   }
@@ -55,15 +58,20 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   public record RefsByNameKey(Project.NameKey projectNameKey, String refName) {}
 
+  public record RefsByPrefixKey(Project.NameKey projectNameKey, String prefix) {}
+
   private final Cache<RefsByNameKey, Optional<Ref>> refByName;
   private final Cache<RefsByObjectIdKey, Set<Ref>> refsByObjectIdCache;
+  private final Cache<RefsByPrefixKey, Set<String>> refsNamesByPrefix;
 
   @Inject
   RefByNameCacheImpl(
       @Named(REF_BY_NAME) Cache<RefsByNameKey, Optional<Ref>> refByName,
-      @Named(REFS_BY_OBJECT_ID) Cache<RefsByObjectIdKey, Set<Ref>> refsByObjectIdCache) {
+      @Named(REFS_BY_OBJECT_ID) Cache<RefsByObjectIdKey, Set<Ref>> refsByObjectIdCache,
+      @Named(REFS_NAMES_BY_PREFIX) Cache<RefsByPrefixKey, Set<String>> refsNamesByPrefix) {
     this.refByName = refByName;
     this.refsByObjectIdCache = refsByObjectIdCache;
+    this.refsNamesByPrefix = refsNamesByPrefix;
   }
 
   @Override
@@ -81,6 +89,12 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public void evict(String projectName, String ref) {
     refByName.invalidate(new RefsByNameKey(CachedProjectsNames.nameKey(projectName), ref));
+    try {
+      deleteRefFromRefsPrefixesCache(projectName, ref);
+    } catch (ExecutionException e) {
+      logger.atSevere().withCause(e).log(
+          "Unable to remove ref %s from prefixes upon deletion", ref);
+    }
   }
 
   @Override
@@ -93,23 +107,104 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) throws IOException {
+    try {
+      String refPrefix = prefix.startsWith(RefNames.REFS) ? prefix : RefNames.REFS_HEADS + prefix;
+      Set<String> refNames =
+          refsNamesByPrefix.get(
+              new RefsByPrefixKey(CachedProjectsNames.nameKey(projectName), refPrefix),
+              ConcurrentHashMap::newKeySet);
+      List<Ref> refsList =
+          refNames.stream()
+              .map(
+                  refName ->
+                      Optional.ofNullable(
+                              refByName.getIfPresent(
+                                  new RefsByNameKey(
+                                      CachedProjectsNames.nameKey(projectName),
+                                      refPrefix + refName)))
+                          .orElse(Optional.empty()))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+      if (refsList.isEmpty()) {
+        Optional<Ref> maybeRef =
+            Optional.ofNullable(
+                    refByName.getIfPresent(
+                        new RefsByNameKey(CachedProjectsNames.nameKey(projectName), refPrefix)))
+                .orElse(Optional.empty());
+        maybeRef.ifPresent(refsList::add);
+      }
+      return refsList;
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    }
+  }
+
+  @Override
   public boolean hasRefs(String identifier) {
     return existingRefs().anyMatch(e -> e.getKey().projectNameKey.get().equals(identifier));
   }
 
   @Override
-  public void updateRefsByObjectIdCacheIfNeeded(String projectName, Ref ref) throws IOException {
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
     ObjectId oid = ref.getObjectId();
+    String refName = ref.getName();
     checkNotNull(oid);
 
     try {
-      RefsByObjectIdKey key = new RefsByObjectIdKey(CachedProjectsNames.nameKey(projectName), oid);
-
-      Set<Ref> existing = refsByObjectIdCache.get(key, ConcurrentHashMap::newKeySet);
-      existing.add(ref);
+      updateRefsByObjectIdCache(projectName, ref, oid);
+      updateRefsPrefixesCache(projectName, refName);
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
+  }
+
+  private void updateRefsPrefixesCache(String projectName, String refName)
+      throws ExecutionException {
+    forEachRefsListByPrefixesCache(
+        projectName, refName, (prefix, refs) -> refs.add(refName.substring(prefix.length())));
+  }
+
+  private void deleteRefFromRefsPrefixesCache(String projectName, String refName)
+      throws ExecutionException {
+    forEachRefsListByPrefixesCache(
+        projectName, refName, (prefix, refs) -> refs.remove(refName.substring(prefix.length())));
+  }
+
+  @CanIgnoreReturnValue
+  private <T> List<T> forEachRefsListByPrefixesCache(
+      String projectName,
+      String refName,
+      BiFunction<StringBuilder, Set<String>, T> refsByPrefixFunc)
+      throws ExecutionException {
+    List<T> results = new ArrayList<>();
+    if (!refName.startsWith(RefNames.REFS)) {
+      return results;
+    }
+
+    StringBuilder fullPrefix = new StringBuilder(RefNames.REFS);
+    Project.NameKey projectNameKey = CachedProjectsNames.nameKey(projectName);
+    String refPrefixSubstring = refName.substring(RefNames.REFS.length(), refName.lastIndexOf('/'));
+    for (String refPrefix : Splitter.on('/').split(refPrefixSubstring)) {
+      fullPrefix.append(refPrefix);
+      fullPrefix.append('/');
+
+      Set<String> existingRefNames =
+          refsNamesByPrefix.get(
+              new RefsByPrefixKey(projectNameKey, fullPrefix.toString()),
+              ConcurrentHashMap::newKeySet);
+      results.add(refsByPrefixFunc.apply(fullPrefix, existingRefNames));
+    }
+    return results;
+  }
+
+  private void updateRefsByObjectIdCache(String projectName, Ref ref, ObjectId oid)
+      throws ExecutionException {
+    RefsByObjectIdKey key = new RefsByObjectIdKey(CachedProjectsNames.nameKey(projectName), oid);
+
+    Set<Ref> existing = refsByObjectIdCache.get(key, ConcurrentHashMap::newKeySet);
+    existing.add(ref);
   }
 
   private Stream<Entry<RefsByNameKey, Optional<Ref>>> existingRefs() {
@@ -120,7 +215,8 @@ class RefByNameCacheImpl implements RefByNameCache {
   public Set<Ref> getRefsForObjectId(
       String projectName, ObjectId objectId, Callable<? extends Set<Ref>> loader)
       throws ExecutionException {
-    RefsByObjectIdKey key = new RefsByObjectIdKey(CachedProjectsNames.nameKey(projectName), objectId);
+    RefsByObjectIdKey key =
+        new RefsByObjectIdKey(CachedProjectsNames.nameKey(projectName), objectId);
     return refsByObjectIdCache.get(key, loader);
   }
 }
