@@ -1,17 +1,17 @@
 # Plugin to cache Git repository's access to refdb
 
 When [Serialize AccountCache series](https://gerrit-review.googlesource.com/c/gerrit/+/260992)
-was introduced it simplified the cache eviction by always reaching out to JGit
-for data. Unfortunately it comes with
+was introduced it simplified cache evictions by always reaching out to JGit
+for data. Unfortunately it comes with a
 [price](https://bugs.chromium.org/p/gerrit/issues/detail?id=14945)
-which is especially high when *All-Users* repository is accessed through the
+which is especially high when *All-Users* repository is accessed through
 NFS and `core.trustFolderStat = false` is configured in
 `${GERRIT_SITE}/etc/jgit.config` (quite common setup for HA/Multi-Site ens).
 
-This plugin was developed to introduce the in-memory cache (managed by Gerrit
+This plugin was developed to introduce an in-memory cache (managed by Gerrit,
 so that evictions could be coordinated to multiple nodes) that reduces the
-price for reaching to refs in JGit. It is a Gerrit native alternative (that can
-be applied to Gerrit 3.2) to work that is currently under progress for
+price for reaching refs in JGit. It is a Gerrit native alternative (that can
+be applied to Gerrit 3.2 onwards) to work that is currently under progress for
 [caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
 
 ## License
