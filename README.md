@@ -12,7 +12,7 @@ This plugin was developed to introduce an in-memory cache (managed by Gerrit,
 so that evictions could be coordinated to multiple nodes) that reduces the
 price for reaching refs in JGit. It is a Gerrit native alternative (that can
 be applied to Gerrit 3.2 onwards) to work that is currently under progress for
-[caching Refs in JGit](https://git.eclipse.org/r/c/jgit/jgit/+/186205).
+[caching Refs in JGit](https://eclipe.gerrithub.io/c/eclipse-jgit/jgit/+/197557).
 
 ## License
 
