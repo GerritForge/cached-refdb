@@ -11,6 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
@@ -19,4 +21,10 @@ interface RefByNameCache {
   Ref computeIfAbsent(String identifier, String ref, Callable<? extends Optional<Ref>> loader);
 
   void evict(String identifier, String ref);
+
+  List<Ref> allByPrefix(String projectName, String prefix);
+
+  default void updateRefsCache(String projectName, Ref ref) throws IOException {
+    throw new UnsupportedOperationException("not implemented");
+  }
 }

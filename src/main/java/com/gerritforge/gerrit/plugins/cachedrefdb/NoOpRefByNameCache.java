@@ -12,6 +12,8 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
@@ -34,5 +36,15 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     // do nothing as there is no cache to be evicted
+  }
+
+  @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) {
+    return List.of();
+  }
+
+  @Override
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
+    // do nothing as there is no cache to update
   }
 }
