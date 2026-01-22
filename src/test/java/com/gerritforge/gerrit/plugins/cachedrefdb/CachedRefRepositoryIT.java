@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -158,7 +159,9 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
+    cache =
+        new TestRefByNameCacheImpl(
+            CacheBuilder.newBuilder().build(), CacheBuilder.newBuilder().build());
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -174,8 +177,10 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
-      super(refByName);
+    private TestRefByNameCacheImpl(
+        Cache<String, Optional<Ref>> refByName,
+        Cache<RefsByProjectKey, TernarySearchTree<ObjectId>> refsNamesByPrefix) {
+      super(refByName, refsNamesByPrefix);
       cacheCalled = 0;
     }
 
