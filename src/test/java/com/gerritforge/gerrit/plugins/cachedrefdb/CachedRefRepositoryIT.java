@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 
 import com.gerritforge.gerrit.plugins.cachedrefdb.RefByNameCacheImpl.RefByNameLoader;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -27,7 +28,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -161,13 +164,27 @@ public class CachedRefRepositoryIT {
     return tr.getRepository();
   }
 
+  private CacheLoader<
+          RefByNameCacheImpl.RefsByProjectKey, AtomicReference<TernarySearchTree<Object>>>
+      newCacheLoader() {
+    return new CacheLoader<>() {
+
+      @Override
+      public AtomicReference<TernarySearchTree<Object>> load(
+          RefByNameCacheImpl.RefsByProjectKey key) throws Exception {
+        return new AtomicReference<>(new TernarySearchTree<>());
+      }
+    };
+  }
+
   private CachedRefRepository createCachedRepository(Repository repo) throws IOException {
     LocalDiskRepositoryManager repoManager = mock(LocalDiskRepositoryManager.class);
     when(repoManager.openRepository(any())).thenReturn(repo);
 
     cache =
         new TestRefByNameCacheImpl(
-            CacheBuilder.newBuilder().build(new RefByNameLoader(repoManager)));
+            CacheBuilder.newBuilder().build(new RefByNameLoader(repoManager)),
+            CacheBuilder.newBuilder().build(newCacheLoader()));
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -183,8 +200,11 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(LoadingCache<String, Optional<Ref>> refByName) {
-      super(refByName);
+    private TestRefByNameCacheImpl(
+        LoadingCache<String, Optional<Ref>> refByName,
+        LoadingCache<RefsByProjectKey, AtomicReference<TernarySearchTree<Object>>>
+            refsNamesByPrefix) {
+      super(refByName, refsNamesByPrefix);
       cacheCalled = 0;
     }
 
