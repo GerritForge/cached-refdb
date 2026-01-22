@@ -11,13 +11,17 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -30,6 +34,8 @@ class CachedRefDatabase extends RefDatabase {
   interface Factory {
     CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate);
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RefByNameCacheWrapper refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
@@ -150,12 +156,30 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    return delegate.getRefsByPrefix(prefix);
+    try {
+      return refsCache.allByPrefix(repo.getProjectName(), prefix);
+    } catch (ExecutionException e) {
+      logger.atSevere().log(
+          "Cannot load refs from cache for project %s, prefix %s", repo.getProjectName(), prefix);
+      return delegate.getRefsByPrefix(prefix);
+    }
   }
 
   @Override
   public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
-    return delegate.getRefsByPrefix(prefixes);
+    Set<String> uniquePrefixes = new HashSet<>();
+
+    for (String p : prefixes) {
+      if (p != null && !p.isBlank()) {
+        uniquePrefixes.add(p);
+      }
+    }
+
+    List<Ref> result = new ArrayList<>();
+    for (String p : uniquePrefixes) {
+      result.addAll(getRefsByPrefix(p));
+    }
+    return result;
   }
 
   @Override
