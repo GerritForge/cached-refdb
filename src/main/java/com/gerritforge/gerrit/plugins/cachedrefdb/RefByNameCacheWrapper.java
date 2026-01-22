@@ -14,6 +14,8 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
@@ -37,6 +39,16 @@ class RefByNameCacheWrapper implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     cache.evict(identifier, ref);
+  }
+
+  @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) {
+    return cache.allByPrefix(projectName, prefix);
+  }
+
+  @Override
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
+    cache.updateRefsCache(projectName, ref);
   }
 
   @VisibleForTesting
