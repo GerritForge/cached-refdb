@@ -11,8 +11,11 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
@@ -21,8 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -30,6 +38,7 @@ import org.eclipse.jgit.lib.Repository;
 class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
+  private static final String REFS_NAMES_BY_PROJECT = "refs_names_by_project";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
@@ -37,6 +46,11 @@ class RefByNameCacheImpl implements RefByNameCache {
       protected void configure() {
         cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {})
             .loader(RefByNameLoader.class);
+        cache(
+                REFS_NAMES_BY_PROJECT,
+                RefsByProjectKey.class,
+                new TypeLiteral<TernarySearchTree<ObjectId>>() {})
+            .loader(RefsByProjectLoader.class);
       }
     };
   }
@@ -66,9 +80,43 @@ class RefByNameCacheImpl implements RefByNameCache {
     }
   }
 
+  static class RefsByProjectLoader
+      extends CacheLoader<RefsByProjectKey, TernarySearchTree<ObjectId>> {
+
+    private final LocalDiskRepositoryManager repositoryManager;
+
+    @Inject
+    RefsByProjectLoader(LocalDiskRepositoryManager repositoryManager) {
+      this.repositoryManager = repositoryManager;
+    }
+
+    public TernarySearchTree<ObjectId> load(RefsByProjectKey key) throws Exception {
+
+      try (Repository repo = repositoryManager.openRepository(key.projectNameKey); ) {
+        TernarySearchTree<ObjectId> tree = new TernarySearchTree<>();
+        List<Ref> allRefs = repo.getRefDatabase().getRefs();
+        for (Ref ref : allRefs) {
+          tree.insert(ref.getName(), ref.getObjectId());
+        }
+        return tree;
+      } catch (IOException e) {
+        // TODO Silently fails. Is it correct?
+      }
+      return new TernarySearchTree<>();
+    }
+  }
+
+  public record RefsByProjectKey(Project.NameKey projectNameKey) {}
+
+  private final LoadingCache<RefsByProjectKey, TernarySearchTree<ObjectId>> refsNamesByProject;
+
   @Inject
-  RefByNameCacheImpl(@Named(REF_BY_NAME) LoadingCache<String, Optional<Ref>> refByName) {
+  RefByNameCacheImpl(
+      @Named(REF_BY_NAME) LoadingCache<String, Optional<Ref>> refByName,
+      @Named(REFS_NAMES_BY_PROJECT)
+          LoadingCache<RefsByProjectKey, TernarySearchTree<ObjectId>> refsNamesByProject) {
     this.refByName = refByName;
+    this.refsNamesByProject = refsNamesByProject;
   }
 
   @Override
@@ -85,6 +133,64 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     refByName.invalidate(getUniqueName(identifier, ref));
+    // TODO This operation is not atomic, Do we actually need to do this?
+    // TODO What if ref is null? Is it a possible case?
+    RefsByProjectKey refsByProjectKey = new RefsByProjectKey(Project.nameKey(identifier));
+    TernarySearchTree<ObjectId> tree = refsNamesByProject.getIfPresent(refsByProjectKey);
+    if (tree != null) {
+      tree.delete(ref);
+      refsNamesByProject.put(refsByProjectKey, tree);
+    }
+  }
+
+  @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) {
+
+    List<Ref> refsList = List.of();
+    try {
+      TernarySearchTree<ObjectId> tree =
+          refsNamesByProject.get(new RefsByProjectKey(Project.nameKey(projectName)));
+
+      refsList =
+          Streams.stream(tree.getKeysWithPrefix(prefix))
+              .map(this::getMaybeRef)
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+    } catch (ExecutionException e) {
+      // TODO what to do here?
+    }
+    return refsList;
+  }
+
+  private Optional<Ref> getMaybeRef(String refString) {
+    return Optional.ofNullable(refByName.getIfPresent(refString)).orElse(Optional.empty());
+  }
+
+  @Override
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
+    ObjectId oid = ref.getObjectId();
+    String refName = ref.getName();
+    checkNotNull(oid);
+
+    try {
+      updateRefsPrefixesCache(projectName, refName, oid);
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private void updateRefsPrefixesCache(String projectName, String refName, ObjectId oid)
+      throws ExecutionException {
+
+    RefsByProjectKey refsByProjectKey = new RefsByProjectKey(Project.nameKey(projectName));
+    TernarySearchTree<ObjectId> tree = refsNamesByProject.getIfPresent(refsByProjectKey);
+
+    TernarySearchTree<ObjectId> targetTree = tree != null ? tree : new TernarySearchTree<>();
+
+    targetTree.insert(refName, oid);
+
+    refsNamesByProject.put(refsByProjectKey, targetTree);
   }
 
   @Override
