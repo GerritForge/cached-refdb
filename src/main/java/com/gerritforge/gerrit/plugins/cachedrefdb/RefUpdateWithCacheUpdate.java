@@ -149,17 +149,17 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    return evictCacheAndUpdate(delegate.update());
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    return evictCacheAndUpdate(delegate.update());
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    return evictCacheAndUpdate(delegate.update(walk));
   }
 
   @Override
@@ -220,6 +220,15 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result evictCache(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.evict(repo.getProjectName(), getName());
+    }
+    return r;
+  }
+
+  private Result evictCacheAndUpdate(Result r) throws IOException {
+    if (SUCCESSFUL_UPDATES.contains(r)) {
+      refsCache.evict(repo.getProjectName(), getName());
+      refsCache.updateRefsCache(
+          repo.getProjectName(), refsCache.get(repo.getProjectName(), getName()));
     }
     return r;
   }
