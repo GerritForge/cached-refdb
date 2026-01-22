@@ -168,13 +168,16 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   }
 
   private void evictCache() {
-    delegate
-        .getCommands()
-        .forEach(
-            cmd -> {
-              if (cmd.getResult() == ReceiveCommand.Result.OK) {
-                refsCache.evict(repo.getProjectName(), cmd.getRefName());
-              }
-            });
+    for (ReceiveCommand cmd : delegate.getCommands()) {
+      if (cmd.getResult() == ReceiveCommand.Result.OK) {
+        refsCache.evictRefByNameCache(repo.getProjectName(), cmd.getRefName());
+
+        if (cmd.getType() == ReceiveCommand.Type.DELETE) {
+          refsCache.evictFromRefNamesByProjectCache(repo.getProjectName(), cmd.getRefName());
+        } else {
+          refsCache.updateRefsPrefixCache(repo.getProjectName(), cmd.getRefName());
+        }
+      }
+    }
   }
 }
