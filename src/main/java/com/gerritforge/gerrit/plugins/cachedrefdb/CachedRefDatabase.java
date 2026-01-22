@@ -11,6 +11,7 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -31,6 +33,8 @@ class CachedRefDatabase extends RefDatabase {
   interface Factory {
     CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate);
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RefByNameCacheWrapper refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
@@ -87,7 +91,21 @@ class CachedRefDatabase extends RefDatabase {
   @Override
   public Ref exactRef(String name) throws IOException {
     return refsCache.computeIfAbsent(
-        repo.getProjectName(), name, () -> Optional.ofNullable(delegate.exactRef(name)));
+        repo.getProjectName(),
+        name,
+        () -> {
+          Optional<Ref> ref = Optional.ofNullable(delegate.exactRef(name));
+          ref.ifPresent(
+              r -> {
+                try {
+                  refsCache.updateRefsCache(repo.getProjectName(), r);
+                } catch (IOException e) {
+                  logger.atSevere().withCause(e).log(
+                      "Unable to load ref %s into project %s", r, repo.getProjectName());
+                }
+              });
+          return ref;
+        });
   }
 
   @Deprecated
@@ -153,12 +171,24 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    return delegate.getRefsByPrefix(prefix);
+    return refsCache.allByPrefix(repo.getProjectName(), prefix, delegate);
   }
 
   @Override
   public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
-    return delegate.getRefsByPrefix(prefixes);
+    return Stream.of(prefixes)
+        .filter(p -> p != null && !p.isBlank())
+        .distinct()
+        .flatMap(
+            prefix -> {
+              try {
+                return getRefsByPrefix(prefix).stream();
+              } catch (IOException e) {
+                logger.atWarning().withCause(e).log("Failed to read refs for prefix %s", prefix);
+                return Stream.<Ref>empty();
+              }
+            })
+        .toList();
   }
 
   @Override
