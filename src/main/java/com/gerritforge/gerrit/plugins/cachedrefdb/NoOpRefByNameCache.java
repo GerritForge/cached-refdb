@@ -16,6 +16,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -45,5 +46,21 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public void evict(String identifier, String ref) {
     // do nothing as there is no cache to be evicted
+  }
+
+  @Override
+  public List<Ref> allByPrefix(String projectName, String prefix) {
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
+      return repo.getRefDatabase().getRefsByPrefix(prefix);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to read refs for project %s and prefix %s", projectName, prefix);
+      return List.of();
+    }
+  }
+
+  @Override
+  public void updateRefsCache(String projectName, Ref ref) throws IOException {
+    // do nothing as there is no cache to update
   }
 }

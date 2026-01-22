@@ -11,6 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Ref;
 
 interface RefByNameCache {
@@ -19,4 +21,10 @@ interface RefByNameCache {
   void put(String identifier, Ref ref);
 
   void evict(String identifier, String ref);
+
+  List<Ref> allByPrefix(String projectName, String prefix);
+
+  default void updateRefsCache(String projectName, Ref ref) throws IOException {
+    throw new UnsupportedOperationException("not implemented");
+  }
 }
