@@ -3,7 +3,7 @@ Business Source License 1.1 (adapted)
 License text copyright (c) 2020 MariaDB Corporation Ab, All Rights Reserved.
 “Business Source License” is a trademark of MariaDB Corporation Ab.
 
-Licensed Work: Gerrit Enterprise, cached-refdb plugin
+Licensed Work: Gerrit Enterprise, multi-site plugin
 Licensor: GerritForge, Inc.
 License: Business Source License 1.1 ("BSL")
 Change Date: The earlier of (a) four (5) years from the date the Licensed Work version is first made
@@ -30,7 +30,7 @@ materially equivalent to, Gerrit Enterprise or any paid, commercial, or enterpri
 Licensor that includes Gerrit Enterprise; or (2) constitute providing the Licensed Work (or
 substantial portions thereof) to third parties as a service or product that competes with any
 commercial offering from the Licensor in code review, code collaboration, or CI/CD orchestration
-based on Gerrit.
+based on Gerrit; or (3) have a gross annual revenue exceeding 5 million US dollars.
 
 Partners, integrations, extensions, and plugins that do not provide a competing hosted or embedded
 substitute are permitted, including building and distributing integrations, connectors, or plugins,
