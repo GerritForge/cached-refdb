@@ -15,7 +15,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
@@ -29,9 +28,8 @@ class RefByNameCacheWrapper implements RefByNameCache {
   }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache.computeIfAbsent(identifier, ref, loader);
+  public Ref computeIfAbsent(String identifier, String ref) {
+    return cache.computeIfAbsent(identifier, ref);
   }
 
   @Override

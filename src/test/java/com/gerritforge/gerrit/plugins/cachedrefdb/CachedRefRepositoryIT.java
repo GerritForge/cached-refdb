@@ -13,8 +13,9 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,7 +60,8 @@ public class CachedRefRepositoryIT {
 
   @After
   public void tearDown() {
-    // both CachedRefRepository and TestRepository call close on the underlying repo hence single
+    // both CachedRefRepository and TestRepository call close on the underlying repo
+    // hence single
     // close is sufficient
     objectUnderTest.close();
   }
@@ -158,7 +159,7 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader(repo)));
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -174,16 +175,25 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
+    private TestRefByNameCacheImpl(LoadingCache<String, Optional<Ref>> refByName) {
       super(refByName);
       cacheCalled = 0;
     }
 
     @Override
-    public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+    public Ref computeIfAbsent(String identifier, String ref) {
       cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
+      return super.computeIfAbsent(identifier, ref);
     }
+  }
+
+  private CacheLoader<String, Optional<Ref>> newCacheLoader(Repository repo) {
+    return new CacheLoader<>() {
+      @Override
+      public Optional<Ref> load(String key) throws Exception {
+        String ref = key.substring(key.indexOf('$') + 1);
+        return Optional.ofNullable(repo.exactRef(ref));
+      }
+    };
   }
 }

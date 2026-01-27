@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -86,8 +85,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Ref exactRef(String name) throws IOException {
-    return refsCache.computeIfAbsent(
-        repo.getProjectName(), name, () -> Optional.ofNullable(delegate.exactRef(name)));
+    return refsCache.computeIfAbsent(repo.getProjectName(), name);
   }
 
   @Deprecated
@@ -140,8 +138,7 @@ class CachedRefDatabase extends RefDatabase {
   public List<Ref> getRefs() throws IOException {
     List<Ref> allRefs = delegate.getRefs();
     for (Ref ref : allRefs) {
-      refsCache.computeIfAbsent(
-          repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
+      refsCache.computeIfAbsent(repo.getProjectName(), ref.getName());
     }
     return allRefs;
   }
