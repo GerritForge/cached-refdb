@@ -15,6 +15,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
@@ -37,7 +39,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 public class CachedRefRepositoryIT {
-  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+  @Rule
+  public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private TestRepository<Repository> tr;
   private CachedRefRepository objectUnderTest;
@@ -60,7 +63,8 @@ public class CachedRefRepositoryIT {
 
   @After
   public void tearDown() {
-    // both CachedRefRepository and TestRepository call close on the underlying repo hence single
+    // both CachedRefRepository and TestRepository call close on the underlying repo
+    // hence single
     // close is sufficient
     objectUnderTest.close();
   }
@@ -158,32 +162,40 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
-    RefByNameCacheWrapper wrapper =
-        new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
-    CachedRefDatabase.Factory refDbFactory =
-        new CachedRefDatabase.Factory() {
-          @Override
-          public CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate) {
-            return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
-          }
-        };
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader(repo)));
+    RefByNameCacheWrapper wrapper = new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
+    CachedRefDatabase.Factory refDbFactory = new CachedRefDatabase.Factory() {
+      @Override
+      public CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate) {
+        return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
+      }
+    };
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
+    private TestRefByNameCacheImpl(LoadingCache<String, Optional<Ref>> refByName) {
       super(refByName);
       cacheCalled = 0;
     }
 
     @Override
     public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+        String identifier, String ref) {
       cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
+      return super.computeIfAbsent(identifier, ref);
     }
+  }
+
+  private CacheLoader<String, Optional<Ref>> newCacheLoader(Repository repo) {
+    return new CacheLoader<>() {
+      @Override
+      public Optional<Ref> load(String key) throws Exception {
+        String ref = key.substring(key.indexOf('$') + 1);
+        return Optional.ofNullable(repo.exactRef(ref));
+      }
+    };
   }
 }

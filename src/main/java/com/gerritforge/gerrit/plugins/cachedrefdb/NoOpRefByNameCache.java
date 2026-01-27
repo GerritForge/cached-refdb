@@ -21,9 +21,9 @@ class NoOpRefByNameCache implements RefByNameCache {
 
   @Override
   public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+      String identifier, String ref) {
     try {
-      return loader.call().orElse(null);
+      return null;
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Repository '%s', getting ref '%s' failed", identifier, ref);

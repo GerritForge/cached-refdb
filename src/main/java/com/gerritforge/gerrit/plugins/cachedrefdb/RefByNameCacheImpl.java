@@ -12,8 +12,12 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -22,6 +26,9 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+
+import javax.swing.text.html.Option;
 
 @Singleton
 class RefByNameCacheImpl implements RefByNameCache {
@@ -32,24 +39,45 @@ class RefByNameCacheImpl implements RefByNameCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
+        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {}).loader(RefByNameLoader.class);
       }
     };
   }
 
-  private final Cache<String, Optional<Ref>> refByName;
+  private final LoadingCache<String, Optional<Ref>> refByName;
 
   @Inject
-  RefByNameCacheImpl(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
+  RefByNameCacheImpl(@Named(REF_BY_NAME) LoadingCache<String, Optional<Ref>> refByName) {
     this.refByName = refByName;
+  }
+
+  static class RefByNameLoader
+      extends CacheLoader<String, Optional<Ref>> {
+
+    private final LocalDiskRepositoryManager repositoryManager;
+
+    @Inject
+    RefByNameLoader(LocalDiskRepositoryManager repositoryManager) {
+      this.repositoryManager = repositoryManager;
+    }
+
+    @Override
+    public Optional<Ref> load(String key) throws Exception {
+      String[] projectNameAndRef = getProjectFromIdentifier(key);
+      try (Repository repo = repositoryManager.openRepository(Project.nameKey(projectNameAndRef[0])); ) {
+        Ref ref = repo.getRefDatabase().exactRef(projectNameAndRef[1]);
+        return Optional.of(ref);
+      }
+    }
   }
 
   @Override
   public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+      String identifier, String ref) {
     String uniqueRefName = getUniqueName(identifier, ref);
     try {
-      return refByName.get(uniqueRefName, loader).orElse(null);
+      Optional<Ref> maybeRef = refByName.get(uniqueRefName);
+      return maybeRef.orElse(null);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
       return null;
@@ -63,5 +91,9 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   private static String getUniqueName(String identifier, String ref) {
     return String.format("%s$%s", identifier, ref);
+  }
+
+  private static String[] getProjectFromIdentifier(String identifier) {
+    return identifier.split("\\$", 1);
   }
 }

@@ -30,8 +30,8 @@ class RefByNameCacheWrapper implements RefByNameCache {
 
   @Override
   public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache.computeIfAbsent(identifier, ref, loader);
+      String identifier, String ref) {
+    return cache.computeIfAbsent(identifier, ref);
   }
 
   @Override
