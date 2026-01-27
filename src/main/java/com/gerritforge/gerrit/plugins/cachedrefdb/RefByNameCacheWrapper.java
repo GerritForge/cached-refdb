@@ -14,33 +14,35 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
 
+@Singleton
 class RefByNameCacheWrapper implements RefByNameCache {
   private static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
 
-  private final RefByNameCache cache;
+  private final DynamicItem<RefByNameCache> refByNameCache;
 
   @Inject
   RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
-    this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+    this.refByNameCache = refByNameCache;
   }
 
   @Override
   public Ref computeIfAbsent(
       String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache.computeIfAbsent(identifier, ref, loader);
+    return cache().computeIfAbsent(identifier, ref, loader);
   }
 
   @Override
   public void evict(String identifier, String ref) {
-    cache.evict(identifier, ref);
+    cache().evict(identifier, ref);
   }
 
   @VisibleForTesting
   RefByNameCache cache() {
-    return cache;
+    return Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
   }
 }
