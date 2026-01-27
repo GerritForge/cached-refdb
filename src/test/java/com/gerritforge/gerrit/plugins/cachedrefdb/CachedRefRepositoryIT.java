@@ -12,17 +12,26 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import com.google.common.cache.Cache;
+import com.gerritforge.gerrit.plugins.cachedrefdb.RefByNameCacheImpl.RefByNameLoader;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NavigableSet;
 import java.util.Optional;
-import java.util.concurrent.Callable;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -157,10 +166,16 @@ public class CachedRefRepositoryIT {
     return tr.getRepository();
   }
 
-  private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
+  private CachedRefRepository createCachedRepository(Repository repo) throws IOException {
+    LocalDiskRepositoryManager repoManager = mock(LocalDiskRepositoryManager.class);
+    when(repoManager.openRepository(any())).thenReturn(repo);
+
+    cache =
+        new TestRefByNameCacheImpl(
+            CacheBuilder.newBuilder().build(new RefByNameLoader(repoManager)));
     RefByNameCacheWrapper wrapper =
-        new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
+        new RefByNameCacheWrapper(
+            DynamicItem.itemOf(RefByNameCache.class, cache), new NoOpRefByNameCache(repoManager));
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override
@@ -168,22 +183,48 @@ public class CachedRefRepositoryIT {
             return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
           }
         };
+
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, Optional<Ref>> refByName) {
+    private TestRefByNameCacheImpl(LoadingCache<String, Optional<Ref>> refByName) {
       super(refByName);
       cacheCalled = 0;
     }
 
     @Override
-    public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+    public Ref get(String identifier, String ref) {
       cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
+      return super.get(identifier, ref);
     }
+  }
+
+  private GitRepositoryManager newTestGitRepositoryManager(Repository repo) {
+    return new GitRepositoryManager() {
+      @Override
+      public Repository openRepository(NameKey name)
+          throws RepositoryNotFoundException, IOException {
+        return repo;
+      }
+
+      @Override
+      public Repository createRepository(NameKey name)
+          throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public NavigableSet<NameKey> list() {
+        return null;
+      }
+
+      @Override
+      public Status getRepositoryStatus(NameKey name) {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 }
