@@ -16,24 +16,27 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
 class RefByNameCacheWrapper implements RefByNameCache {
-  private static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
-
   private final DynamicItem<RefByNameCache> refByNameCache;
+  private final NoOpRefByNameCache noOpCache;
 
   @Inject
-  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
+  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache, NoOpRefByNameCache noOpCache) {
     this.refByNameCache = refByNameCache;
+    this.noOpCache = noOpCache;
   }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache().computeIfAbsent(identifier, ref, loader);
+  public Ref get(String identifier, String ref) {
+    return cache().get(identifier, ref);
+  }
+
+  @Override
+  public void put(String identifier, Ref ref) {
+    cache().put(identifier, ref);
   }
 
   @Override
@@ -43,6 +46,6 @@ class RefByNameCacheWrapper implements RefByNameCache {
 
   @VisibleForTesting
   RefByNameCache cache() {
-    return Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+    return Optional.ofNullable(refByNameCache.get()).orElse(noOpCache);
   }
 }
