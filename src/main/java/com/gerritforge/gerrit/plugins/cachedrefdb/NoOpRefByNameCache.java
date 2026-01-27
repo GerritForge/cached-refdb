@@ -12,24 +12,35 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
-import java.util.Optional;
-import java.util.concurrent.Callable;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.inject.Inject;
+import java.io.IOException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 class NoOpRefByNameCache implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final LocalDiskRepositoryManager repoManager;
+
+  @Inject
+  NoOpRefByNameCache(LocalDiskRepositoryManager repoManager) {
+    this.repoManager = repoManager;
+  }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    try {
-      return loader.call().orElse(null);
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Repository '%s', getting ref '%s' failed", identifier, ref);
+  public Ref get(String identifier, String ref) {
+    try (Repository repo = repoManager.openRepository(Project.nameKey(identifier))) {
+      return repo.getRefDatabase().exactRef(ref);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to resolve ref %s for project %s", ref, identifier);
+      return null;
     }
-    return null;
   }
+
+  @Override
+  public void put(String identifier, Ref ref) {}
 
   @Override
   public void evict(String identifier, String ref) {

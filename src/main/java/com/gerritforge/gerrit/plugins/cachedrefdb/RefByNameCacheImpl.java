@@ -11,17 +11,20 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 class RefByNameCacheImpl implements RefByNameCache {
@@ -32,26 +35,49 @@ class RefByNameCacheImpl implements RefByNameCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
+        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {})
+            .loader(RefByNameLoader.class);
       }
     };
   }
 
-  private final Cache<String, Optional<Ref>> refByName;
+  private final LoadingCache<String, Optional<Ref>> refByName;
+
+  static class RefByNameLoader extends CacheLoader<String, Optional<Ref>> {
+
+    private final LocalDiskRepositoryManager repositoryManager;
+
+    @Inject
+    RefByNameLoader(LocalDiskRepositoryManager repositoryManager) {
+      this.repositoryManager = repositoryManager;
+    }
+
+    @Override
+    public Optional<Ref> load(String key) throws Exception {
+      String[] projectNameAndRef = parseKey(key);
+      if (projectNameAndRef.length != 2) {
+        throw new IllegalArgumentException("Invalid cache key: " + key);
+      }
+      try (Repository repo =
+          repositoryManager.openRepository(Project.nameKey(projectNameAndRef[0]))) {
+        Ref ref = repo.getRefDatabase().exactRef(projectNameAndRef[1]);
+        return Optional.ofNullable(ref);
+      }
+    }
+  }
 
   @Inject
-  RefByNameCacheImpl(@Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
+  RefByNameCacheImpl(@Named(REF_BY_NAME) LoadingCache<String, Optional<Ref>> refByName) {
     this.refByName = refByName;
   }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    String uniqueRefName = getUniqueName(identifier, ref);
+  public Ref get(String project, String ref) {
     try {
-      return refByName.get(uniqueRefName, loader).orElse(null);
+      Optional<Ref> maybeRef = refByName.get(getUniqueName(project, ref));
+      return maybeRef.orElse(null);
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
+      logger.atWarning().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
       return null;
     }
   }
@@ -61,7 +87,16 @@ class RefByNameCacheImpl implements RefByNameCache {
     refByName.invalidate(getUniqueName(identifier, ref));
   }
 
+  @Override
+  public void put(String project, Ref ref) {
+    refByName.put(getUniqueName(project, ref.getName()), Optional.ofNullable(ref));
+  }
+
   private static String getUniqueName(String identifier, String ref) {
     return String.format("%s$%s", identifier, ref);
+  }
+
+  private static String[] parseKey(String key) {
+    return key.split("\\$", 2);
   }
 }
