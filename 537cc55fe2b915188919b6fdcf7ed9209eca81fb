@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16db68cb_7f495751",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-01-28T08:27:10Z",
+      "side": 1,
+      "message": "We should probably update the `REF_BY_NAME`cache as well.",
+      "revId": "537cc55fe2b915188919b6fdcf7ed9209eca81fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
