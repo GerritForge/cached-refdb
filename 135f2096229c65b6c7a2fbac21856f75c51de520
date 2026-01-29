@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5629b1_1042bc94",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-29T13:18:14Z",
+      "side": 1,
+      "message": "That\u0027s an implementation name: I believe _\"load the module\"_ was more accurate.",
+      "range": {
+        "startLine": 97,
+        "startChar": 25,
+        "endLine": 97,
+        "endChar": 51
+      },
+      "revId": "135f2096229c65b6c7a2fbac21856f75c51de520",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
