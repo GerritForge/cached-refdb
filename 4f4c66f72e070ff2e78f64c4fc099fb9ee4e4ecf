@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58afc7b_0fbee35e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-29T13:07:05Z",
+      "side": 1,
+      "message": "No, this is correct. The libModule *isn\u0027t* a plugin, it\u0027s a part of the core loaded in its lib path.",
+      "revId": "4f4c66f72e070ff2e78f64c4fc099fb9ee4e4ecf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
