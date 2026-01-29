@@ -22,6 +22,30 @@
       },
       "revId": "135f2096229c65b6c7a2fbac21856f75c51de520",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd53d298_1c3df20d",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-01-29T14:32:03Z",
+      "side": 1,
+      "message": "Anything is a module, even CachedGitRepositoryManager is a module. I agree that maybe REF_BY_NAME is too specific, but I think module is too generic.\n\n```suggestion\n\u003e It is possible to just bind the ref_by_name cache using the following two\n```",
+      "parentUuid": "bf5629b1_1042bc94",
+      "range": {
+        "startLine": 97,
+        "startChar": 25,
+        "endLine": 97,
+        "endChar": 51
+      },
+      "revId": "135f2096229c65b6c7a2fbac21856f75c51de520",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
