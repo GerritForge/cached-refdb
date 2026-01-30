@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com any reason why we weren\u0027t using a LoadingCache here?",
       "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7f7d61_2cde2092",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-01-30T14:11:00Z",
+      "side": 1,
+      "message": "can\u0027t remember clearly but I guess to have an option to preload it without reaching to the underlying refdb each time? for instance this [change](https://gerrit-review.googlesource.com/c/modules/cached-refdb/+/341542) sounds like trace of it 🤔",
+      "parentUuid": "34337487_0b189068",
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
