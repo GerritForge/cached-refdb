@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbf37b9f_8f17416a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:18:42Z",
+      "side": 1,
+      "message": "```suggestion\nIt also simplifies interfaces and allows to centralize the management of\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34337487_0b189068",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -32,6 +55,75 @@
       "side": 1,
       "message": "can\u0027t remember clearly but I guess to have an option to preload it without reaching to the underlying refdb each time? for instance this [change](https://gerrit-review.googlesource.com/c/modules/cached-refdb/+/341542) sounds like trace of it 🤔",
       "parentUuid": "34337487_0b189068",
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fad15bee_df529310",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:18:42Z",
+      "side": 1,
+      "message": "Following from the same comment on the previous change, should refsCache be renamed to refsByNameCache?\n\nOr we rename its type.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc74ed7f_7a49272b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:18:42Z",
+      "side": 1,
+      "message": "I know this is the NoOp implementation, but why are we now opening the repository on disk for every call?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 85
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8356f6b4_0c90d1cc",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:18:42Z",
+      "side": 1,
+      "message": "Worth making a record class here? Gives it a bit more structure.\n\nThe handling of any parsing errors should be done in parseKey.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 33
+      },
       "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
