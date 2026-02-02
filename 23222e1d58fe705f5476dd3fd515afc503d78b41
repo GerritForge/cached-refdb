@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258a3319_b44f1f7b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-02T15:49:17Z",
+      "side": 1,
+      "message": "The value of `refs_names_by_project` cache (`ObjectId`) is not used at the moment.\nWe could use `Ref` instead and merge the two caches.\n\n__Pros__:\n- Single cache to maintain (no need to keep in sync between them)\n- No side effects in `RefsByProjectLoader` cache loader (L#106)\n- No explicit cache update in `*RefUpdateWithCacheUpdate` (see for example L#175 of `BatchRefUpdateWithCacheUpdate`)\n\n__Cons__:\n- `refs_names_by_project` has a less granular key (`project-refName` Vs `project`). This might lead to higher concurrency on the keys.\n\nWe could decrese the contention by creating a compound key for `refs_names_by_project` like `project-knownPrefix`, i.e.: `foo$refs/heads`, `foo$refs/tags`, but this might be premature.\n\nWDYT?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
