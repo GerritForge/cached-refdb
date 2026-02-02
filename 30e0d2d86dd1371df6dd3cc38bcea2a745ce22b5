@@ -22,6 +22,30 @@
       },
       "revId": "30e0d2d86dd1371df6dd3cc38bcea2a745ce22b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216cf415_faf96f8b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T09:58:39Z",
+      "side": 1,
+      "message": "This is maybe more relevant for the callers of this class tbf, nonetheless...",
+      "parentUuid": "67ec89bd_4eae38fc",
+      "range": {
+        "startLine": 26,
+        "startChar": 44,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "30e0d2d86dd1371df6dd3cc38bcea2a745ce22b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
