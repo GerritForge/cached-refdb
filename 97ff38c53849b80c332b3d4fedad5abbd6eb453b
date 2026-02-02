@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5aa99e8_636930f9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:46:12Z",
+      "side": 1,
+      "message": "This is a bit weird?\n\nWe\u0027re adding to refsCache in 2 different ways, and the second method is generic about refsCache, rather than specific about refs_names_by_project.\n\nEither we have one method that adds to both or we rename the second method?",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 60
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e949913_ae009684",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:46:12Z",
+      "side": 1,
+      "message": "Should these 2 lines be part of a separate change?\nhave we seen scenarios where this is actually needed?\n\nI feel like we\u0027re trying to do something that really should be responsability of the caller.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 19
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99fe0d0e_b940e248",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:46:12Z",
+      "side": 1,
+      "message": "Interesting type, I\u0027m not sure I\u0027ve ever seen this before? I see it referenced in JGit but doesn\u0027t look like its used?\n\nAny specific reason for going with this?",
+      "range": {
+        "startLine": 53,
+        "startChar": 48,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7281283c_440031d4",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T15:46:12Z",
+      "side": 1,
+      "message": "Should we look to extract loaders in separate files?",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 41
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33cc69f4_364b5d64",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 13
