@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ec89bd_4eae38fc",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-02T09:54:46Z",
+      "side": 1,
+      "message": "Should we call this `refByNameCache`?\n\nWhen we add other caches(like `refByObjectId`) it\u0027ll be clearer what this is.",
+      "range": {
+        "startLine": 26,
+        "startChar": 44,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "30e0d2d86dd1371df6dd3cc38bcea2a745ce22b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
