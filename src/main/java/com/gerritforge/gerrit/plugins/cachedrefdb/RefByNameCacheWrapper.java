@@ -58,7 +58,7 @@ class RefByNameCacheWrapper implements RefByNameCache {
 
   @Override
   public List<Ref> all() {
-    return List.of();
+    return cache().all();
   }
 
   @VisibleForTesting
