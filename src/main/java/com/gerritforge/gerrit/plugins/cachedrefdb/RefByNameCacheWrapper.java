@@ -19,13 +19,11 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
-class RefByNameCacheWrapper implements RefByNameCache {
-
-  private final RefByNameCache cache;
+record RefByNameCacheWrapper(RefByNameCache cache) implements RefByNameCache {
 
   @Inject
-  RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
-    this.cache = refByNameCache.get();
+  RefByNameCacheWrapper(DynamicItem<RefByNameCache> cache) {
+    this(cache.get());
   }
 
   @Override
@@ -69,8 +67,9 @@ class RefByNameCacheWrapper implements RefByNameCache {
     cache.evictFromRefNamesByProjectCache(identifier, refName);
   }
 
+  @Override
   @VisibleForTesting
-  RefByNameCache cache() {
+  public RefByNameCache cache() {
     return cache;
   }
 }
