@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6555f341_1faa3b3c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-03T12:59:06Z",
+      "side": 1,
+      "message": "+1, this is inconsistent. If you ever forget to call one of the two, you\u0027ll end up with an in-memory inconsistency.",
+      "parentUuid": "c5aa99e8_636930f9",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 60
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e949913_ae009684",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
         "patchSetId": 13

@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a85046a_97d7eecb",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-03T12:59:06Z",
+      "side": 1,
+      "message": "If we also update the refs in cache, why not getting the value from the updated SHA1 and put into cache instead of reloading it with a `refsCache.get()`?",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 7
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73040fa8_6ba0cd17",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-03T12:59:06Z",
+      "side": 1,
+      "message": "We are multiplying the work to do here: if the caller is calling with multiple prefixes, expecting to reduce the execution time, we do actually make multiple calls to the single prefix version at L158.\n\nIMHO this should perform a single scan for all prefixes mentioned, rather than multiple scans, one per prefix.",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "258a3319_b44f1f7b",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 14
@@ -19,6 +65,29 @@
         "startChar": 0,
         "endLine": 54,
         "endChar": 47
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a804ea_15ac8cbf",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-03T12:59:06Z",
+      "side": 1,
+      "message": "This is a critical issue: if there are issues in the collection, we just log and return an invalid result.\n\nThe error should be thown and the execution interrupted.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 75
       },
       "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
