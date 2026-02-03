@@ -48,7 +48,8 @@ public class CachedRefRepositoryIT {
 
   private TestRepository<Repository> tr;
   private CachedRefRepository objectUnderTest;
-  private TestRefByNameCacheImpl cache;
+  private TestRefByNameCacheImpl refByNameCache;
+  private NoOpRefsByObjectIdCache refByObjectIdCache;
 
   @Before
   public void setUp() throws IOException {
@@ -181,18 +182,25 @@ public class CachedRefRepositoryIT {
     LocalDiskRepositoryManager repoManager = mock(LocalDiskRepositoryManager.class);
     when(repoManager.openRepository(any())).thenReturn(repo);
 
-    cache =
+    refByNameCache =
         new TestRefByNameCacheImpl(
             CacheBuilder.newBuilder().build(new RefByNameLoader(repoManager)),
             CacheBuilder.newBuilder().build(newCacheLoader()));
-    RefByNameCacheWrapper wrapper =
+    refByObjectIdCache = new NoOpRefsByObjectIdCache();
+    RefByNameCacheWrapper refByNameCacheWrapper =
         new RefByNameCacheWrapper(
-            DynamicItem.itemOf(RefByNameCache.class, cache), new NoOpRefByNameCache(repoManager));
+            DynamicItem.itemOf(RefByNameCache.class, refByNameCache),
+            new NoOpRefByNameCache(repoManager));
+    RefsByObjectIdCacheWrapper refByObjectidWrapper =
+        new RefsByObjectIdCacheWrapper(
+            DynamicItem.itemOf(RefsByObjectIdCache.class, refByObjectIdCache),
+            new NoOpRefsByObjectIdCache());
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override
           public CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate) {
-            return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
+            return new CachedRefDatabase(
+                refByNameCacheWrapper, refByObjectidWrapper, null, null, null, repo, delegate);
           }
         };
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
