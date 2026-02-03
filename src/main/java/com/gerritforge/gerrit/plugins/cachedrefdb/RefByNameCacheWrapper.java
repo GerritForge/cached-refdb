@@ -56,6 +56,11 @@ class RefByNameCacheWrapper implements RefByNameCache {
     cache().updateRefsCache(projectName, ref);
   }
 
+  @Override
+  public List<Ref> all() {
+    return cache().all();
+  }
+
   @VisibleForTesting
   RefByNameCache cache() {
     return Optional.ofNullable(cacheRef.get()).orElse(noOpCache);
