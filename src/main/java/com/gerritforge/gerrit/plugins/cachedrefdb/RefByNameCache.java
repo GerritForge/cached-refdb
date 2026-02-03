@@ -27,4 +27,6 @@ interface RefByNameCache {
   default void updateRefsCache(String projectName, Ref ref) throws IOException {
     throw new UnsupportedOperationException("not implemented");
   }
+
+  List<Ref> all();
 }

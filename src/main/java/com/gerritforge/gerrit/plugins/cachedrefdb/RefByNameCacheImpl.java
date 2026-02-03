@@ -26,6 +26,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -201,6 +202,14 @@ class RefByNameCacheImpl implements RefByNameCache {
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
+  }
+
+  @Override
+  public List<Ref> all() {
+    return refByName.asMap().values().stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
   }
 
   private void updateRefsPrefixesCache(String projectName, String refName, ObjectId oid)
