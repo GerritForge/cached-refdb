@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfe117d8_362d3010",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-03T14:48:14Z",
+      "side": 1,
+      "message": "Do we ever use the `ObjectId` stored in this cache, as value?\nThis will have a significant memory footprint, especially on large repository, for something we never use.\n\nIf this is just an arbitrary value type and the only reason we are using it is to make build `TernarySearchTree\u003c\u003e` why don\u0027t we store a pointer to a static value?\n\nthought?",
+      "range": {
+        "startLine": 105,
+        "startChar": 37,
+        "endLine": 105,
+        "endChar": 54
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3a804ea_15ac8cbf",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 14
@@ -134,6 +157,75 @@
         "startChar": 0,
         "endLine": 197,
         "endChar": 22
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8a346a_b133eb93",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-03T14:48:14Z",
+      "side": 1,
+      "message": "I think we might loose updates here.\n\ntwo threads can do:\n* T1: sees absent, creates A, inserts “x”, puts A\n* T2: sees absent (still), creates B, inserts “y”, puts B\n\nWhichever put() happens last wins\n\n\nShould we not use refsNamesByProject.get(key) and let the loader create the tree, then mutate that returned value? This ensures all threads converge on the same instance for a project.",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 85
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d33b4bd_ba113e95",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-03T14:48:14Z",
+      "side": 1,
+      "message": "this should delegate to `forceUpdate`, not tu `update`",
+      "range": {
+        "startLine": 152,
+        "startChar": 40,
+        "endLine": 152,
+        "endChar": 46
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99c87e2_cb07dfba",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-03T14:48:14Z",
+      "side": 1,
+      "message": "is `evictCacheAndUpdate` called for ref-update deletions? if so, the `refsCache.get(repo.getProjectName(), getName())` will return `null`.\nWe should remove the entry from the ternary tree in this case.",
+      "range": {
+        "startLine": 230,
+        "startChar": 6,
+        "endLine": 230,
+        "endChar": 32
       },
       "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
