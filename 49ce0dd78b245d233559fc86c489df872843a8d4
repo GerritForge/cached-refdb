@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "332ea6a7_863ac5c6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByObjectIdLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-03T13:47:27Z",
+      "side": 1,
+      "message": "Extremely inefficient as we go through ALL the refs of EVERY project just to pick one object id, and also we rely on the other cache, we don\u0027t go to disk.\n\nI believe that at least we should key by project too, so the key would be `project@objectid`",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "49ce0dd78b245d233559fc86c489df872843a8d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
