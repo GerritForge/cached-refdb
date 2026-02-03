@@ -36,6 +36,7 @@ class CachedRefDatabase extends RefDatabase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RefByNameCacheWrapper refsCache;
+  private final RefsByObjectIdCacheWrapper refByObjectId;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
@@ -45,12 +46,14 @@ class CachedRefDatabase extends RefDatabase {
   @Inject
   CachedRefDatabase(
       RefByNameCacheWrapper refsCache,
+      RefsByObjectIdCacheWrapper refByObjectId,
       BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
       @Assisted CachedRefRepository repo,
       @Assisted RefDatabase delegate) {
     this.refsCache = refsCache;
+    this.refByObjectId = refByObjectId;
     this.batchUpdateFactory = batchUpdateFactory;
     this.updateFactory = updateFactory;
     this.renameFactory = renameFactory;
@@ -89,7 +92,9 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Ref exactRef(String name) throws IOException {
-    return refsCache.get(repo.getProjectName(), name);
+    Ref ref = refsCache.get(repo.getProjectName(), name);
+    refByObjectId.put(ref.getObjectId(), ref);
+    return ref;
   }
 
   @Deprecated
@@ -177,7 +182,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
-    return delegate.getTipsWithSha1(id);
+    return refByObjectId.get(id);
   }
 
   @Override
