@@ -203,6 +203,14 @@ class RefByNameCacheImpl implements RefByNameCache {
     }
   }
 
+  @Override
+  public List<Ref> all() {
+    return refByName.asMap().values().stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
+  }
+
   private void updateRefsPrefixesCache(String projectName, String refName, ObjectId oid)
       throws ExecutionException {
 

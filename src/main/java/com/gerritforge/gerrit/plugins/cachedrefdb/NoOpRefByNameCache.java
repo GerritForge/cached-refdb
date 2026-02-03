@@ -63,4 +63,9 @@ class NoOpRefByNameCache implements RefByNameCache {
   public void updateRefsCache(String projectName, Ref ref) throws IOException {
     // do nothing as there is no cache to update
   }
+
+  @Override
+  public List<Ref> all() {
+    return List.of();
+  }
 }
