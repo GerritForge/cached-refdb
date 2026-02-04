@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684033e9_4256cce9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T16:55:20Z",
+      "side": 1,
+      "message": "This is hiding the fact that the operation has failed. You should re-throw the exception, even if that means that you cannot use a `flatMap` anymore.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 43
+      },
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73b3935_960db1b0",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T16:55:20Z",
+      "side": 1,
+      "message": "If you cannot open the repository, then the exception should be propagated upstream and the instantiation must fail.",
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac870f6f_c01cc270",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T16:55:20Z",
+      "side": 1,
+      "message": "Leftover?",
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
