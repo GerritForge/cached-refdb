@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a6cce3_9542eee7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-04T14:14:56Z",
+      "side": 1,
+      "message": "This is a public API, we are not sure about the input parameters.",
+      "parentUuid": "1e949913_ae009684",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 19
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99fe0d0e_b940e248",
@@ -165,6 +189,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c52c4c73_6e6b1862",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-04T14:14:56Z",
+      "side": 1,
+      "message": "I think it is ok to keep them in the cache implementation. Normally when you are looking at the cache implementation you are looking for the loader as well. What would be the advantage of haveing them in a separate file?",
+      "parentUuid": "7281283c_440031d4",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 41
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33cc69f4_364b5d64",
@@ -178,6 +226,30 @@
       "writtenOn": "2026-02-02T15:29:33Z",
       "side": 1,
       "message": "Is this type needed at all? Why not simply use a Project.NameKey?",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 67
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "495a4d11_571985bf",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-04T14:14:56Z",
+      "side": 1,
+      "message": "I am just adding it to make clear is the cache key.\nWe might want to add it for the other caches as well. This will be consistent with the rest of the code.",
+      "parentUuid": "33cc69f4_364b5d64",
       "range": {
         "startLine": 117,
         "startChar": 0,
