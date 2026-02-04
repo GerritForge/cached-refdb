@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de423f6f_c3b0e9d5",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-04T17:18:32Z",
+      "side": 1,
+      "message": "```suggestion\n\u003e This allows users to expose the ref_by_name cache to other plugins without\n```",
+      "range": {
+        "startLine": 106,
+        "startChar": 34,
+        "endLine": 106,
+        "endChar": 45
+      },
+      "revId": "e2df9d3d58693e77ebad2e1e7e3778dbcf43c581",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
