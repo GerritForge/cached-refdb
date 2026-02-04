@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aae1542_33b4a3c2",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T15:28:38Z",
+      "side": 0,
+      "message": "This should never happen: why do we need to check the `null` case if there is always an item associated?",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 77
+      },
+      "revId": "cbe5fadd2bec3a7a01010a2b2a4eb1d35b6f9f7c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
