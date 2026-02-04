@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48c1bea4_19deb71b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T11:54:50Z",
+      "side": 1,
+      "message": "Use the Guava\u0027s way of creating the missing entry in the loader. Here you are *simulating* the loading of missing entries, also introducing concurrency issues as mentioned in https://review.gerrithub.io/c/GerritForge/cached-refdb/+/1229541/comment/4f8a346a_b133eb93/.\n\nUsing Guava\u0027s loader way you have:\n\n- Simpler and clear code\n- No concurrency / consistency issues",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 60
+      },
+      "revId": "b40171c2465fbc6364bbbb3a69a2030dc71af844",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
