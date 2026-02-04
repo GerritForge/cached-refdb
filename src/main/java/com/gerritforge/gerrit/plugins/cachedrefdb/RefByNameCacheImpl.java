@@ -11,11 +11,16 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
@@ -37,6 +42,18 @@ class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
   private static final String REFS_NAMES_BY_PROJECT = "refs_names_by_project";
+
+  private static final BiMap<String, String> COMPRESSED_CACHE_KEY =
+      ImmutableBiMap.of(
+          RefNames.REFS_HEADS, "h",
+          RefNames.REFS_TAGS, "t",
+          RefNames.REFS_CHANGES, "c",
+          RefNames.REFS_META, "m",
+          RefNames.REFS_CONFIG, "o",
+          RefNames.REFS_EXTERNAL_IDS, "e",
+          RefNames.REFS_SEQUENCES, "s",
+          RefNames.REFS_USERS, "u",
+          RefNames.REFS_GROUPS, "g");
 
   private static final Object TREE_VALUE = new Object();
 
@@ -95,21 +112,81 @@ class RefByNameCacheImpl implements RefByNameCache {
     }
 
     public AtomicReference<TernarySearchTree<Object>> load(RefsByProjectKey key) throws Exception {
-
       try (Repository repo = repositoryManager.openRepository(key.projectNameKey); ) {
         TernarySearchTree<Object> tree = new TernarySearchTree<>();
         List<Ref> allRefs = repo.getRefDatabase().getRefs();
+
         for (Ref ref : allRefs) {
-          tree.insert(ref.getName(), TREE_VALUE);
-          refByName.put(
-              getUniqueName(key.projectNameKey.get(), ref.getName()), Optional.ofNullable(ref));
+          String refName = ref.getName();
+          String treeKey = compressKeyOrOriginal(refName);
+          tree.insert(treeKey, TREE_VALUE);
+          refByName.put(getUniqueName(key.projectNameKey.get(), refName), Optional.of(ref));
         }
+
         return new AtomicReference<>(tree);
       } catch (IOException e) {
         logger.atWarning().log("Cannot open repository %s", key.projectNameKey);
       }
       return new AtomicReference<>(new TernarySearchTree<>());
     }
+  }
+
+  /**
+   * Compress a ref/prefix key to shorten the namespace: refs/heads/<x> -> h/<x> refs/heads/ -> h/
+   * refs/heads -> h/ (namespace prefix normalization)
+   *
+   * <p>If the namespace is unknown, returns the original key.
+   */
+  static String compressKeyOrOriginal(String refOrPrefix) {
+    if (ALL.equals(refOrPrefix)) {
+      return refOrPrefix;
+    }
+
+    int first = refOrPrefix.indexOf('/');
+    if (first < 0) {
+      return refOrPrefix;
+    }
+    int second = refOrPrefix.indexOf('/', first + 1);
+
+    final String namespace;
+    final String suffix;
+    if (second < 0) {
+      // Likely a namespace prefix like "refs/heads" (missing trailing '/').
+      namespace = refOrPrefix.endsWith("/") ? refOrPrefix : refOrPrefix + "/";
+      suffix = "";
+    } else {
+      namespace = refOrPrefix.substring(0, second + 1);
+      suffix = refOrPrefix.substring(second + 1);
+    }
+
+    String compressedNamespace = COMPRESSED_CACHE_KEY.get(namespace);
+    if (compressedNamespace == null) {
+      return refOrPrefix;
+    }
+
+    return suffix.isEmpty() ? (compressedNamespace + "/") : (compressedNamespace + "/" + suffix);
+  }
+
+  /**
+   * Uncompress a key produced by {@link #compressKeyOrOriginal(String)}. If the key is not
+   * compressed (or uses an unknown marker), returns it as-is.
+   */
+  static String uncompressKeyIfNeeded(String key) {
+    if (ALL.equals(key)) {
+      return key;
+    }
+
+    // Compressed keys have the shape "<1-letter>/...", for example "h/master"
+    if (key.length() >= 2 && key.charAt(1) == '/') {
+      String compressedNamespace = key.substring(0, 1);
+      String expanded = COMPRESSED_CACHE_KEY.inverse().get(compressedNamespace);
+      if (expanded != null) {
+        // expanded already ends with '/', we append the suffix.
+        return expanded + key.substring(2);
+      }
+    }
+
+    return key;
   }
 
   public record RefsByProjectKey(Project.NameKey projectNameKey) {}
@@ -148,7 +225,9 @@ class RefByNameCacheImpl implements RefByNameCache {
     AtomicReference<TernarySearchTree<Object>> treeRef =
         refsPrefixByProject.get(new RefsByProjectKey(Project.nameKey(projectName)));
 
-    return Streams.stream(treeRef.get().getKeysWithPrefix(prefix))
+    String treePrefix = compressKeyOrOriginal(prefix);
+    return Streams.stream(treeRef.get().getKeysWithPrefix(treePrefix))
+        .map(RefByNameCacheImpl::uncompressKeyIfNeeded)
         .map(ref -> getMaybeRef(projectName, ref))
         .filter(Optional::isPresent)
         .map(Optional::get)
@@ -174,7 +253,7 @@ class RefByNameCacheImpl implements RefByNameCache {
 
       treeRef.getAndUpdate(
           oldTree -> {
-            oldTree.insert(refName, TREE_VALUE);
+            oldTree.insert(compressKeyOrOriginal(refName), TREE_VALUE);
             return oldTree;
           });
     } catch (ExecutionException e) {
@@ -192,7 +271,7 @@ class RefByNameCacheImpl implements RefByNameCache {
           refsPrefixByProject.get(refsByProjectKey);
       treeRef.getAndUpdate(
           oldTree -> {
-            oldTree.delete(refName);
+            oldTree.delete(compressKeyOrOriginal(refName));
             return oldTree;
           });
     } catch (ExecutionException e) {
