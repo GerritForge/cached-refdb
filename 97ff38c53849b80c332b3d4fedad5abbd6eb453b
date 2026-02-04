@@ -118,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e7a08e_578da3dd",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-04T10:56:09Z",
+      "side": 1,
+      "message": "This data type allows an efficient way of retrieving all the prefixes and a simple interface to update the data structure.",
+      "parentUuid": "99fe0d0e_b940e248",
+      "range": {
+        "startLine": 53,
+        "startChar": 48,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "97ff38c53849b80c332b3d4fedad5abbd6eb453b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7281283c_440031d4",
