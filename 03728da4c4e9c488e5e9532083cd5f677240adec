@@ -130,6 +130,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9024d62f_2041a15e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-04T13:32:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f9251385_906ff5b0",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc74ed7f_7a49272b",
@@ -177,6 +201,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a80294_16e5d237",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-04T13:32:54Z",
+      "side": 1,
+      "message": "Yeah, assume this will be covered in the benchmarks we\u0027re already doing anyway.",
+      "parentUuid": "1dd910b8_c114933e",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 85
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8356f6b4_0c90d1cc",
@@ -214,6 +262,30 @@
       "side": 1,
       "message": "Agree, but I wanted to keep the refactoring as small as possible. Happy to do it in a followup change.",
       "parentUuid": "8356f6b4_0c90d1cc",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8501b980_3a346db9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-04T13:32:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "54f0f3aa_8eaa19ec",
       "range": {
         "startLine": 57,
         "startChar": 6,
