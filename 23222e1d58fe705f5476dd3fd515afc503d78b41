@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37d8dd2_d7f1aa30",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-04T15:13:20Z",
+      "side": 1,
+      "message": "As discussed with @luca.milanesio@gmail.com we could do it at lower level, by extending the `TernarySearchTree` and implmenting a `List\u003cRef\u003e getKeysWithPrefixes(String... prefixes)`.\n\nWe could do it in a followup.",
+      "parentUuid": "38bf3afa_2dc35d3d",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "23222e1d58fe705f5476dd3fd515afc503d78b41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "258a3319_b44f1f7b",
