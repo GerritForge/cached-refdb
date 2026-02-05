@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e749416a_76e24cd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T17:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee42bda1_1fe4aa12",
+      "range": {
+        "startLine": 15,
+        "startChar": 71,
+        "endLine": 15,
+        "endChar": 74
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aad1945f_d66e1951",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9bc755f8_914c15e7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T17:59:32Z",
+      "side": 1,
+      "message": "See my comment here: https://review.gerrithub.io/c/GerritForge/cached-refdb/+/1229541/comment/33cc69f4_364b5d64/",
+      "parentUuid": "aad1945f_d66e1951",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 60
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7eff7e5c_38b024e7",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 26
@@ -60,6 +108,30 @@
       "writtenOn": "2026-02-05T17:42:09Z",
       "side": 1,
       "message": "Shouln\u0027t we also log the exception so that we can find out what is going on?",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 29
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abbf1b7_44dd4ab6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T17:59:32Z",
+      "side": 1,
+      "message": "Good point",
+      "parentUuid": "7eff7e5c_38b024e7",
       "range": {
         "startLine": 190,
         "startChar": 6,

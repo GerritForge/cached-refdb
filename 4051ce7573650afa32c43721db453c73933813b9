@@ -45,6 +45,54 @@
       },
       "revId": "4051ce7573650afa32c43721db453c73933813b9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78a92d38_ce2b68ca",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T17:59:32Z",
+      "side": 1,
+      "message": "good catch!",
+      "parentUuid": "e878c324_04fbfaa8",
+      "range": {
+        "startLine": 96,
+        "startChar": 59,
+        "endLine": 96,
+        "endChar": 72
+      },
+      "revId": "4051ce7573650afa32c43721db453c73933813b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e1dd77_99861fad",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T17:59:32Z",
+      "side": 1,
+      "message": "good catch",
+      "parentUuid": "e7a1321c_50bae8d9",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 74
+      },
+      "revId": "4051ce7573650afa32c43721db453c73933813b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
