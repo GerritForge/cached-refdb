@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee42bda1_1fe4aa12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-05T17:42:09Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 15,
+        "startChar": 71,
+        "endLine": 15,
+        "endChar": 74
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad1945f_d66e1951",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-05T17:42:09Z",
+      "side": 1,
+      "message": "What\u0027s the added value of having `RefsByProjectKey` boxing?\nIsn\u0027t projectNameKey enough as a cache-key?",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 60
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eff7e5c_38b024e7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-05T17:42:09Z",
+      "side": 1,
+      "message": "Shouln\u0027t we also log the exception so that we can find out what is going on?",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 29
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3829bad_bbfcd05d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-05T17:42:09Z",
+      "side": 1,
+      "message": "I think `updateCache` might not be a very explicative name here, since the implementation is more subtle: we act only on successful results, we evict one cache (because we don\u0027t have a `value`) to update it with and we update the other one (because we don\u0027t need a value to update it with).\n\nShall we find a more suitable name?\nSomething like `refreshCachesOnSuccessfulUpdate` `syncCachesAfterSuccessfulUpdate`?",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 40
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
