@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ea19068_99a84739",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "684033e9_4256cce9",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 43
+      },
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b73b3935_960db1b0",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a881bd_b43c936f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73b3935_960db1b0",
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac870f6f_c01cc270",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-02-04T16:55:20Z",
       "side": 1,
       "message": "Leftover?",
+      "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3057f0a_ccbb5770",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac870f6f_c01cc270",
       "revId": "e4e7360bcd1bfd04bff40116eb5978612d9b7f9b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
