@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52172e94_bdb76337",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-05T18:06:33Z",
+      "side": 1,
+      "message": "\u003e However, I believe you can still put a value on the cache, even if it\u0027s a loading cache, or am I mistaken?\n\nI have introduced a `put()` method for that purpose.\nIt is used in `getRefs()` as follow:\n\n```\n@Override\npublic List\u003cRef\u003e getRefs() throws IOException {\n  List\u003cRef\u003e allRefs \u003d delegate.getRefs();\n  for (Ref ref : allRefs) {\n    refsCache.put(repo.getProjectName(), ref);\n  }\n  return allRefs;\n}\n\n```",
+      "parentUuid": "7c64c761_cf529f75",
+      "revId": "03728da4c4e9c488e5e9532083cd5f677240adec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fad15bee_df529310",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
         "patchSetId": 9
