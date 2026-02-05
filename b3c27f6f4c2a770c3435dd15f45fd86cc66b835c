@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3f11caf_cc8678da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-05T18:10:52Z",
+      "side": 1,
+      "message": "You should also mention the introduction of the `put()` method.",
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
