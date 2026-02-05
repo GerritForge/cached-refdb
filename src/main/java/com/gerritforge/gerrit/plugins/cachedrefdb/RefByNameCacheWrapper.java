@@ -19,13 +19,12 @@ import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
 
 class RefByNameCacheWrapper implements RefByNameCache {
-  private static final RefByNameCache NOOP_CACHE = new NoOpRefByNameCache();
 
   private final RefByNameCache cache;
 
   @Inject
   RefByNameCacheWrapper(DynamicItem<RefByNameCache> refByNameCache) {
-    this.cache = Optional.ofNullable(refByNameCache.get()).orElse(NOOP_CACHE);
+    this.cache = refByNameCache.get();
   }
 
   @Override
