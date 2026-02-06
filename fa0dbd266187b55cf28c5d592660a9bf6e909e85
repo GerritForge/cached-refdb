@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299b799b_1288f9b9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T14:52:29Z",
+      "side": 1,
+      "message": "```suggestion\n  default void evictFromRefNameByProjectCache(String identifier, String refName) {\n```\n\nNo?",
+      "range": {
+        "startLine": 32,
+        "startChar": 15,
+        "endLine": 32,
+        "endChar": 40
+      },
+      "revId": "fa0dbd266187b55cf28c5d592660a9bf6e909e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb40498_4b998c1f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T14:52:29Z",
+      "side": 1,
+      "message": "```suggestion\n  private static final String REF_NAMES_BY_PROJECT \u003d \"ref_names_by_project\";\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "fa0dbd266187b55cf28c5d592660a9bf6e909e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63298912_e8a6ce51",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T14:52:29Z",
+      "side": 1,
+      "message": "```suggestion\n    this.refNamesByProject \u003d refNamesByProject;\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "fa0dbd266187b55cf28c5d592660a9bf6e909e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f04c49_da34eff2",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T14:52:29Z",
+      "side": 1,
+      "message": "```suggestion\n  static class RefNamesByProjectLoader\n```\n\nYou\u0027re loading the ref names, the fact that we\u0027re then filtering those by prefix is a different thing, no? The key is still the full name of the ref AFAIU.",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 31
+      },
+      "revId": "fa0dbd266187b55cf28c5d592660a9bf6e909e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
