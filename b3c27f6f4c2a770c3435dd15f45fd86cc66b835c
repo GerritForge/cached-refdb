@@ -34,6 +34,75 @@
       "parentUuid": "f3f11caf_cc8678da",
       "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80c6fd50_c41d7fb6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:38:40Z",
+      "side": 1,
+      "message": "Should we actually call `getAll` rather than `put` here? It would then call loadAll in the cacheLoader for those elements that aren\u0027t already in the cache, which would allow us to open the repositoryManager only once per repo, rather than once per ref.",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf663d09_bc7b6007",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:38:40Z",
+      "side": 1,
+      "message": "Do we want to throw a non-implemented exception? Or do we automatically fall back to the binded RefDatabase?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 48
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec90737_d6eaf830",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:38:40Z",
+      "side": 1,
+      "message": "As per comment above, if we implement getAll then we could implement loadAll, which means we\u0027d need to open the repository manager only once per repo, and not once per ref.",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
