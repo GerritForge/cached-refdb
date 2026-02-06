@@ -16,6 +16,24 @@
       "message": "You should also mention the introduction of the `put()` method.",
       "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36be81e5_c785e4d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:26:12Z",
+      "side": 1,
+      "message": "Isn\u0027t that an implementation details that falls under the fact that we\u0027ve switched to LoadingCache? If not, we should also mention the introduction of get, the removal of computeIfAbsent, etc...",
+      "parentUuid": "f3f11caf_cc8678da",
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
