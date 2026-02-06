@@ -59,6 +59,53 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b6f78e_20cf6e67",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:50:41Z",
+      "side": 1,
+      "message": "Ignore me, I got confused with get.",
+      "parentUuid": "80c6fd50_c41d7fb6",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cbcc2a3_64908cf5",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:50:41Z",
+      "side": 1,
+      "message": "We could use putAll?",
+      "range": {
+        "startLine": 141,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf663d09_bc7b6007",
@@ -95,6 +142,30 @@
       "writtenOn": "2026-02-06T13:38:40Z",
       "side": 1,
       "message": "As per comment above, if we implement getAll then we could implement loadAll, which means we\u0027d need to open the repository manager only once per repo, and not once per ref.",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9799492a_010f3c2a",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-06T13:50:41Z",
+      "side": 1,
+      "message": "Ignore me.",
+      "parentUuid": "9ec90737_d6eaf830",
       "range": {
         "startLine": 61,
         "startChar": 6,
