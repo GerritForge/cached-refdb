@@ -106,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ad09b1_4ea65c2e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-06T14:25:26Z",
+      "side": 1,
+      "message": "It doesn\u0027t make any difference in term of performance, so I think using `put` is fine [1].\n\n[1]: https://javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/2.9.0/com/github/benmanes/caffeine/cache/Cache.html#putAll-java.util.Map-",
+      "parentUuid": "1cbcc2a3_64908cf5",
+      "range": {
+        "startLine": 141,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "b3c27f6f4c2a770c3435dd15f45fd86cc66b835c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf663d09_bc7b6007",
