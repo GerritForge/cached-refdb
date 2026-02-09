@@ -14,6 +14,8 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -39,7 +41,30 @@ class NoOpRefByNameCache implements RefByNameCache {
   public void put(String identifier, Ref ref) {}
 
   @Override
-  public void evict(String identifier, String ref) {
-    // do nothing as there is no cache to be evicted
+  public List<Ref> allByPrefix(String projectName, String prefix, RefDatabase delegate)
+      throws ExecutionException {
+    try {
+      return delegate.getRefsByPrefix(prefix);
+    } catch (IOException e) {
+      throw new ExecutionException(e);
+    }
   }
+
+  @Override
+  public List<Ref> all(String projectName, RefDatabase delegate) throws ExecutionException {
+    try {
+      return delegate.getRefs();
+    } catch (IOException e) {
+      throw new ExecutionException(e);
+    }
+  }
+
+  @Override
+  public void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException {}
+
+  @Override
+  public void updateRef(String identifier, String refName, RefDatabase delete) {}
+
+  @Override
+  public void evict(String identifier, String refName) {}
 }
