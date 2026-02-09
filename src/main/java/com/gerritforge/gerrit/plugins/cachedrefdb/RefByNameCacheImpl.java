@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 
 @Singleton
 class RefByNameCacheImpl implements RefByNameCache {
@@ -45,15 +46,27 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    String uniqueRefName = getUniqueName(identifier, ref);
+  public Ref get(String project, String ref, RefDatabase delegate) {
+    String key = getUniqueName(project, ref);
     try {
-      return refByName.get(uniqueRefName, loader).orElse(null);
+      Optional<Ref> maybeRef =
+          refByName.get(
+              key, (Callable<Optional<Ref>>) () -> Optional.ofNullable(delegate.exactRef(ref)));
+      return maybeRef.orElse(null);
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Getting ref for [%s] failed.", uniqueRefName);
+      logger.atWarning().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
       return null;
     }
+  }
+
+  @Override
+  public boolean containsKey(String project, String ref) {
+    return refByName.asMap().containsKey(getUniqueName(project, ref));
+  }
+
+  @Override
+  public void put(String project, Ref ref) {
+    refByName.put(getUniqueName(project, ref.getName()), Optional.ofNullable(ref));
   }
 
   @Override

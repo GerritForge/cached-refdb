@@ -22,7 +22,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -180,10 +179,9 @@ public class CachedRefRepositoryIT {
     }
 
     @Override
-    public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+    public Ref get(String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
+      return super.get(identifier, ref, delegate);
     }
   }
 }

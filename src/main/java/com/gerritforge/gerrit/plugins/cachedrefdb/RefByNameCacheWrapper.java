@@ -14,9 +14,8 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
-import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 
 class RefByNameCacheWrapper implements RefByNameCache {
 
@@ -28,9 +27,18 @@ class RefByNameCacheWrapper implements RefByNameCache {
   }
 
   @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
-    return cache.computeIfAbsent(identifier, ref, loader);
+  public Ref get(String identifier, String ref, RefDatabase delegate) {
+    return cache.get(identifier, ref, delegate);
+  }
+
+  @Override
+  public boolean containsKey(String identifier, String ref) {
+    return cache.containsKey(identifier, ref);
+  }
+
+  @Override
+  public void put(String identifier, Ref ref) {
+    cache.put(identifier, ref);
   }
 
   @Override
