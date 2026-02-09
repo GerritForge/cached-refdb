@@ -13,6 +13,7 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.EnumSet;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -149,32 +150,32 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    return refreshCachesOnSuccessfulUpdate(delegate.forceUpdate());
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    return refreshCachesOnSuccessfulUpdate(delegate.update());
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    return refreshCachesOnSuccessfulUpdate(delegate.update(walk));
   }
 
   @Override
   public Result delete() throws IOException {
-    return evictCache(delegate.delete());
+    return evictCacheOnSuccessfulUpdate(delegate.delete());
   }
 
   @Override
   public Result delete(RevWalk walk) throws IOException {
-    return evictCache(delegate.delete(walk));
+    return evictCacheOnSuccessfulUpdate(delegate.delete(walk));
   }
 
   @Override
   public Result link(String target) throws IOException {
-    return evictCache(delegate.link(target));
+    return refreshCachesOnSuccessfulUpdate(delegate.link(target));
   }
 
   @Override
@@ -217,9 +218,23 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     throw new UnsupportedOperationException(NOT_SUPPORTED_MSG);
   }
 
-  private Result evictCache(Result r) {
+  private Result evictCacheOnSuccessfulUpdate(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.evict(repo.getProjectName(), getName());
+      refsCache.evictRefByNameCache(repo.getProjectName(), getName());
+      refsCache.deleteRefInPrefixesByProjectCache(repo.getProjectName(), getName());
+    }
+    return r;
+  }
+
+  private Result refreshCachesOnSuccessfulUpdate(Result r) {
+    if (SUCCESSFUL_UPDATES.contains(r)) {
+      refsCache.evictRefByNameCache(repo.getProjectName(), getName());
+      try {
+        refsCache.updateRefInPrefixesByProjectCache(
+            repo.getProjectName(), repo.exactRef(getName()));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
     }
     return r;
   }

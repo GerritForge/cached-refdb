@@ -11,6 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -21,5 +23,16 @@ interface RefByNameCache {
 
   void put(String identifier, Ref ref);
 
-  void evict(String identifier, String ref);
+  void evictRefByNameCache(String identifier, String ref);
+
+  List<Ref> allByPrefix(String identifier, String prefix, RefDatabase delegate)
+      throws ExecutionException;
+
+  List<Ref> all(String identifier, RefDatabase delegate) throws ExecutionException;
+
+  void updateRefInPrefixesByProjectCache(String identifier, Ref ref);
+
+  void updateRefInPrefixesByProjectCache(String identifier, String refName, RefDatabase delegate);
+
+  void deleteRefInPrefixesByProjectCache(String identifier, String refName);
 }
