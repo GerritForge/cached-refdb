@@ -180,10 +180,10 @@ public class CachedRefRepositoryIT {
     }
 
     @Override
-    public Ref computeIfAbsent(
-        String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+    public Ref get(
+        String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
-      return super.computeIfAbsent(identifier, ref, loader);
+      return super.get(identifier, ref, delegate);
     }
   }
 }

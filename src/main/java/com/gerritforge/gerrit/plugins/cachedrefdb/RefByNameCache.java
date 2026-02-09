@@ -11,12 +11,13 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import java.util.Optional;
-import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 
 interface RefByNameCache {
-  Ref computeIfAbsent(String identifier, String ref, Callable<? extends Optional<Ref>> loader);
+  Ref get(String identifier, String ref, RefDatabase delegate);
+
+  void put(String identifier, Ref ref);
 
   void evict(String identifier, String ref);
 }

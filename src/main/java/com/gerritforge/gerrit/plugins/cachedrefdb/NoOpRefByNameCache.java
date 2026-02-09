@@ -12,24 +12,28 @@
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.flogger.FluentLogger;
-import java.util.Optional;
-import java.util.concurrent.Callable;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 
 class NoOpRefByNameCache implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @Override
-  public Ref computeIfAbsent(
-      String identifier, String ref, Callable<? extends Optional<Ref>> loader) {
+  public Ref get(String identifier, String ref, RefDatabase delegate) {
     try {
-      return loader.call().orElse(null);
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Repository '%s', getting ref '%s' failed", identifier, ref);
+      return delegate.exactRef(ref);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to resolve ref %s for project %s", ref, identifier);
+      throw new UncheckedIOException(e);
     }
-    return null;
   }
+
+  @Override
+  public void put(String identifier, Ref ref) {}
 
   @Override
   public void evict(String identifier, String ref) {
