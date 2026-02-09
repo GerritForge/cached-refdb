@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f2a521_919263e0",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T12:51:24Z",
+      "side": 1,
+      "message": "You could now use the UncheckedIOException and avoid returning `null` here.\n\n\n\n```suggestion\n      logger.atWarning().withCause(e).log(\n          \"Failed to resolve ref %s for project %s\", ref, identifier);\n      throw new UncheckedIOException(e);\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "9c39ebf5e5f9f68c0ae525ed7d08c7032dcb5426",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
