@@ -11,16 +11,20 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 
 class RefRenameWithCacheUpdate extends RefRename {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   interface Factory {
     RefRenameWithCacheUpdate create(
         CachedRefRepository repo,
@@ -37,6 +41,7 @@ class RefRenameWithCacheUpdate extends RefRename {
   private final CachedRefRepository repo;
   private final RefRename delegate;
   private final RefUpdate src;
+  private final RefUpdate dst;
 
   @Inject
   RefRenameWithCacheUpdate(
@@ -50,6 +55,7 @@ class RefRenameWithCacheUpdate extends RefRename {
     this.repo = repo;
     this.delegate = delegate;
     this.src = src;
+    this.dst = dst;
   }
 
   @Override
@@ -91,7 +97,14 @@ class RefRenameWithCacheUpdate extends RefRename {
   public Result rename() throws IOException {
     Result r = delegate.rename();
     if (SUCCESSFUL_RENAMES.contains(r)) {
-      refsCache.evict(repo.getProjectName(), src.getName());
+      String projectName = repo.getProjectName();
+      try {
+        refsCache.renameRef(projectName, src.getRef(), dst.getRef());
+      } catch (ExecutionException e) {
+        logger.atWarning().log(
+            "Cannot update cache for project %s, source ref %s, dest ref %s",
+            projectName, src.getName(), dst.getName());
+      }
     }
     return r;
   }

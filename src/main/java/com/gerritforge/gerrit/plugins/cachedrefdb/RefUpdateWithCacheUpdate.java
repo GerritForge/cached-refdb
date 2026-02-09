@@ -36,6 +36,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   private final RefByNameCacheWrapper refsCache;
   private final RefDatabase refDb;
+  private final RefDatabase delegateRefDb;
   private final CachedRefRepository repo;
   private final RefUpdate delegate;
 
@@ -50,6 +51,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     this.refDb = refDb;
     this.repo = repo;
     this.delegate = delegate;
+    this.delegateRefDb = ((CachedRefDatabase) repo.getRefDatabase()).getDelegate();
   }
 
   @Override
@@ -149,32 +151,32 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Override
   public Result forceUpdate() throws IOException {
-    return evictCache(delegate.forceUpdate());
+    return refreshCachesOnSuccessfulUpdate(delegate.forceUpdate());
   }
 
   @Override
   public Result update() throws IOException {
-    return evictCache(delegate.update());
+    return refreshCachesOnSuccessfulUpdate(delegate.update());
   }
 
   @Override
   public Result update(RevWalk walk) throws IOException {
-    return evictCache(delegate.update(walk));
+    return refreshCachesOnSuccessfulUpdate(delegate.update(walk));
   }
 
   @Override
   public Result delete() throws IOException {
-    return evictCache(delegate.delete());
+    return evictCacheOnSuccessfulUpdate(delegate.delete());
   }
 
   @Override
   public Result delete(RevWalk walk) throws IOException {
-    return evictCache(delegate.delete(walk));
+    return evictCacheOnSuccessfulUpdate(delegate.delete(walk));
   }
 
   @Override
   public Result link(String target) throws IOException {
-    return evictCache(delegate.link(target));
+    return refreshCachesOnSuccessfulUpdate(delegate.link(target));
   }
 
   @Override
@@ -217,9 +219,16 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     throw new UnsupportedOperationException(NOT_SUPPORTED_MSG);
   }
 
-  private Result evictCache(Result r) {
+  private Result evictCacheOnSuccessfulUpdate(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.evict(repo.getProjectName(), getName());
+      refsCache.evictCache(repo.getProjectName(), getName());
+    }
+    return r;
+  }
+
+  private Result refreshCachesOnSuccessfulUpdate(Result r) {
+    if (SUCCESSFUL_UPDATES.contains(r)) {
+      refsCache.updateCache(repo.getProjectName(), getName(), delegateRefDb);
     }
     return r;
   }
