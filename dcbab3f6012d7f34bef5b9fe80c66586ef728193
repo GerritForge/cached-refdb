@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2077f6eb_87aaa061",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T19:17:05Z",
+      "side": 1,
+      "message": "Before this change, calling `getRefs()` twice caused the `refsCache` to be loaded only once. After this change, every call to `getRefs()` would reload the cache.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 38
+      },
+      "revId": "dcbab3f6012d7f34bef5b9fe80c66586ef728193",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
