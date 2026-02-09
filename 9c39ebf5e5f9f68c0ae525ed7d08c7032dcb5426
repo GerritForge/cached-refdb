@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2be05738_98903f92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T14:12:33Z",
+      "side": 1,
+      "message": "Switching to a -1 as this change brings performance regressions.",
+      "revId": "9c39ebf5e5f9f68c0ae525ed7d08c7032dcb5426",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "413aaaa1_1697ca00",
@@ -42,6 +59,29 @@
         "startChar": 0,
         "endLine": 38,
         "endChar": 18
+      },
+      "revId": "9c39ebf5e5f9f68c0ae525ed7d08c7032dcb5426",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca86a543_ab621643",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T14:12:33Z",
+      "side": 1,
+      "message": "This is a major performance issue: we are opening and closing the repository *for every load operation*, whilst before we were just delegating.",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 81
       },
       "revId": "9c39ebf5e5f9f68c0ae525ed7d08c7032dcb5426",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
