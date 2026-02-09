@@ -86,8 +86,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Ref exactRef(String name) throws IOException {
-    return refsCache.computeIfAbsent(
-        repo.getProjectName(), name, () -> Optional.ofNullable(delegate.exactRef(name)));
+    return refsCache.get(repo.getProjectName(), name, delegate);
   }
 
   @Deprecated
@@ -140,8 +139,8 @@ class CachedRefDatabase extends RefDatabase {
   public List<Ref> getRefs() throws IOException {
     List<Ref> allRefs = delegate.getRefs();
     for (Ref ref : allRefs) {
-      refsCache.computeIfAbsent(
-          repo.getProjectName(), ref.getName(), () -> Optional.ofNullable(ref));
+      refsCache.put(
+          repo.getProjectName(), ref);
     }
     return allRefs;
   }
