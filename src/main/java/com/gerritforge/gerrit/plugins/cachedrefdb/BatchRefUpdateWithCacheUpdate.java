@@ -19,29 +19,35 @@ import java.util.List;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
+
   interface Factory {
-    BatchRefUpdateWithCacheUpdate create(CachedRefRepository repo, BatchRefUpdate delegate);
+    BatchRefUpdateWithCacheUpdate create(
+        CachedRefRepository repo, BatchRefUpdate delegate, RefDatabase delegateRefDb);
   }
 
   private final CachedRefRepository repo;
   private final RefByNameCacheWrapper refsCache;
   private final BatchRefUpdate delegate;
+  private final RefDatabase delegateRefDb;
 
   @Inject
   BatchRefUpdateWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
       @Assisted CachedRefRepository repo,
-      @Assisted BatchRefUpdate delegate) {
+      @Assisted BatchRefUpdate delegate,
+      @Assisted RefDatabase delegateRefDb) {
     super(repo.getRefDatabase());
     this.refsCache = refsCache;
     this.repo = repo;
     this.delegate = delegate;
+    this.delegateRefDb = delegateRefDb;
   }
 
   @Override
@@ -168,13 +174,14 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   }
 
   private void evictCache() {
-    delegate
-        .getCommands()
-        .forEach(
-            cmd -> {
-              if (cmd.getResult() == ReceiveCommand.Result.OK) {
-                refsCache.evict(repo.getProjectName(), cmd.getRefName());
-              }
-            });
+    for (ReceiveCommand cmd : delegate.getCommands()) {
+      if (cmd.getResult() == ReceiveCommand.Result.OK) {
+        if (cmd.getType() == ReceiveCommand.Type.DELETE) {
+          refsCache.evictCache(repo.getProjectName(), cmd.getRefName());
+        } else {
+          refsCache.updateCache(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+        }
+      }
+    }
   }
 }
