@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6b3a36a_8d7a239f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-11T23:54:22Z",
+      "side": 1,
+      "message": "This is quite slow, `asMap()` creates a new wrapper object.\n\n\n\n```suggestion\n    return refByName.getIfPresent(getUniqueName(project, ref)) !\u003d null;\n```",
+      "revId": "b0d3c980c21f9ad470dc6564a7c5606e5d2ac114",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
