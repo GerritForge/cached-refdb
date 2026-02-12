@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540ac729_8e5c1017",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-12T17:07:18Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "9bc755f8_914c15e7",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 60
+      },
+      "revId": "7f08ea93a5b8371d1d97b4e8e74baa11ec338934",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7eff7e5c_38b024e7",
