@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "094c5aac_da324d22",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-21T06:09:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f18ce7_9d294664",
+      "range": {
+        "startLine": 51,
+        "startChar": 50,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "ba78b110268e22e06571c5c55b67249a873f6111",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff4e1399_eb02dd8a",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-02-21T06:08:37Z",
       "side": 1,
       "message": "`TernarySearchTree` has already `Optional\u003cRef\u003e` values, what\u0027s the point of mixing them with a `TREE_VALUE` here?",
+      "range": {
+        "startLine": 158,
+        "startChar": 27,
+        "endLine": 158,
+        "endChar": 37
+      },
+      "revId": "ba78b110268e22e06571c5c55b67249a873f6111",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c9ac89b_f1f14741",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-21T06:09:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff4e1399_eb02dd8a",
       "range": {
         "startLine": 158,
         "startChar": 27,
