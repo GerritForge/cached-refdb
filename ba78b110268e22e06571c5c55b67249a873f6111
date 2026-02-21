@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f18ce7_9d294664",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-21T05:30:34Z",
+      "side": 1,
+      "message": "From what I see in the code, this isn\u0027t a generic `Object` but an `Optional\u003cRef\u003e`",
+      "range": {
+        "startLine": 51,
+        "startChar": 50,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "ba78b110268e22e06571c5c55b67249a873f6111",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
