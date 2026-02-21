@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd15d8de_19127aa5",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 50
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-21T05:04:07Z",
+      "side": 1,
+      "message": "There\u0027s no need to call the `getAndUpdate` here: you\u0027re not really updating the value of the atomic ref but simply adding an element to its state. The tree is still the same and in fact you\u0027re returning the `oldTree` here.\n\nThe use of `AtomicReference` is simply unnecessary.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 13
+      },
+      "revId": "8de794a1ad65603e7665cf87cf90cab83d8f1a47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
