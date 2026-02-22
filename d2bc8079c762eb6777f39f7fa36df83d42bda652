@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b43fe0e_c8f51764",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:08:49Z",
+      "side": 1,
+      "message": "Yes, it is needed, as this is a deletion, not really an eviction.",
+      "parentUuid": "0a6cd607_cf2655b8",
+      "range": {
+        "startLine": 182,
+        "startChar": 20,
+        "endLine": 182,
+        "endChar": 51
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1f5d50e_03784219",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4caeb08_67c6aaf2",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1f5d50e_03784219",
+      "range": {
+        "startLine": 125,
+        "startChar": 48,
+        "endLine": 125,
+        "endChar": 65
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10c5c216_aa4201ee",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-02-22T23:07:39Z",
       "side": 1,
       "message": "Just return `treeRef.getAllValues()`",
+      "range": {
+        "startLine": 132,
+        "startChar": 40,
+        "endLine": 132,
+        "endChar": 56
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb8b6f62_2e1fe3fe",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c5c216_aa4201ee",
       "range": {
         "startLine": 132,
         "startChar": 40,
@@ -106,6 +178,30 @@
       "writtenOn": "2026-02-22T23:07:39Z",
       "side": 1,
       "message": "Casting is redundant.\n\n\n\n```suggestion\n              () -\u003e Optional.ofNullable(delegate.exactRef(ref)));\n```",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 40
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00050d62_4658395c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bff0784_7344ab91",
       "range": {
         "startLine": 148,
         "startChar": 14,
