@@ -413,6 +413,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2270c84_dcad2644",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:15:50Z",
+      "side": 1,
+      "message": "Now that the names are more explicit, I believe it is clearer that they need to be unified.\n\nWhen deleting a ref, it should happen in both caches. When updating a ref, it should happen in both caches.\n\nHowever, I believe we should have a `rename` method because if we have a request between the deletion and the insertion, the ref would appear as it was removed, not renamed.\n\nThe rename should also be atomic at the cache level.",
+      "parentUuid": "02b84dae_37c9c104",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 83
+      },
+      "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3327b3f3_0f35b946",
         "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
         "patchSetId": 49
