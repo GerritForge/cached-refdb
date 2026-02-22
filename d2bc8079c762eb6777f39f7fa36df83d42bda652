@@ -22,6 +22,144 @@
       },
       "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f5d50e_03784219",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "Use `getValuesWithPrefix()` and the further lookup using `getRefsFromName` isn\u0027t necessary anymore.",
+      "range": {
+        "startLine": 125,
+        "startChar": 48,
+        "endLine": 125,
+        "endChar": 65
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10c5c216_aa4201ee",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "Just return `treeRef.getAllValues()`",
+      "range": {
+        "startLine": 132,
+        "startChar": 40,
+        "endLine": 132,
+        "endChar": 56
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24805975_4e076393",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "The name is misleading: there is only *one* ref associated with *one* name. \n\n\n\n```suggestion\n  private List\u003cRef\u003e getRefsFromNames(\n```",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bff0784_7344ab91",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "Casting is redundant.\n\n\n\n```suggestion\n              () -\u003e Optional.ofNullable(delegate.exactRef(ref)));\n```",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 40
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e46e770_309eb1cf",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "```suggestion\n  public void updateRefInPrefixesByProjectCache(String projectName, Ref ref) {\n```",
+      "range": {
+        "startLine": 155,
+        "startChar": 14,
+        "endLine": 155,
+        "endChar": 42
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "758ab606_8853a772",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-22T23:07:39Z",
+      "side": 1,
+      "message": "This isn\u0027t really eviction: we are deleting the ref from project cache.\n\nEviction means we are removing it and it will be reloaded upon reference, whilst here we remove it, full stop, without the possibility of reloading it.\n\n\n\n```suggestion\n  public void deleteRefInPrefixesByProjectCache(String projectName, String refName) {\n```",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 45
+      },
+      "revId": "d2bc8079c762eb6777f39f7fa36df83d42bda652",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
