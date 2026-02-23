@@ -28,11 +28,16 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Test;
 
 @UseLocalDisk
@@ -209,6 +214,29 @@ public class CachedRefDbIT extends AbstractDaemonTest {
         refsAfterRename.stream().filter(r -> r.getName().equals(newName)).findFirst();
     assertThat(renamedRefInListing).isPresent();
     assertThat(renamedRefInListing.get().getObjectId()).isEqualTo(originalObjectId);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldReturnTipsWithSha1ForRef() throws Exception {
+    String branchName = "refs/heads/branch-sha1-lookup";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Ref ref = repo.getRefDatabase().exactRef(branchName);
+      assertThat(ref).isNotNull();
+
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(ref.getObjectId());
+      assertThat(tips.size()).isEqualTo(1);
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(branchName);
+    }
   }
 
   private void renameBranch(String oldName, String newName) throws Exception {
