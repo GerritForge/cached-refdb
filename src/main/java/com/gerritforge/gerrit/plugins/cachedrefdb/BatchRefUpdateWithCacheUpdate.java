@@ -179,8 +179,10 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
         if (cmd.getResult() == ReceiveCommand.Result.OK) {
           if (cmd.getType() == ReceiveCommand.Type.DELETE) {
             refsCache.evict(repo.getProjectName(), cmd.getRefName());
+            refsCache.evictObjectIdCache(repo.getProjectName(), cmd.getOldId());
           } else {
             refsCache.updateRef(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+            refsCache.updateObjectIdCache(repo.getProjectName(), cmd.getNewId());
           }
         }
       }
