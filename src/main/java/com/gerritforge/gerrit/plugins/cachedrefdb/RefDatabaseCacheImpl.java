@@ -22,11 +22,16 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -34,22 +39,27 @@ import org.eclipse.jgit.lib.RefDatabase;
 class RefDatabaseCacheImpl implements RefDatabaseCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_NAMES_BY_PROJECT = "ref_names_by_project";
+  private static final String REFS_BY_OBJECT_ID = "ref_names_by_object_id";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {});
+        cache(REFS_BY_OBJECT_ID, ObjectIdAndProject.class, new TypeLiteral<Set<Ref>>() {});
       }
     };
   }
 
   private final Cache<String, TernarySearchTree<Ref>> refNamesByProject;
+  private final Cache<ObjectIdAndProject, Set<Ref>> refsByObjectId;
 
   @Inject
   RefDatabaseCacheImpl(
-      @Named(REF_NAMES_BY_PROJECT) Cache<String, TernarySearchTree<Ref>> refNamesByProject) {
+      @Named(REF_NAMES_BY_PROJECT) Cache<String, TernarySearchTree<Ref>> refNamesByProject,
+      @Named(REFS_BY_OBJECT_ID) Cache<ObjectIdAndProject, Set<Ref>> refsByObjectId) {
     this.refNamesByProject = refNamesByProject;
+    this.refsByObjectId = refsByObjectId;
   }
 
   static class RefNamesByProjectLoader {
@@ -164,6 +174,54 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
       updateRefInPrefixesByProjectCache(identifier, refName, delegate);
     } catch (ExecutionException e) {
       throw new IOException(e);
+    }
+  }
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id, RefDatabase delegate)
+      throws ExecutionException {
+    if (id == null) {
+      return ConcurrentHashMap.newKeySet();
+    }
+    String projectName = repo.getProjectName();
+    ObjectIdAndProject oip = ObjectIdAndProject.create(id, projectName);
+    return refsByObjectId.get(oip, () -> getRefsFromProjectsCache(id, projectName, delegate));
+  }
+
+  @Nonnull
+  private Set<Ref> getRefsFromProjectsCache(ObjectId id, String projectName, RefDatabase delegate)
+      throws ExecutionException {
+    return refNamesByProject.get(projectName, getLoader(delegate)).getAllValues().stream()
+        .filter(ref -> id.equals(ref.getObjectId()))
+        .collect(Collectors.toCollection(ConcurrentHashMap::newKeySet));
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return true;
+  }
+
+  @Override
+  public void removeRefFromObjectIdCache(String projectName, String ref, ObjectId oldId) {
+    if (ref == null || oldId == null) {
+      return;
+    }
+    ObjectIdAndProject oip = ObjectIdAndProject.create(oldId, projectName);
+    Set<Ref> refs = refsByObjectId.getIfPresent(oip);
+    if (refs == null) {
+      return;
+    }
+    refs.removeIf(r -> r.getName().equals(ref));
+    if (refs.isEmpty()) {
+      refsByObjectId.invalidate(oip);
+    }
+  }
+
+  @Override
+  public void addRefToObjectIdCache(String projectName, Ref ref) throws ExecutionException {
+    if (ref.getObjectId() != null && ref.getObjectId() != ObjectId.zeroId()) {
+      ObjectIdAndProject oip = ObjectIdAndProject.create(ref.getObjectId(), projectName);
+      refsByObjectId.get(oip, ConcurrentHashMap::newKeySet).add(ref);
     }
   }
 

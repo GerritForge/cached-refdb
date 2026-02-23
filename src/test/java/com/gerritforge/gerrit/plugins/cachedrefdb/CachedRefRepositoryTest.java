@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
@@ -166,7 +168,8 @@ public class CachedRefRepositoryTest {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
+    Cache<ObjectIdAndProject, Set<Ref>> refsByObjectId = CacheBuilder.newBuilder().build();
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(), refsByObjectId);
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -176,16 +179,28 @@ public class CachedRefRepositoryTest {
 
   private static class TestRefByNameCacheImpl extends RefDatabaseCacheImpl {
     private int cacheCalled;
+    private int refsByObjectIdCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
-      super(refsNamesByPrefix);
+    private TestRefByNameCacheImpl(
+        Cache<String, TernarySearchTree<Ref>> refsNamesByPrefix,
+        Cache<ObjectIdAndProject, Set<Ref>> refsByObjectId) {
+      super(refsNamesByPrefix, refsByObjectId);
       cacheCalled = 0;
+      refsByObjectIdCalled = 0;
     }
 
     @Override
     public Ref get(String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
       return super.get(identifier, ref, delegate);
+    }
+
+    @Override
+    public Set<Ref> getRefsByObjectId(
+        CachedRefRepository identifier, ObjectId id, RefDatabase delegate)
+        throws ExecutionException {
+      refsByObjectIdCalled++;
+      return super.getRefsByObjectId(identifier, id, delegate);
     }
   }
 }
