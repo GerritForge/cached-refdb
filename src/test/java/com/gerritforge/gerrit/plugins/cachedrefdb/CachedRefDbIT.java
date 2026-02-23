@@ -28,6 +28,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -199,6 +201,58 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     assertThat(repo.getRefDatabase().getRefsByPrefix("refs/heads/"))
         .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
         .doesNotContain(oldName);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldReturnTipsWithSha1ForRef() throws Exception {
+    String branchName = "refs/heads/branch-sha1-lookup";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Ref ref = repo.getRefDatabase().exactRef(branchName);
+      assertThat(ref).isNotNull();
+
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(ref.getObjectId());
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldEvictTipsWithSha1CacheOnRefDelete() throws Exception {
+    String branchName = "refs/heads/branch-sha1-evict";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    ObjectId branchObjectId;
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Ref ref = repo.getRefDatabase().exactRef(branchName);
+      branchObjectId = ref.getObjectId();
+      // Populate the cache
+      repo.getRefDatabase().getTipsWithSha1(branchObjectId);
+    }
+
+    // Delete through the cached layer — triggers eviction of the objectId entry
+    deleteBranch(branchName);
+
+    // Deleted branch must no longer appear in subsequent lookups
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      assertThat(repo.getRefDatabase().getTipsWithSha1(branchObjectId))
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .doesNotContain(branchName);
+    }
   }
 
   private void renameBranch(String oldName, String newName) throws Exception {
