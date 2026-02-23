@@ -28,10 +28,16 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Test;
 
 @UseLocalDisk
@@ -199,6 +205,171 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     assertThat(repo.getRefDatabase().getRefsByPrefix("refs/heads/"))
         .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
         .doesNotContain(oldName);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldReturnTipsWithSha1ForRef() throws Exception {
+    String branchName = "refs/heads/branch-sha1-lookup";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Ref ref = repo.getRefDatabase().exactRef(branchName);
+      assertThat(ref).isNotNull();
+
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(ref.getObjectId());
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldEvictTipsWithSha1CacheOnRefDelete() throws Exception {
+    String branchName = "refs/heads/branch-sha1-evict";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    ObjectId branchObjectId;
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Ref ref = repo.getRefDatabase().exactRef(branchName);
+      branchObjectId = ref.getObjectId();
+      // Populate the cache
+      repo.getRefDatabase().getTipsWithSha1(branchObjectId);
+    }
+
+    // Delete through the cached layer — triggers eviction of the objectId entry
+    deleteBranch(branchName);
+
+    // Deleted branch must no longer appear in subsequent lookups
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      assertThat(repo.getRefDatabase().getTipsWithSha1(branchObjectId))
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .doesNotContain(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldEvictTipsWithSha1CacheOnBatchRefDelete() throws Exception {
+    String branchName = "refs/heads/branch-batch-delete-sha1";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    ObjectId branchObjectId;
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      branchObjectId = repo.getRefDatabase().exactRef(branchName).getObjectId();
+      // Warm the objectId cache
+      repo.getRefDatabase().getTipsWithSha1(branchObjectId);
+    }
+
+    // Delete via BatchRefUpdate — exercises BatchRefUpdateWithCacheUpdate
+    try (Repository repo = gitRepoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+      batch.addCommand(new ReceiveCommand(branchObjectId, ObjectId.zeroId(), branchName));
+      batch.execute(rw, NullProgressMonitor.INSTANCE);
+      assertThat(batch.getCommands().get(0).getResult()).isEqualTo(ReceiveCommand.Result.OK);
+    }
+
+    // Deleted branch must no longer appear in subsequent lookups
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      assertThat(repo.getRefDatabase().getTipsWithSha1(branchObjectId))
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .doesNotContain(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldEvictOldOidFromCacheOnBatchRefUpdate() throws Exception {
+    String branchName = "refs/heads/branch-batch-update-sha1";
+    createBranch(BranchNameKey.create(project, branchName));
+
+    ObjectId oldOid;
+    ObjectId newOid;
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      oldOid = repo.getRefDatabase().exactRef(branchName).getObjectId();
+      // refs/meta/config is always present and its commit differs from the master HEAD
+      newOid = repo.getRefDatabase().exactRef("refs/meta/config").getObjectId();
+      assertThat(newOid).isNotEqualTo(oldOid);
+      // Warm the objectId cache for oldOid
+      repo.getRefDatabase().getTipsWithSha1(oldOid);
+    }
+
+    // Move the ref to a different commit via BatchRefUpdate
+    try (Repository repo = gitRepoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+      batch.setAllowNonFastForwards(true);
+      batch.addCommand(new ReceiveCommand(oldOid, newOid, branchName));
+      batch.execute(rw, NullProgressMonitor.INSTANCE);
+      assertThat(batch.getCommands().get(0).getResult()).isEqualTo(ReceiveCommand.Result.OK);
+    }
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      // Old OID must no longer be associated with the updated ref
+      assertThat(repo.getRefDatabase().getTipsWithSha1(oldOid))
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .doesNotContain(branchName);
+      // New OID must now include the updated ref
+      assertThat(repo.getRefDatabase().getTipsWithSha1(newOid))
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldUpdateTipsWithSha1CacheOnRefRename() throws Exception {
+    String oldName = "refs/heads/branch-rename-sha1-old";
+    String newName = "refs/heads/branch-rename-sha1-new";
+    createBranch(BranchNameKey.create(project, oldName));
+
+    ObjectId branchObjectId;
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      branchObjectId = repo.getRefDatabase().exactRef(oldName).getObjectId();
+      // Warm the objectId cache
+      repo.getRefDatabase().getTipsWithSha1(branchObjectId);
+    }
+
+    renameBranch(oldName, newName);
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(branchObjectId);
+      // Old name must no longer appear under the same OID
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .doesNotContain(oldName);
+      // New name must now appear — same OID, renamed ref
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(newName);
+    }
   }
 
   private void renameBranch(String oldName, String newName) throws Exception {
