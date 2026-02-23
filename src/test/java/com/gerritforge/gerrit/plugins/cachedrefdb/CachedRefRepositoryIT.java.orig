@@ -13,6 +13,12 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
+<<<<<<< HEAD
+=======
+import com.google.common.truth.Correspondence;
+
+import com.google.common.cache.Cache;
+>>>>>>> a177aa1 (Introduce an object id to ref names cache)
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -22,8 +28,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import com.google.common.truth.Correspondence;
+<<<<<<< HEAD
+=======
+import java.util.Optional;
 import java.util.Set;
+>>>>>>> a177aa1 (Introduce an object id to ref names cache)
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
@@ -191,10 +200,19 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()),
-        CacheBuilder.newBuilder().build());
+<<<<<<< HEAD
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
+=======
+    cache =
+        new TestRefByNameCacheImpl(
+            CacheBuilder.newBuilder().build(),
+            CacheBuilder.newBuilder().build(newCacheLoader()),
+            CacheBuilder.newBuilder().build());
+    RefByNameCacheWrapper wrapper =
+        new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
+>>>>>>> a177aa1 (Introduce an object id to ref names cache)
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override
@@ -209,9 +227,16 @@ public class CachedRefRepositoryIT {
     private int cacheCalled;
     private int refsByObjectIdCalled;
 
-    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix,
+<<<<<<< HEAD
+    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
+      super(refsNamesByPrefix);
+=======
+    private TestRefByNameCacheImpl(
+        Cache<String, Optional<Ref>> refByName,
+        LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refsNamesByPrefix,
         Cache<String, Set<Ref>> refsByObjectId) {
-      super(refsNamesByPrefix, refsByObjectId);
+      super(refByName, refsNamesByPrefix, refsByObjectId);
+>>>>>>> a177aa1 (Introduce an object id to ref names cache)
       cacheCalled = 0;
       refsByObjectIdCalled = 0;
     }
