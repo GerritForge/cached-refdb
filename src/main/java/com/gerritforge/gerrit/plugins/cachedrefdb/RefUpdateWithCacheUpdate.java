@@ -224,6 +224,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     try {
       if (SUCCESSFUL_UPDATES.contains(r)) {
         refsCache.evict(repo.getProjectName(), getName());
+        refsCache.removeRefFromObjectIdCache(repo.getProjectName(), getName(), getOldObjectId());
       }
       return r;
     } catch (ExecutionException e) {
@@ -232,9 +233,18 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   }
 
   private Result refreshCachesOnSuccessfulUpdate(Result r) throws IOException {
-    if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
+    try {
+      if (SUCCESSFUL_UPDATES.contains(r)) {
+        refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
+        refsCache.removeRefFromObjectIdCache(repo.getProjectName(), getName(), getOldObjectId());
+        Ref updated = refsCache.get(repo.getProjectName(), getName(), delegateRefDb);
+        if (updated != null) {
+          refsCache.addRefToObjectIdCache(repo.getProjectName(), updated);
+        }
+      }
+      return r;
+    } catch (ExecutionException e) {
+      throw new IOException(e);
     }
-    return r;
   }
 }
