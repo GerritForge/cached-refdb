@@ -266,6 +266,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "688bc7a1_4d8cebfd",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T17:20:28Z",
+      "side": 1,
+      "message": "Which cached data are you referring too? we can fallback on the ref_by_name cache, but we don\u0027t have a way of searching by for an objectId. I guess we could add one if we want to go in that direction.",
+      "parentUuid": "2ef0079e_df4e4340",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 50
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c38dfd1d_d586d19e",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 1
