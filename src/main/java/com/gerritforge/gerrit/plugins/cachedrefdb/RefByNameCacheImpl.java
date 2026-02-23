@@ -42,29 +42,24 @@ class RefByNameCacheImpl implements RefByNameCache {
       @Override
       protected void configure() {
         cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
-        cache(
-                REF_NAMES_BY_PROJECT,
-                Project.NameKey.class,
-                new TypeLiteral<TernarySearchTree<Ref>>() {})
+        cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {})
             .loader(RefNamesByProjectLoader.class);
       }
     };
   }
 
   private final Cache<String, Optional<Ref>> refByName;
-  private final LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refNamesByProject;
+  private final LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject;
 
   @Inject
   RefByNameCacheImpl(
       @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
-      @Named(REF_NAMES_BY_PROJECT)
-          LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refNamesByProject) {
+      @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject) {
     this.refByName = refByName;
     this.refNamesByProject = refNamesByProject;
   }
 
-  static class RefNamesByProjectLoader
-      extends CacheLoader<Project.NameKey, TernarySearchTree<Ref>> {
+  static class RefNamesByProjectLoader extends CacheLoader<String, TernarySearchTree<Ref>> {
 
     private final LocalDiskRepositoryManager repositoryManager;
     private final Cache<String, Optional<Ref>> refByName;
@@ -78,13 +73,13 @@ class RefByNameCacheImpl implements RefByNameCache {
     }
 
     @Override
-    public TernarySearchTree<Ref> load(Project.NameKey key) throws Exception {
+    public TernarySearchTree<Ref> load(String project) throws Exception {
 
-      try (Repository repo = repositoryManager.openRepository(key); ) {
+      try (Repository repo = repositoryManager.openRepository(Project.nameKey(project)); ) {
         TernarySearchTree<Ref> tree = new TernarySearchTree<>();
         for (Ref ref : repo.getRefDatabase().getRefs()) {
           tree.insert(ref.getName(), ref);
-          String uniqueName = getUniqueName(key.get(), ref.getName());
+          String uniqueName = getUniqueName(project, ref.getName());
           if (!isRefByNameCached(refByName, uniqueName)) {
             refByName.put(uniqueName, Optional.of(ref));
           }
@@ -115,12 +110,12 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public List<Ref> allByPrefix(String projectName, String prefix, RefDatabase delegate)
       throws ExecutionException {
-    return refNamesByProject.get(Project.nameKey(projectName)).getValuesWithPrefix(prefix);
+    return refNamesByProject.get(projectName).getValuesWithPrefix(prefix);
   }
 
   @Override
   public List<Ref> all(String projectName, RefDatabase delegate) throws ExecutionException {
-    return refNamesByProject.get(Project.nameKey(projectName)).getAllValues();
+    return refNamesByProject.get(projectName).getAllValues();
   }
 
   private static boolean isRefByNameCached(Cache<String, Optional<Ref>> cache, String uniqueName) {
@@ -128,15 +123,14 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   public void updateRefInPrefixesByProjectCache(String projectName, Ref ref) {
-    Project.NameKey projectNameKey = Project.nameKey(projectName);
     try {
-      TernarySearchTree<Ref> tree = refNamesByProject.get(projectNameKey);
+      TernarySearchTree<Ref> tree = refNamesByProject.get(projectName);
       tree.insert(ref.getName(), ref);
     } catch (ExecutionException e) {
-      refNamesByProject.invalidate(projectNameKey);
+      refNamesByProject.invalidate(projectName);
       logger.atSevere().withCause(e).log(
           "Error when updating entry of %s. Invalidating cache for %s.",
-          REF_NAMES_BY_PROJECT, projectNameKey);
+          REF_NAMES_BY_PROJECT, projectName);
       throw new IllegalStateException(e);
     }
   }
@@ -147,15 +141,14 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   public void deleteRefInPrefixesByProjectCache(String projectName, String refName) {
-    Project.NameKey projectNameKey = Project.nameKey(projectName);
 
     try {
-      refNamesByProject.get(projectNameKey).delete(refName);
+      refNamesByProject.get(projectName).delete(refName);
     } catch (ExecutionException e) {
-      refNamesByProject.invalidate(projectNameKey);
+      refNamesByProject.invalidate(projectName);
       logger.atSevere().withCause(e).log(
           "Error when deleting entry from %s. Invalidating cache for %s.",
-          REF_NAMES_BY_PROJECT, projectNameKey);
+          REF_NAMES_BY_PROJECT, projectName);
       throw new IllegalStateException(e);
     }
   }
@@ -171,11 +164,11 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
-  public void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException {
-    evictRefByNameCache(identifier, srcRef.getName());
-    evictRefByNameCache(identifier, destRef.getName());
+  public void renameRef(String project, Ref srcRef, Ref destRef) throws ExecutionException {
+    evictRefByNameCache(project, srcRef.getName());
+    evictRefByNameCache(project, destRef.getName());
 
-    TernarySearchTree<Ref> tree = refNamesByProject.get(Project.nameKey(identifier));
+    TernarySearchTree<Ref> tree = refNamesByProject.get(project);
     Lock lock = tree.getLock().writeLock();
     lock.lock();
     try {

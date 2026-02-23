@@ -17,7 +17,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
@@ -160,11 +159,11 @@ public class CachedRefRepositoryIT {
     return tr.getRepository();
   }
 
-  private CacheLoader<Project.NameKey, TernarySearchTree<Ref>> newCacheLoader() {
+  private CacheLoader<String, TernarySearchTree<Ref>> newCacheLoader() {
     return new CacheLoader<>() {
 
       @Override
-      public TernarySearchTree<Ref> load(Project.NameKey key) throws Exception {
+      public TernarySearchTree<Ref> load(String project) throws Exception {
         return new TernarySearchTree<>();
       }
     };
@@ -191,7 +190,7 @@ public class CachedRefRepositoryIT {
 
     private TestRefByNameCacheImpl(
         Cache<String, Optional<Ref>> refByName,
-        LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refsNamesByPrefix) {
+        LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
       super(refByName, refsNamesByPrefix);
       cacheCalled = 0;
     }
