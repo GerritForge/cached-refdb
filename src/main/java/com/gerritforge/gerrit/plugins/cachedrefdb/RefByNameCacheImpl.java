@@ -11,7 +11,6 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
@@ -22,8 +21,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
@@ -34,42 +34,33 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String REF_BY_NAME = "ref_by_name";
   private static final String REF_NAMES_BY_PROJECT = "ref_names_by_project";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_BY_NAME, String.class, new TypeLiteral<Optional<Ref>>() {});
         cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {})
             .loader(RefNamesByProjectLoader.class);
       }
     };
   }
 
-  private final Cache<String, Optional<Ref>> refByName;
   private final LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject;
 
   @Inject
   RefByNameCacheImpl(
-      @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
       @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject) {
-    this.refByName = refByName;
     this.refNamesByProject = refNamesByProject;
   }
 
   static class RefNamesByProjectLoader extends CacheLoader<String, TernarySearchTree<Ref>> {
 
     private final LocalDiskRepositoryManager repositoryManager;
-    private final Cache<String, Optional<Ref>> refByName;
 
     @Inject
-    RefNamesByProjectLoader(
-        LocalDiskRepositoryManager repositoryManager,
-        @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName) {
+    RefNamesByProjectLoader(LocalDiskRepositoryManager repositoryManager) {
       this.repositoryManager = repositoryManager;
-      this.refByName = refByName;
     }
 
     @Override
@@ -79,10 +70,6 @@ class RefByNameCacheImpl implements RefByNameCache {
         TernarySearchTree<Ref> tree = new TernarySearchTree<>();
         for (Ref ref : repo.getRefDatabase().getRefs()) {
           tree.insert(ref.getName(), ref);
-          String uniqueName = getUniqueName(project, ref.getName());
-          if (!isRefByNameCached(refByName, uniqueName)) {
-            refByName.put(uniqueName, Optional.of(ref));
-          }
         }
         return tree;
       }
@@ -91,11 +78,8 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public Ref get(String project, String ref, RefDatabase delegate) {
-    String key = getUniqueName(project, ref);
     try {
-      Optional<Ref> maybeRef =
-          refByName.get(key, () -> Optional.ofNullable(delegate.exactRef(ref)));
-      return maybeRef.orElse(null);
+      return refNamesByProject.get(project).get(ref);
     } catch (ExecutionException e) {
       logger.atSevere().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
       throw new IllegalStateException(e);
@@ -104,7 +88,13 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public boolean containsKey(String project, String ref) {
-    return isRefByNameCached(refByName, getUniqueName(project, ref));
+    try {
+      return refNamesByProject.get(project).contains(ref);
+    } catch (ExecutionException e) {
+      logger.atSevere().withCause(e).log(
+          "Checking ref existence for [%s, %s] failed.", project, ref);
+      throw new IllegalStateException(e);
+    }
   }
 
   @Override
@@ -116,10 +106,6 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public List<Ref> all(String projectName, RefDatabase delegate) throws ExecutionException {
     return refNamesByProject.get(projectName).getAllValues();
-  }
-
-  private static boolean isRefByNameCached(Cache<String, Optional<Ref>> cache, String uniqueName) {
-    return cache.getIfPresent(uniqueName) != null;
   }
 
   public void updateRefInPrefixesByProjectCache(String projectName, Ref ref) {
@@ -137,7 +123,11 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   public void updateRefInPrefixesByProjectCache(
       String projectName, String refName, RefDatabase delegate) {
-    updateRefInPrefixesByProjectCache(projectName, get(projectName, refName, delegate));
+    try {
+      updateRefInPrefixesByProjectCache(projectName, delegate.exactRef(refName));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   public void deleteRefInPrefixesByProjectCache(String projectName, String refName) {
@@ -155,19 +145,11 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public void put(String project, Ref ref) {
-    refByName.put(getUniqueName(project, ref.getName()), Optional.ofNullable(ref));
     updateRefInPrefixesByProjectCache(project, ref);
-  }
-
-  public void evictRefByNameCache(String identifier, String ref) {
-    refByName.invalidate(getUniqueName(identifier, ref));
   }
 
   @Override
   public void renameRef(String project, Ref srcRef, Ref destRef) throws ExecutionException {
-    evictRefByNameCache(project, srcRef.getName());
-    evictRefByNameCache(project, destRef.getName());
-
     TernarySearchTree<Ref> tree = refNamesByProject.get(project);
     Lock lock = tree.getLock().writeLock();
     lock.lock();
@@ -181,13 +163,11 @@ class RefByNameCacheImpl implements RefByNameCache {
 
   @Override
   public void updateRef(String identifier, String refName, RefDatabase delegate) {
-    evictRefByNameCache(identifier, refName);
     updateRefInPrefixesByProjectCache(identifier, refName, delegate);
   }
 
   @Override
   public void evict(String identifier, String refName) {
-    evictRefByNameCache(identifier, refName);
     deleteRefInPrefixesByProjectCache(identifier, refName);
   }
 

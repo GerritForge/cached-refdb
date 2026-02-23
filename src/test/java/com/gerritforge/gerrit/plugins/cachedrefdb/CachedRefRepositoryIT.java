@@ -13,7 +13,6 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -23,7 +22,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
@@ -170,9 +168,7 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache =
-        new TestRefByNameCacheImpl(
-            CacheBuilder.newBuilder().build(), CacheBuilder.newBuilder().build(newCacheLoader()));
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -188,10 +184,8 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(
-        Cache<String, Optional<Ref>> refByName,
-        LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
-      super(refByName, refsNamesByPrefix);
+    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
+      super(refsNamesByPrefix);
       cacheCalled = 0;
     }
 
