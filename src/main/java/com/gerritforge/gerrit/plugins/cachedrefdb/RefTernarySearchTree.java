@@ -117,8 +117,7 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
 
   @Override
   public void clear() {
-    throw new UnsupportedOperationException(
-        "clear() is not supported on RefTernarySearchTree");
+    throw new UnsupportedOperationException("clear() is not supported on RefTernarySearchTree");
   }
 
   private void addToIndex(ObjectId objectId, Ref ref) {
