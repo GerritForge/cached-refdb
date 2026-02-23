@@ -46,7 +46,7 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
       Ref old = get(key);
       int result = super.insert(key, ref);
       if (old != null && old.getObjectId() != null) {
-        removeFromBucket(old.getObjectId(), key);
+        removeFromIndex(old.getObjectId(), key);
       }
       if (ref.getObjectId() != null) {
         addToBucket(ref.getObjectId(), ref);
@@ -71,7 +71,7 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
       Ref old = get(key);
       int result = super.delete(key);
       if (old != null && old.getObjectId() != null) {
-        removeFromBucket(old.getObjectId(), key);
+        removeFromIndex(old.getObjectId(), key);
       }
       return result;
     } finally {
@@ -124,15 +124,14 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
 
   @Override
   public void clear() {
-    throw new UnsupportedOperationException(
-        "clear() is not supported on RefTernarySearchTree");
+    throw new UnsupportedOperationException("clear() is not supported on RefTernarySearchTree");
   }
 
   private void addToBucket(ObjectId objectId, Ref ref) {
     byObjectId.computeIfAbsent(objectId, k -> new HashSet<>()).add(ref);
   }
 
-  private void removeFromBucket(ObjectId objectId, String refName) {
+  private void removeFromIndex(ObjectId objectId, String refName) {
     Set<Ref> refs = byObjectId.get(objectId);
     if (refs == null) {
       return;
