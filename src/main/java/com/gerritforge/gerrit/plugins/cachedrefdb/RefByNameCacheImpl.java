@@ -99,12 +99,11 @@ class RefByNameCacheImpl implements RefByNameCache {
     String key = getUniqueName(project, ref);
     try {
       Optional<Ref> maybeRef =
-          refByName.get(
-              key, () -> Optional.ofNullable(delegate.exactRef(ref)));
+          refByName.get(key, () -> Optional.ofNullable(delegate.exactRef(ref)));
       return maybeRef.orElse(null);
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
-      return null;
+      logger.atSevere().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
+      throw new IllegalStateException(e);
     }
   }
 
@@ -135,9 +134,10 @@ class RefByNameCacheImpl implements RefByNameCache {
       tree.insert(ref.getName(), ref);
     } catch (ExecutionException e) {
       refNamesByProject.invalidate(projectNameKey);
-      logger.atWarning().withCause(e).log(
+      logger.atSevere().withCause(e).log(
           "Error when updating entry of %s. Invalidating cache for %s.",
           REF_NAMES_BY_PROJECT, projectNameKey);
+      throw new IllegalStateException(e);
     }
   }
 
@@ -153,9 +153,10 @@ class RefByNameCacheImpl implements RefByNameCache {
       refNamesByProject.get(projectNameKey).delete(refName);
     } catch (ExecutionException e) {
       refNamesByProject.invalidate(projectNameKey);
-      logger.atWarning().withCause(e).log(
+      logger.atSevere().withCause(e).log(
           "Error when deleting entry from %s. Invalidating cache for %s.",
           REF_NAMES_BY_PROJECT, projectNameKey);
+      throw new IllegalStateException(e);
     }
   }
 
