@@ -20,8 +20,10 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import com.gerritforge.gerrit.plugins.cachedrefdb.TernarySearchTree;
+import com.gerritforge.gerrit.plugins.cachedrefdb.RefTernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -186,6 +188,13 @@ public class CachedRefRepositoryTest {
     public Ref get(String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
       return super.get(identifier, ref, delegate);
+    }
+
+    @Override
+    public Set<Ref> getRefsByObjectId(
+        CachedRefRepository identifier, ObjectId id, RefDatabase delegate)
+        throws ExecutionException {
+      return super.getRefsByObjectId(identifier, id, delegate);
     }
   }
 }

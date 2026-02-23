@@ -22,11 +22,13 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
-import com.gerritforge.gerrit.plugins.cachedrefdb.RefTernarySearchTree;
+
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -88,7 +90,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   @Override
   public List<Ref> allByPrefixes(String projectName, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> projectRefs = refNamesByProject.get(projectName, getLoader(delegate));
+    RefTernarySearchTree projectRefs = refNamesByProject.get(projectName, getLoader(delegate));
     AtomicReference<String> lastPrefix = new AtomicReference<>();
     ImmutableList.Builder<Ref> refs = ImmutableList.builder();
     Arrays.stream(prefixes)
@@ -119,7 +121,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
 
   public void updateRefInPrefixesByProjectCache(String projectName, Ref ref, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(projectName, getLoader(delegate));
+    RefTernarySearchTree tree = refNamesByProject.get(projectName, getLoader(delegate));
     tree.insert(ref.getName(), ref);
   }
 
@@ -146,7 +148,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   @Override
   public void renameRef(String project, Ref srcRef, Ref destRef, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(project, getLoader(delegate));
+    RefTernarySearchTree tree = refNamesByProject.get(project, getLoader(delegate));
     Lock lock = tree.getLock().writeLock();
     lock.lock();
     try {
@@ -165,6 +167,18 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
+  }
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id, RefDatabase delegate)
+      throws ExecutionException {
+    String projectName = repo.getProjectName();
+    return refNamesByProject.get(projectName, getLoader(delegate)).getByObjectId(id);
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return true;
   }
 
   @Override
