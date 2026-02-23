@@ -11,11 +11,12 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -28,7 +29,7 @@ import org.eclipse.jgit.lib.Ref;
  */
 public class RefTernarySearchTree extends TernarySearchTree<Ref> {
 
-  private final Map<ObjectId, List<Ref>> byObjectId = new HashMap<>();
+  private final Map<ObjectId, Set<Ref>> byObjectId = new HashMap<>();
 
   /**
    * Insert a ref. If the key already exists the old value is replaced and the
@@ -78,6 +79,25 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
     }
   }
 
+  /**
+   * Look up all refs pointing at the given {@link ObjectId}.
+   *
+   * @param objectId the object id to look up
+   * @return unmodifiable list of refs pointing at {@code objectId}, never {@code null}
+   */
+  public Set<Ref> getByObjectId(ObjectId objectId) {
+    getLock().readLock().lock();
+    try {
+      Set<Ref> refs = byObjectId.get(objectId);
+      if (refs == null) {
+        return Collections.emptySet();
+      }
+      return Collections.unmodifiableSet(new HashSet<>(refs));
+    } finally {
+      getLock().readLock().unlock();
+    }
+  }
+
   @Override
   public int replace(Iterable<Entry<String, Ref>> loader) {
     throw new UnsupportedOperationException(
@@ -109,11 +129,11 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
   }
 
   private void addToBucket(ObjectId objectId, Ref ref) {
-    byObjectId.computeIfAbsent(objectId, k -> new ArrayList<>()).add(ref);
+    byObjectId.computeIfAbsent(objectId, k -> new HashSet<>()).add(ref);
   }
 
   private void removeFromBucket(ObjectId objectId, String refName) {
-    List<Ref> refs = byObjectId.get(objectId);
+    Set<Ref> refs = byObjectId.get(objectId);
     if (refs == null) {
       return;
     }
