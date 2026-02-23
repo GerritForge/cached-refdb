@@ -179,8 +179,14 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
         if (cmd.getResult() == ReceiveCommand.Result.OK) {
           if (cmd.getType() == ReceiveCommand.Type.DELETE) {
             refsCache.evict(repo.getProjectName(), cmd.getRefName());
+            refsCache.updateObjectIdCache(repo.getProjectName(), cmd.getOldId());
+            //TODO does it make sense to keep a cache entry of deleted refs(ZeroId/cmd.getNewId)
           } else {
             refsCache.updateRef(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+            // TODO See how much benefit combining these 2 calls so that we scan the tree only once
+            // brings
+            refsCache.updateObjectIdCache(repo.getProjectName(), cmd.getOldId());
+            refsCache.updateObjectIdCache(repo.getProjectName(), cmd.getNewId());
           }
         }
       }
