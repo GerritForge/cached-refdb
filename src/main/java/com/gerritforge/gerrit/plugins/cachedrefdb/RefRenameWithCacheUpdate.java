@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -99,14 +100,15 @@ class RefRenameWithCacheUpdate extends RefRename {
     if (SUCCESSFUL_RENAMES.contains(r)) {
       String projectName = repo.getProjectName();
       try {
-        refsCache.renameRef(
-            projectName,
-            src.getRef(),
-            repo.getCachedRefDatabase().getDelegate().exactRef(dst.getName()));
+        Ref dstRef = repo.getCachedRefDatabase().getDelegate().exactRef(dst.getName());
+        if (dstRef != null) {
+          refsCache.renameRef(projectName, src.getRef(), dstRef);
+          refsCache.removeRefFromObjectIdCache(
+              projectName, src.getRef().getName(), src.getRef().getObjectId());
+          refsCache.addRefToObjectIdCache(projectName, dstRef);
+        }
       } catch (ExecutionException e) {
-        logger.atWarning().log(
-            "Cannot update cache for project %s, source ref %s, dest ref %s",
-            projectName, src.getName(), dst.getName());
+        throw new IOException(e);
       }
     }
     return r;
