@@ -11,11 +11,15 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -78,5 +82,21 @@ class NoOpRefByNameCache implements RefByNameCache {
   @Override
   public void deleteRefInPrefixesByProjectCache(String identifier, String refName) {
     // do nothing as there is no cache to delete
+  }
+
+  @Override
+  public Set<String> getRefNamesByObjectId(String identifier, ObjectId id, RefDatabase delegate)
+      throws IOException {
+    return delegate.getTipsWithSha1(id).stream().map(Ref::getName).collect(toImmutableSet());
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) throws IOException {
+    return delegate.hasFastTipsWithSha1();
+  }
+
+  @Override
+  public void evictObjectIdCache(String identifier, ObjectId id) {
+    // do nothing as there is no cache to evict
   }
 }
