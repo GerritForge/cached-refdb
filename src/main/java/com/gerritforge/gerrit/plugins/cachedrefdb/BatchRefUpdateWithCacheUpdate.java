@@ -179,8 +179,12 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
         if (cmd.getResult() == ReceiveCommand.Result.OK) {
           if (cmd.getType() == ReceiveCommand.Type.DELETE) {
             refsCache.evict(repo.getProjectName(), cmd.getRefName());
+            refsCache.evictObjectIdCache(repo.getProjectName(), cmd.getOldId());
+            refsCache.evictObjectIdCache(repo.getProjectName(), cmd.getNewId());
+            //TODO how should we correctly evict from object id cache? Should we set all to 0?
           } else {
             refsCache.updateRef(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+            //TODO What to do with objectid cache
           }
         }
       }
