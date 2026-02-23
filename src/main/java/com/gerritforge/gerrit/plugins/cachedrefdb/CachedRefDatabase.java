@@ -180,7 +180,11 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
-    return delegate.getTipsWithSha1(id);
+    Set<Ref> refs = refsCache.getRefsByObjectId(repo.getProjectName(), id, delegate);
+    if (refs == null) {
+      return delegate.getTipsWithSha1(id);
+    }
+    return refs;
   }
 
   @Override

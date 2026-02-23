@@ -17,6 +17,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -100,6 +101,9 @@ class RefRenameWithCacheUpdate extends RefRename {
       String projectName = repo.getProjectName();
       try {
         refsCache.renameRef(projectName, src.getRef(), dst.getRef());
+        refsCache.evictObjectIdCache(
+            repo.getProjectName(),
+            src.getRef() != null ? src.getRef().getObjectId() : null);
       } catch (ExecutionException e) {
         logger.atWarning().log(
             "Cannot update cache for project %s, source ref %s, dest ref %s",

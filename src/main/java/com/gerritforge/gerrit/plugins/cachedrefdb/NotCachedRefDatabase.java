@@ -11,10 +11,14 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -62,4 +66,20 @@ class NotCachedRefDatabase implements RefDatabaseCache {
 
   @Override
   public void updateRef(String identifier, String refName, RefDatabase delete) {}
+
+  @Override
+  public Set<Ref> getRefsByObjectId(String identifier, ObjectId id, RefDatabase delegate)
+      throws IOException {
+    return delegate.getTipsWithSha1(id).stream().collect(toImmutableSet());
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) throws IOException {
+    return delegate.hasFastTipsWithSha1();
+  }
+
+  @Override
+  public void evictObjectIdCache(String identifier, ObjectId id) {
+    // do nothing as there is no cache to evict
+  }
 }
