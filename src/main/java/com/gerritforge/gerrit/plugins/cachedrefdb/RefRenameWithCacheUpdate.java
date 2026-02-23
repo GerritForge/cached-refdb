@@ -104,9 +104,7 @@ class RefRenameWithCacheUpdate extends RefRename {
         refsCache.renameRef(
             projectName, src.getRef(), delegateRefDb.exactRef(dst.getName()), delegateRefDb);
       } catch (ExecutionException e) {
-        logger.atWarning().log(
-            "Cannot update cache for project %s, source ref %s, dest ref %s",
-            projectName, src.getName(), dst.getName());
+        throw new IOException(e);
       }
     }
     return r;

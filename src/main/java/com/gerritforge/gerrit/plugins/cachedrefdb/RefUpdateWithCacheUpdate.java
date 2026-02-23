@@ -235,6 +235,12 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result refreshCachesOnSuccessfulUpdate(Result r) throws IOException {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
+      Ref updated = refsCache.get(repo.getProjectName(), getName(), delegateRefDb);
+      if (updated == null) {
+        throw new IOException(
+            String.format(
+                "Could not load ref %s for project %s", getName(), repo.getProjectName()));
+      }
     }
     return r;
   }
