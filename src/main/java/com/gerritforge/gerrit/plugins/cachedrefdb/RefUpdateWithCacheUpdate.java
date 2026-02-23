@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -219,14 +220,18 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     throw new UnsupportedOperationException(NOT_SUPPORTED_MSG);
   }
 
-  private Result evictCacheOnSuccessfulUpdate(Result r) {
-    if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.evict(repo.getProjectName(), getName());
+  private Result evictCacheOnSuccessfulUpdate(Result r) throws IOException {
+    try {
+      if (SUCCESSFUL_UPDATES.contains(r)) {
+        refsCache.evict(repo.getProjectName(), getName());
+      }
+      return r;
+    } catch (ExecutionException e) {
+      throw new IOException(e);
     }
-    return r;
   }
 
-  private Result refreshCachesOnSuccessfulUpdate(Result r) {
+  private Result refreshCachesOnSuccessfulUpdate(Result r) throws IOException {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
     }

@@ -16,6 +16,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -172,15 +173,19 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
     evictCache();
   }
 
-  private void evictCache() {
-    for (ReceiveCommand cmd : delegate.getCommands()) {
-      if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        if (cmd.getType() == ReceiveCommand.Type.DELETE) {
-          refsCache.evict(repo.getProjectName(), cmd.getRefName());
-        } else {
-          refsCache.updateRef(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+  private void evictCache() throws IOException {
+    try {
+      for (ReceiveCommand cmd : delegate.getCommands()) {
+        if (cmd.getResult() == ReceiveCommand.Result.OK) {
+          if (cmd.getType() == ReceiveCommand.Type.DELETE) {
+            refsCache.evict(repo.getProjectName(), cmd.getRefName());
+          } else {
+            refsCache.updateRef(repo.getProjectName(), cmd.getRefName(), delegateRefDb);
+          }
         }
       }
+    } catch (ExecutionException e) {
+      throw new IOException(e);
     }
   }
 }

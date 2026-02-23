@@ -11,19 +11,20 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
 interface RefByNameCache {
-  Ref get(String identifier, String ref, RefDatabase delegate);
+  Ref get(String identifier, String ref, RefDatabase delegate) throws IOException;
 
   boolean containsKey(String identifier, String ref);
 
-  void put(String identifier, Ref ref);
+  void put(String identifier, Ref ref) throws IOException;
 
-  void evict(String identifier, String ref);
+  void evict(String identifier, String ref) throws ExecutionException;
 
   List<Ref> allByPrefix(String identifier, String prefix, RefDatabase delegate)
       throws ExecutionException;
@@ -32,5 +33,5 @@ interface RefByNameCache {
 
   void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException;
 
-  void updateRef(String identifier, String refName, RefDatabase delete);
+  void updateRef(String identifier, String refName, RefDatabase delete) throws IOException;
 }

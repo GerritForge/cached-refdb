@@ -22,7 +22,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -108,44 +107,30 @@ class RefByNameCacheImpl implements RefByNameCache {
     return refNamesByProject.get(projectName).getAllValues();
   }
 
-  public void updateRefInPrefixesByProjectCache(String projectName, Ref ref) {
-    try {
-      TernarySearchTree<Ref> tree = refNamesByProject.get(projectName);
-      tree.insert(ref.getName(), ref);
-    } catch (ExecutionException e) {
-      refNamesByProject.invalidate(projectName);
-      logger.atSevere().withCause(e).log(
-          "Error when updating entry of %s. Invalidating cache for %s.",
-          REF_NAMES_BY_PROJECT, projectName);
-      throw new IllegalStateException(e);
-    }
+  public void updateRefInPrefixesByProjectCache(String projectName, Ref ref)
+      throws ExecutionException {
+    TernarySearchTree<Ref> tree = refNamesByProject.get(projectName);
+    tree.insert(ref.getName(), ref);
   }
 
   public void updateRefInPrefixesByProjectCache(
-      String projectName, String refName, RefDatabase delegate) {
-    try {
-      updateRefInPrefixesByProjectCache(projectName, delegate.exactRef(refName));
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+      String projectName, String refName, RefDatabase delegate)
+      throws IOException, ExecutionException {
+    updateRefInPrefixesByProjectCache(projectName, delegate.exactRef(refName));
   }
 
-  public void deleteRefInPrefixesByProjectCache(String projectName, String refName) {
-
-    try {
-      refNamesByProject.get(projectName).delete(refName);
-    } catch (ExecutionException e) {
-      refNamesByProject.invalidate(projectName);
-      logger.atSevere().withCause(e).log(
-          "Error when deleting entry from %s. Invalidating cache for %s.",
-          REF_NAMES_BY_PROJECT, projectName);
-      throw new IllegalStateException(e);
-    }
+  public void deleteRefInPrefixesByProjectCache(String projectName, String refName)
+      throws ExecutionException {
+    refNamesByProject.get(projectName).delete(refName);
   }
 
   @Override
-  public void put(String project, Ref ref) {
-    updateRefInPrefixesByProjectCache(project, ref);
+  public void put(String project, Ref ref) throws IOException {
+    try {
+      updateRefInPrefixesByProjectCache(project, ref);
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
@@ -162,12 +147,17 @@ class RefByNameCacheImpl implements RefByNameCache {
   }
 
   @Override
-  public void updateRef(String identifier, String refName, RefDatabase delegate) {
-    updateRefInPrefixesByProjectCache(identifier, refName, delegate);
+  public void updateRef(String identifier, String refName, RefDatabase delegate)
+      throws IOException {
+    try {
+      updateRefInPrefixesByProjectCache(identifier, refName, delegate);
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
-  public void evict(String identifier, String refName) {
+  public void evict(String identifier, String refName) throws ExecutionException {
     deleteRefInPrefixesByProjectCache(identifier, refName);
   }
 
