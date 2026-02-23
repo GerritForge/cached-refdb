@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import com.google.common.truth.Correspondence;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
@@ -153,6 +155,27 @@ public class CachedRefRepositoryIT {
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
 
+  @Test
+  public void shouldGetTipsWithSha1FromCachedDatabase() throws Exception {
+    String master = RefNames.fullName("master");
+    RevCommit commit = tr.update(master, tr.commit().add("first", "foo").create());
+
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(0);
+
+    Set<Ref> tips = objectUnderTest.getRefDatabase().getTipsWithSha1(commit);
+    assertThat(tips)
+        .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+        .contains(master);
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(1);
+
+    // Second call hits the cache — no additional delegate load
+    tips = objectUnderTest.getRefDatabase().getTipsWithSha1(commit);
+    assertThat(tips)
+        .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+        .contains(master);
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(2);
+  }
+
   private Repository repo() {
     return tr.getRepository();
   }
@@ -168,7 +191,8 @@ public class CachedRefRepositoryIT {
   }
 
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()),
+        CacheBuilder.newBuilder().build());
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -183,16 +207,25 @@ public class CachedRefRepositoryIT {
 
   private static class TestRefByNameCacheImpl extends RefDatabaseCacheImpl {
     private int cacheCalled;
+    private int refsByObjectIdCalled;
 
-    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
-      super(refsNamesByPrefix);
+    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix,
+        Cache<String, Set<Ref>> refsByObjectId) {
+      super(refsNamesByPrefix, refsByObjectId);
       cacheCalled = 0;
+      refsByObjectIdCalled = 0;
     }
 
     @Override
     public Ref get(String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
       return super.get(identifier, ref, delegate);
+    }
+
+    @Override
+    public Set<Ref> getRefsByObjectId(String identifier, ObjectId id, RefDatabase delegate) {
+      refsByObjectIdCalled++;
+      return super.getRefsByObjectId(identifier, id, delegate);
     }
   }
 }
