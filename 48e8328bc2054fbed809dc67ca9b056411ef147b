@@ -435,6 +435,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e523defe_03a3380b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-23T19:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2270c84_dcad2644",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 83
+      },
+      "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3327b3f3_0f35b946",
@@ -458,6 +482,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32cb8bea_66ae5ab3",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-23T19:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3327b3f3_0f35b946",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fa308c8_01863208",
@@ -471,6 +519,24 @@
       "writtenOn": "2026-02-21T04:47:06Z",
       "side": 1,
       "message": "As above, we should also check the associated SHA1.",
+      "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0950986_63754cb6",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-23T19:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fa308c8_01863208",
       "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
