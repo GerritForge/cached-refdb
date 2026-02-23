@@ -222,6 +222,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.evictRefByNameCache(repo.getProjectName(), getName());
       refsCache.deleteRefInPrefixesByProjectCache(repo.getProjectName(), getName());
+      refsCache.evictObjectIdCache(repo.getProjectName(), getOldObjectId());
     }
     return r;
   }
@@ -229,6 +230,8 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result refreshCachesOnSuccessfulUpdate(Result r) {
     if (SUCCESSFUL_UPDATES.contains(r)) {
       refsCache.evictRefByNameCache(repo.getProjectName(), getName());
+      refsCache.evictObjectIdCache(repo.getProjectName(), getOldObjectId());
+      refsCache.evictObjectIdCache(repo.getProjectName(), getNewObjectId());
       try {
         refsCache.updateRefInPrefixesByProjectCache(
             repo.getProjectName(), repo.exactRef(getName()));

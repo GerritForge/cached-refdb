@@ -11,6 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -20,6 +22,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -188,12 +191,16 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
-    return delegate.getTipsWithSha1(id);
+    Set<String> names = refsCache.getRefNamesByObjectId(repo.getProjectName(), id, delegate);
+    return names.stream()
+        .map(name -> refsCache.get(repo.getProjectName(), name, delegate))
+        .filter(Objects::nonNull)
+        .collect(toImmutableSet());
   }
 
   @Override
   public boolean hasFastTipsWithSha1() throws IOException {
-    return delegate.hasFastTipsWithSha1();
+    return refsCache.hasFastTipsWithSha1(delegate);
   }
 
   @Override

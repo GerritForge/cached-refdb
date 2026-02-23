@@ -15,6 +15,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -91,6 +92,8 @@ class RefRenameWithCacheUpdate extends RefRename {
 
   @Override
   public Result rename() throws IOException {
+    // Capture the objectId before rename; src ref will be deleted after a successful rename
+    ObjectId sharedObjectId = src.getRef() != null ? src.getRef().getObjectId() : null;
     Result r = delegate.rename();
     if (SUCCESSFUL_RENAMES.contains(r)) {
       refsCache.evictRefByNameCache(repo.getProjectName(), src.getName());
@@ -98,6 +101,8 @@ class RefRenameWithCacheUpdate extends RefRename {
 
       refsCache.evictRefByNameCache(repo.getProjectName(), dst.getName());
       refsCache.updateRefInPrefixesByProjectCache(repo.getProjectName(), dst.getRef());
+
+      refsCache.evictObjectIdCache(repo.getProjectName(), sharedObjectId);
     }
     return r;
   }
