@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6006887f_ea3e3d03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T18:06:13Z",
+      "side": 1,
+      "message": "Let\u0027s discuss in a proper design kick-off.",
+      "parentUuid": "b79ab909_a6abe5b9",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2cbf7a0c_911007b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -290,6 +314,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccdbca7f_5e642b00",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T18:06:13Z",
+      "side": 1,
+      "message": "I believe this change was made before any design, so it misses the point completely. Let\u0027s discuss and do a proper kick-off and design session. The generated code isn\u0027t useful, and it would just be an additional waste of time.",
+      "parentUuid": "688bc7a1_4d8cebfd",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 50
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c38dfd1d_d586d19e",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
         "patchSetId": 1
@@ -366,6 +414,24 @@
       "side": 1,
       "message": "Why? this is used for eviction, so why get the `dst` one?\nAgreed, this can probably be inlined below and we don\u0027t need to check here if it\u0027s null or not though, as it\u0027s done further down the stack too.",
       "parentUuid": "91089e1e_08e22306",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b723299_2c482224",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T18:06:13Z",
+      "side": 1,
+      "message": "The rename is:\n- source ref \u003d\u003e zeros\n- dest ref \u003d\u003e new SHA1\n\nAgain, no point in discussing on this change, let\u0027s start fresh with a more common-sense code.",
+      "parentUuid": "2695a815_a6534e52",
       "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
