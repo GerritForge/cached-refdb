@@ -22,10 +22,12 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -164,6 +166,18 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
+  }
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id, RefDatabase delegate)
+      throws ExecutionException {
+    String projectName = repo.getProjectName();
+    return refNamesByProject.get(projectName, getLoader(delegate)).getByObjectId(id);
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return true;
   }
 
   @Override
