@@ -224,6 +224,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     try {
       if (SUCCESSFUL_UPDATES.contains(r)) {
         refsCache.evict(repo.getProjectName(), getName());
+        refsCache.updateObjectIdCache(repo.getProjectName(), getOldObjectId());
       }
       return r;
     } catch (ExecutionException e) {
@@ -233,7 +234,15 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   private Result refreshCachesOnSuccessfulUpdate(Result r) throws IOException {
     if (SUCCESSFUL_UPDATES.contains(r)) {
-      refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
+      try {
+        refsCache.updateRef(repo.getProjectName(), getName(), delegateRefDb);
+        // TODO See how much benefit combining these 2 calls so that we scan the tree only once
+        // brings
+        refsCache.updateObjectIdCache(repo.getProjectName(), getOldObjectId());
+        refsCache.updateObjectIdCache(repo.getProjectName(), getNewObjectId());
+      } catch (ExecutionException e) {
+        throw new IOException(e);
+      }
     }
     return r;
   }
