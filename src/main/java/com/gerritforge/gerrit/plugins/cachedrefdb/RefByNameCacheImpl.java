@@ -11,6 +11,8 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -22,11 +24,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
@@ -36,6 +41,7 @@ class RefByNameCacheImpl implements RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_BY_NAME = "ref_by_name";
   private static final String REF_NAMES_BY_PROJECT = "ref_names_by_project";
+  static final String REFS_BY_OBJECT_ID = "ref_names_by_object_id";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
@@ -47,20 +53,24 @@ class RefByNameCacheImpl implements RefByNameCache {
                 Project.NameKey.class,
                 new TypeLiteral<TernarySearchTree<Ref>>() {})
             .loader(RefNamesByProjectLoader.class);
+        cache(REFS_BY_OBJECT_ID, String.class, new TypeLiteral<Set<String>>() {});
       }
     };
   }
 
   private final Cache<String, Optional<Ref>> refByName;
   private final LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refNamesByProject;
+  private final Cache<String, Set<String>> refsByObjectId;
 
   @Inject
   RefByNameCacheImpl(
       @Named(REF_BY_NAME) Cache<String, Optional<Ref>> refByName,
       @Named(REF_NAMES_BY_PROJECT)
-          LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refNamesByProject) {
+          LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refNamesByProject,
+      @Named(REFS_BY_OBJECT_ID) Cache<String, Set<String>> refsByObjectId) {
     this.refByName = refByName;
     this.refNamesByProject = refNamesByProject;
+    this.refsByObjectId = refsByObjectId;
   }
 
   static class RefNamesByProjectLoader
@@ -171,6 +181,39 @@ class RefByNameCacheImpl implements RefByNameCache {
   @Override
   public void evictRefByNameCache(String identifier, String ref) {
     refByName.invalidate(getUniqueName(identifier, ref));
+  }
+
+  @Override
+  public Set<String> getRefNamesByObjectId(String project, ObjectId id, RefDatabase delegate)
+      throws IOException {
+    String key = getUniqueName(project, id.name());
+    try {
+      return refsByObjectId.get(
+          key,
+          (Callable<Set<String>>)
+              () ->
+                  delegate.getTipsWithSha1(id).stream()
+                      .map(Ref::getName)
+                      .collect(toImmutableSet()));
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Getting refs for [%s, %s] failed.", project, id.name());
+      return delegate.getTipsWithSha1(id).stream()
+          .map(Ref::getName)
+          .collect(toImmutableSet());
+    }
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) throws IOException {
+    return true;
+  }
+
+  @Override
+  public void evictObjectIdCache(String identifier, ObjectId id) {
+    if (id != null && !id.equals(ObjectId.zeroId())) {
+      refsByObjectId.invalidate(getUniqueName(identifier, id.name()));
+    }
   }
 
   private static String getUniqueName(String identifier, String ref) {
