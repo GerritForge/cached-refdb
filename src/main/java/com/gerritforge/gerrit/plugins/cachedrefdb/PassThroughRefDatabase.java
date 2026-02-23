@@ -13,7 +13,9 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -60,4 +62,29 @@ class PassThroughRefDatabase implements RefDatabaseCache {
 
   @Override
   public void updateRef(String identifier, String refName, RefDatabase delete) {}
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id, RefDatabase delegate)
+      throws ExecutionException {
+    try {
+      return delegate.getTipsWithSha1(id);
+    } catch (IOException e) {
+      throw new ExecutionException(e);
+    }
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return false;
+  }
+
+  @Override
+  public void removeRefFromObjectIdCache(String identifier, String refName, ObjectId oldId) {
+    // do nothing as there is no cache to update
+  }
+
+  @Override
+  public void addRefToObjectIdCache(String identifier, String refName, ObjectId newId) {
+    // do nothing as there is no cache to update
+  }
 }
