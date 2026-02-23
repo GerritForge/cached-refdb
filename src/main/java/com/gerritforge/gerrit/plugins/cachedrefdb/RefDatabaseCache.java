@@ -13,7 +13,9 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -34,4 +36,12 @@ interface RefDatabaseCache {
   void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException;
 
   void updateRef(String identifier, String refName, RefDatabase delete) throws IOException;
+
+  Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id, RefDatabase delegate) throws ExecutionException;
+
+  boolean hasFastTipsWithSha1(RefDatabase delegate);
+
+  void removeRefFromObjectIdCache(String identifier, String refName, ObjectId oldId);
+
+  void addRefToObjectIdCache(String identifier, String refName, ObjectId newId);
 }
