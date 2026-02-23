@@ -100,6 +100,10 @@ class RefRenameWithCacheUpdate extends RefRename {
       String projectName = repo.getProjectName();
       try {
         refsCache.renameRef(projectName, src.getRef(), dst.getRef());
+          refsCache.removeRefFromObjectIdCache(
+              projectName, src.getRef(), src.getRef().getObjectId());
+          refsCache.addRefToObjectIdCache(
+              projectName, dst.getRef(), src.getRef().getObjectId());
       } catch (ExecutionException e) {
         logger.atWarning().log(
             "Cannot update cache for project %s, source ref %s, dest ref %s",
