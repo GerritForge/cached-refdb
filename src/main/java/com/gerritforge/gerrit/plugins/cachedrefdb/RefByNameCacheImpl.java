@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.lib.ObjectId;
@@ -110,7 +109,7 @@ class RefByNameCacheImpl implements RefByNameCache {
     try {
       Optional<Ref> maybeRef =
           refByName.get(
-              key, (Callable<Optional<Ref>>) () -> Optional.ofNullable(delegate.exactRef(ref)));
+              key, () -> Optional.ofNullable(delegate.exactRef(ref)));
       return maybeRef.orElse(null);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
