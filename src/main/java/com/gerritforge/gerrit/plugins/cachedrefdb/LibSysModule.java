@@ -24,19 +24,20 @@ public class LibSysModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    install(RefByNameCacheImpl.module());
+    install(RefDatabaseCacheImpl.module());
     listener().to(RefByNameCacheSetter.class);
     logger.atInfo().log("Sys library loaded");
   }
 
   @Singleton
   private static class RefByNameCacheSetter implements LifecycleListener {
-    private final RefByNameCacheImpl refByNameCache;
-    private final DynamicItem<RefByNameCache> cacheRef;
+    private final RefDatabaseCacheImpl refByNameCache;
+    private final DynamicItem<RefDatabaseCache> cacheRef;
     private RegistrationHandle handle;
 
     @Inject
-    RefByNameCacheSetter(RefByNameCacheImpl refByNameCache, DynamicItem<RefByNameCache> cacheRef) {
+    RefByNameCacheSetter(
+        RefDatabaseCacheImpl refByNameCache, DynamicItem<RefDatabaseCache> cacheRef) {
       this.refByNameCache = refByNameCache;
       this.cacheRef = cacheRef;
     }

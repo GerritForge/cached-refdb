@@ -170,7 +170,7 @@ public class CachedRefRepositoryIT {
   private CachedRefRepository createCachedRepository(Repository repo) {
     cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
     RefByNameCacheWrapper wrapper =
-        new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
+        new RefByNameCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override
@@ -181,7 +181,7 @@ public class CachedRefRepositoryIT {
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
-  private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
+  private static class TestRefByNameCacheImpl extends RefDatabaseCacheImpl {
     private int cacheCalled;
 
     private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {

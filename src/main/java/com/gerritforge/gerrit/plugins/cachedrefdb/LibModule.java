@@ -29,8 +29,8 @@ public class LibModule extends LifecycleModule {
         .annotatedWith(Names.named(LocalDiskRepositoryManager.class.getSimpleName()))
         .to(CachedGitRepositoryManager.class);
 
-    DynamicItem.itemOf(binder(), RefByNameCache.class);
-    DynamicItem.bind(binder(), RefByNameCache.class).to(NoOpRefByNameCache.class).in(SINGLETON);
+    DynamicItem.itemOf(binder(), RefDatabaseCache.class);
+    DynamicItem.bind(binder(), RefDatabaseCache.class).to(NotCachedRefDatabase.class).in(SINGLETON);
 
     factory(RefUpdateWithCacheUpdate.Factory.class);
     factory(RefRenameWithCacheUpdate.Factory.class);

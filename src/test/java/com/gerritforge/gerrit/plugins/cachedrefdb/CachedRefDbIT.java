@@ -58,7 +58,7 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager().getClass())
         .isEqualTo(LocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefDatabaseCacheImpl.class);
   }
 
   @Test
@@ -73,7 +73,7 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     assertThat(gitRepoManager).isInstanceOf(CachedGitRepositoryManager.class);
     assertThat(((CachedGitRepositoryManager) gitRepoManager).getRepoManager())
         .isInstanceOf(MultiBaseLocalDiskRepositoryManager.class);
-    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefByNameCacheImpl.class);
+    assertThat(refByNameCacheWrapper.cache()).isInstanceOf(RefDatabaseCacheImpl.class);
   }
 
   @Test

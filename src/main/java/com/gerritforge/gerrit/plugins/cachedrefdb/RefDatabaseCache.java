@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
-interface RefByNameCache {
+interface RefDatabaseCache {
   Ref get(String identifier, String ref, RefDatabase delegate) throws IOException;
 
   boolean containsKey(String identifier, String ref);

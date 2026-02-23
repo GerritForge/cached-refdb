@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-class RefByNameCacheImpl implements RefByNameCache {
+class RefDatabaseCacheImpl implements RefDatabaseCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_NAMES_BY_PROJECT = "ref_names_by_project";
 
@@ -48,7 +48,7 @@ class RefByNameCacheImpl implements RefByNameCache {
   private final LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject;
 
   @Inject
-  RefByNameCacheImpl(
+  RefDatabaseCacheImpl(
       @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject) {
     this.refNamesByProject = refNamesByProject;
   }
