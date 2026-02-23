@@ -13,6 +13,8 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.truth.Correspondence;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -25,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.junit.TestRepository;
@@ -156,6 +159,27 @@ public class CachedRefRepositoryIT {
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
 
+  @Test
+  public void shouldGetTipsWithSha1FromCachedDatabase() throws Exception {
+    String master = RefNames.fullName("master");
+    RevCommit commit = tr.update(master, tr.commit().add("first", "foo").create());
+
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(0);
+
+    Set<Ref> tips = objectUnderTest.getRefDatabase().getTipsWithSha1(commit);
+    assertThat(tips)
+        .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+        .contains(master);
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(1);
+
+    // Second call hits the cache — no additional delegate load
+    tips = objectUnderTest.getRefDatabase().getTipsWithSha1(commit);
+    assertThat(tips)
+        .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+        .contains(master);
+    assertThat(cache.refsByObjectIdCalled).isEqualTo(2);
+  }
+
   private Repository repo() {
     return tr.getRepository();
   }
@@ -173,7 +197,9 @@ public class CachedRefRepositoryIT {
   private CachedRefRepository createCachedRepository(Repository repo) {
     cache =
         new TestRefByNameCacheImpl(
-            CacheBuilder.newBuilder().build(), CacheBuilder.newBuilder().build(newCacheLoader()));
+            CacheBuilder.newBuilder().build(),
+            CacheBuilder.newBuilder().build(newCacheLoader()),
+            CacheBuilder.newBuilder().build());
     RefByNameCacheWrapper wrapper =
         new RefByNameCacheWrapper(DynamicItem.itemOf(RefByNameCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -188,18 +214,28 @@ public class CachedRefRepositoryIT {
 
   private static class TestRefByNameCacheImpl extends RefByNameCacheImpl {
     private int cacheCalled;
+    private int refsByObjectIdCalled;
 
     private TestRefByNameCacheImpl(
         Cache<String, Optional<Ref>> refByName,
-        LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refsNamesByPrefix) {
-      super(refByName, refsNamesByPrefix);
+        LoadingCache<Project.NameKey, TernarySearchTree<Ref>> refsNamesByPrefix,
+        Cache<String, Set<String>> refsByObjectId) {
+      super(refByName, refsNamesByPrefix, refsByObjectId);
       cacheCalled = 0;
+      refsByObjectIdCalled = 0;
     }
 
     @Override
     public Ref get(String identifier, String ref, RefDatabase delegate) {
       cacheCalled++;
       return super.get(identifier, ref, delegate);
+    }
+
+    @Override
+    public Set<String> getRefNamesByObjectId(
+        String identifier, ObjectId id, RefDatabase delegate) {
+      refsByObjectIdCalled++;
+      return super.getRefNamesByObjectId(identifier, id, delegate);
     }
   }
 }
