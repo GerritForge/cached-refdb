@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36013c73_4b7d0804",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-02-23T19:49:04Z",
+      "side": 1,
+      "message": "Happy to do in a followup",
+      "parentUuid": "6c2f6671_4ee73ec6",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 5
+      },
+      "revId": "48e8328bc2054fbed809dc67ca9b056411ef147b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ec18016_c226be53",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
         "patchSetId": 49
