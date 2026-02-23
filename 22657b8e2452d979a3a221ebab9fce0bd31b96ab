@@ -223,6 +223,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c56613_5a568a8f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T15:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b2bd78_4f5ecc85",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ef0079e_df4e4340",
@@ -269,6 +287,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a67f165_65b048c3",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T15:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c38dfd1d_d586d19e",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 37
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91089e1e_08e22306",
@@ -282,6 +324,24 @@
       "writtenOn": "2026-02-23T15:29:16Z",
       "side": 1,
       "message": "That\u0027s incorrect, we should just get the objectId from `dst.getRef().getObjectId()`",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2695a815_a6534e52",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T15:52:15Z",
+      "side": 1,
+      "message": "Why? this is used for eviction, so why get the `dst` one?\nAgreed, this can probably be inlined below and we don\u0027t need to check here if it\u0027s null or not though, as it\u0027s done further down the stack too.",
+      "parentUuid": "91089e1e_08e22306",
       "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
