@@ -15,9 +15,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -162,32 +161,21 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    try {
-      return RefDatabase.ALL.equals(prefix)
-          ? refsCache.all(repo.getProjectName(), delegate)
-          : refsCache.allByPrefix(repo.getProjectName(), prefix, delegate);
-    } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log(
-          "Cannot load refs from cache for project %s, prefix %s", repo.getProjectName(), prefix);
-      return delegate.getRefsByPrefix(prefix);
-    }
+    return getRefsByPrefix(new String[] {prefix});
   }
 
   @Override
   public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
-    Set<String> uniquePrefixes = new LinkedHashSet<>();
-
-    for (String p : prefixes) {
-      if (p != null && !p.isBlank()) {
-        uniquePrefixes.add(p);
-      }
+    try {
+      return Arrays.asList(prefixes).contains(RefDatabase.ALL)
+          ? refsCache.all(repo.getProjectName(), delegate)
+          : refsCache.allByPrefixes(repo.getProjectName(), prefixes, delegate);
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot load refs from cache for project %s, prefixes %s",
+          repo.getProjectName(), prefixes);
+      return delegate.getRefsByPrefix(prefixes);
     }
-
-    List<Ref> result = new ArrayList<>();
-    for (String p : uniquePrefixes) {
-      result.addAll(getRefsByPrefix(p));
-    }
-    return result;
   }
 
   @Override

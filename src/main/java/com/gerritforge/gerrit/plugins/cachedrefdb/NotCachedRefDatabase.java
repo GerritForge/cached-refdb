@@ -39,10 +39,10 @@ class NotCachedRefDatabase implements RefDatabaseCache {
   }
 
   @Override
-  public List<Ref> allByPrefix(String projectName, String prefix, RefDatabase delegate)
+  public List<Ref> allByPrefixes(String projectName, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
     try {
-      return delegate.getRefsByPrefix(prefix);
+      return delegate.getRefsByPrefix(prefixes);
     } catch (IOException e) {
       throw new ExecutionException(e);
     }

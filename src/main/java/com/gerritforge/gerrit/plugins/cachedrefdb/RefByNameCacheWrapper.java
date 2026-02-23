@@ -50,9 +50,9 @@ class RefByNameCacheWrapper implements RefDatabaseCache {
   }
 
   @Override
-  public List<Ref> allByPrefix(String identifier, String prefix, RefDatabase delegate)
+  public List<Ref> allByPrefixes(String identifier, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
-    return cache.allByPrefix(identifier, prefix, delegate);
+    return cache.allByPrefixes(identifier, prefixes, delegate);
   }
 
   @Override

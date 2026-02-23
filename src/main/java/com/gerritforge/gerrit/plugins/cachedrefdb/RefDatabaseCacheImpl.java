@@ -13,6 +13,7 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
@@ -22,8 +23,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.lib.Ref;
@@ -97,9 +100,26 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   }
 
   @Override
-  public List<Ref> allByPrefix(String projectName, String prefix, RefDatabase delegate)
+  public List<Ref> allByPrefixes(String projectName, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
-    return refNamesByProject.get(projectName).getValuesWithPrefix(prefix);
+    TernarySearchTree<Ref> projectRefs = refNamesByProject.get(projectName);
+    AtomicReference<String> lastPrefix = new AtomicReference<>();
+    ImmutableList.Builder<Ref> refs = ImmutableList.builder();
+    Arrays.stream(prefixes)
+        .sorted()
+        .filter(prefix -> !isDuplicated(prefix, lastPrefix))
+        .map(projectRefs::getValuesWithPrefix)
+        .forEach(refs::addAll);
+    return refs.build();
+  }
+
+  private static boolean isDuplicated(String prefix, AtomicReference<String> lastPrefix) {
+    if (lastPrefix.get() != null && prefix.contains(lastPrefix.get())) {
+      return true;
+    } else {
+      lastPrefix.set(prefix);
+      return false;
+    }
   }
 
   @Override

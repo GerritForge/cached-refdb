@@ -26,7 +26,7 @@ interface RefDatabaseCache {
 
   void evict(String identifier, String ref) throws ExecutionException;
 
-  List<Ref> allByPrefix(String identifier, String prefix, RefDatabase delegate)
+  List<Ref> allByPrefixes(String identifier, String[] prefixes, RefDatabase delegate)
       throws ExecutionException;
 
   List<Ref> all(String identifier, RefDatabase delegate) throws ExecutionException;
