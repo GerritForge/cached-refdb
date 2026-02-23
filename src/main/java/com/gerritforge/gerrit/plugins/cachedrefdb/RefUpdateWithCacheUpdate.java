@@ -51,7 +51,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
     this.refDb = refDb;
     this.repo = repo;
     this.delegate = delegate;
-    this.delegateRefDb = ((CachedRefDatabase) repo.getRefDatabase()).getDelegate();
+    this.delegateRefDb = repo.getCachedRefDatabase().getDelegate();
   }
 
   @Override

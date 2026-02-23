@@ -77,6 +77,10 @@ class CachedRefRepository extends DelegateRepository {
     return refDb;
   }
 
+  public CachedRefDatabase getCachedRefDatabase() {
+    return refDb;
+  }
+
   @Override
   public ListenerList getListenerList() {
     return delegate.getListenerList();

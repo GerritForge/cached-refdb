@@ -27,7 +27,8 @@ import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   interface Factory {
-    BatchRefUpdateWithCacheUpdate create(CachedRefRepository repo, BatchRefUpdate delegate);
+    BatchRefUpdateWithCacheUpdate create(
+        CachedRefRepository repo, BatchRefUpdate delegate, CachedRefDatabase cachedRefDatabase);
   }
 
   private final CachedRefRepository repo;
@@ -39,12 +40,13 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   BatchRefUpdateWithCacheUpdate(
       RefByNameCacheWrapper refsCache,
       @Assisted CachedRefRepository repo,
-      @Assisted BatchRefUpdate delegate) {
-    super(repo.getRefDatabase());
+      @Assisted BatchRefUpdate delegate,
+      @Assisted CachedRefDatabase cachedRefDatabase) {
+    super(cachedRefDatabase);
     this.refsCache = refsCache;
     this.repo = repo;
     this.delegate = delegate;
-    this.delegateRefDb = ((CachedRefDatabase) repo.getRefDatabase()).getDelegate();
+    this.delegateRefDb = cachedRefDatabase.getDelegate();
   }
 
   @Override

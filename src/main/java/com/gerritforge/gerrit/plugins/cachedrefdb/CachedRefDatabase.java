@@ -126,7 +126,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public BatchRefUpdate newBatchUpdate() {
-    return batchUpdateFactory.create(repo, delegate.newBatchUpdate());
+    return batchUpdateFactory.create(repo, delegate.newBatchUpdate(), this);
   }
 
   @Override
