@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad42f5a_166f0a21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "Whilst I understand the statement on NFS, the one on multi-site is unrelated: having a large number of refs and being multi-site has no impact on the speed of `getTipsWithSha1`",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c617e4_1e3caa35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "The choice of the key composition with a string + $ + text representation of the sha1 is going to be extremely slow to compute and will take a lot of memory.",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbf7a0c_911007b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "This isn\u0027t useful: we can see from the diff on what has changed. The commit message should explain why it is needed and why the implementation choices were made.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 60
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b00d6446_9f860001",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "This change provides no value: there are no tests, and the code it produces makes little sense. It\u0027s pure scaffolding with Java syntax, copied from other caches.",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92f0dc2e_3c28946f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "The name is inaccurate: the cache returns the names, not the refs.\n\n```suggestion\n  static final String REFS_BY_OBJECT_ID \u003d \"ref_names_by_object_id\";\n```",
+      "range": {
+        "startLine": 44,
+        "startChar": 43,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b2bd78_4f5ecc85",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "Casting isn\u0027t needed.",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef0079e_df4e4340",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "What\u0027s the point of going through the delegate this execution? We do have all the refs and associated SHA1s. I would expect this call to use some cached in-memory data rather than just delegating it downstream.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 50
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c38dfd1d_d586d19e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "Why re-running again the code that has failed at L195?",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 37
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91089e1e_08e22306",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-23T15:29:16Z",
+      "side": 1,
+      "message": "That\u0027s incorrect, we should just get the objectId from `dst.getRef().getObjectId()`",
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
