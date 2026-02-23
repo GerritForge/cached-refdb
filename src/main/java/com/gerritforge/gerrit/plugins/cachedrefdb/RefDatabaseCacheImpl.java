@@ -11,9 +11,11 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
@@ -25,10 +27,14 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
@@ -37,6 +43,7 @@ import org.eclipse.jgit.lib.Repository;
 class RefDatabaseCacheImpl implements RefDatabaseCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String REF_NAMES_BY_PROJECT = "ref_names_by_project";
+  private static final String REFS_BY_OBJECT_ID = "ref_names_by_object_id";
 
   static com.google.inject.Module module() {
     return new CacheModule() {
@@ -44,16 +51,20 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
       protected void configure() {
         cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {})
             .loader(RefNamesByProjectLoader.class);
+        cache(REFS_BY_OBJECT_ID, ObjectId.class, new TypeLiteral<Map<String, Set<Ref>>>() {});
       }
     };
   }
 
   private final LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject;
+  private final Cache<ObjectId, Map<String, Set<Ref>>> refsByObjectId;
 
   @Inject
   RefDatabaseCacheImpl(
-      @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject) {
+      @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject,
+      @Named(REFS_BY_OBJECT_ID) Cache<ObjectId, Map<String, Set<Ref>>> refsByObjectId) {
     this.refNamesByProject = refNamesByProject;
+    this.refsByObjectId = refsByObjectId;
   }
 
   static class RefNamesByProjectLoader extends CacheLoader<String, TernarySearchTree<Ref>> {
@@ -67,8 +78,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
 
     @Override
     public TernarySearchTree<Ref> load(String project) throws Exception {
-
-      try (Repository repo = repositoryManager.openRepository(Project.nameKey(project)); ) {
+      try (Repository repo = repositoryManager.openRepository(Project.nameKey(project))) {
         TernarySearchTree<Ref> tree = new TernarySearchTree<>();
         for (Ref ref : repo.getRefDatabase().getRefs()) {
           tree.insert(ref.getName(), ref);
@@ -174,6 +184,60 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
+  }
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id) throws ExecutionException {
+    String projectName = repo.getProjectName();
+    Map<String, Set<Ref>> projectMap = refsByObjectId.getIfPresent(id);
+    if (projectMap != null && projectMap.containsKey(projectName)) {
+      return projectMap.get(projectName);
+    }
+    Set<Ref> refs =
+        refNamesByProject.get(projectName).getAllValues().stream()
+            .filter(ref -> id.equals(ref.getObjectId()))
+            .collect(ImmutableSet.toImmutableSet());
+    ConcurrentHashMap<String, Set<Ref>> newMap = new ConcurrentHashMap<>();
+    newMap.put(projectName, refs);
+    refsByObjectId.asMap().merge(id, newMap, (existing, added) -> {
+      existing.putAll(added);
+      return existing;
+    });
+    return refs;
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return true;
+  }
+
+  @Override
+  public void removeRefFromObjectIdCache(String project, String refName, ObjectId oldId) {
+    Map<String, Set<Ref>> projectMap = refsByObjectId.getIfPresent(oldId);
+    if (projectMap == null) return;
+    projectMap.computeIfPresent(
+        project,
+        (k, refs) -> {
+          Set<Ref> updated =
+              refs.stream()
+                  .filter(r -> !r.getName().equals(refName))
+                  .collect(ImmutableSet.toImmutableSet());
+          return updated.isEmpty() ? null : updated;
+        });
+  }
+
+  @Override
+  public void addRefToObjectIdCache(String project, String refName, ObjectId newId) {
+    TernarySearchTree<Ref> tree = refNamesByProject.getIfPresent(project);
+    if (tree == null) return;
+    Ref ref = tree.get(refName);
+    if (ref == null) return;
+    ConcurrentHashMap<String, Set<Ref>> newMap = new ConcurrentHashMap<>();
+    newMap.put(project, ImmutableSet.of(ref));
+    refsByObjectId.asMap().merge(newId, newMap, (existing, added) -> {
+      existing.putAll(added);
+      return existing;
+    });
   }
 
   @Override

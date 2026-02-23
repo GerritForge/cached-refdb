@@ -16,9 +16,12 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.Repository;
 
 class RefDatabaseCacheWrapper implements RefDatabaseCache {
 
@@ -69,6 +72,26 @@ class RefDatabaseCacheWrapper implements RefDatabaseCache {
   public void updateRef(String identifier, String refName, RefDatabase delegate)
       throws IOException {
     cache.updateRef(identifier, refName, delegate);
+  }
+
+  @Override
+  public Set<Ref> getRefsByObjectId(CachedRefRepository repo, ObjectId id) throws ExecutionException {
+    return cache.getRefsByObjectId(repo, id);
+  }
+
+  @Override
+  public boolean hasFastTipsWithSha1(RefDatabase delegate) {
+    return true;
+  }
+
+  @Override
+  public void removeRefFromObjectIdCache(String identifier, String refName, ObjectId oldId) {
+    cache.removeRefFromObjectIdCache(identifier, refName, oldId);
+  }
+
+  @Override
+  public void addRefToObjectIdCache(String identifier, String refName, ObjectId newId) {
+    cache.addRefToObjectIdCache(identifier, refName, newId);
   }
 
   @VisibleForTesting
