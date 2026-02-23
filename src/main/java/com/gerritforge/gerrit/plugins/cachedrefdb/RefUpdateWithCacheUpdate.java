@@ -35,7 +35,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private static final EnumSet<Result> SUCCESSFUL_UPDATES =
       EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
-  private final RefByNameCacheWrapper refsCache;
+  private final RefDatabaseCacheWrapper refsCache;
   private final RefDatabase refDb;
   private final RefDatabase delegateRefDb;
   private final CachedRefRepository repo;
@@ -43,7 +43,7 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
 
   @Inject
   RefUpdateWithCacheUpdate(
-      RefByNameCacheWrapper refsCache,
+      RefDatabaseCacheWrapper refsCache,
       @Assisted RefDatabase refDb,
       @Assisted CachedRefRepository repo,
       @Assisted RefUpdate delegate) {

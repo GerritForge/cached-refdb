@@ -20,12 +20,12 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
-class RefByNameCacheWrapper implements RefDatabaseCache {
+class RefDatabaseCacheWrapper implements RefDatabaseCache {
 
   private final RefDatabaseCache cache;
 
   @Inject
-  RefByNameCacheWrapper(DynamicItem<RefDatabaseCache> refByNameCache) {
+  RefDatabaseCacheWrapper(DynamicItem<RefDatabaseCache> refByNameCache) {
     this.cache = refByNameCache.get();
   }
 

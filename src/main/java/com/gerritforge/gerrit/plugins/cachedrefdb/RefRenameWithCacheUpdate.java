@@ -37,7 +37,7 @@ class RefRenameWithCacheUpdate extends RefRename {
   private static final EnumSet<Result> SUCCESSFUL_RENAMES =
       EnumSet.of(Result.NEW, Result.FORCED, Result.FAST_FORWARD, Result.RENAMED);
 
-  private final RefByNameCacheWrapper refsCache;
+  private final RefDatabaseCacheWrapper refsCache;
   private final CachedRefRepository repo;
   private final RefRename delegate;
   private final RefUpdate src;
@@ -45,7 +45,7 @@ class RefRenameWithCacheUpdate extends RefRename {
 
   @Inject
   RefRenameWithCacheUpdate(
-      RefByNameCacheWrapper refsCache,
+      RefDatabaseCacheWrapper refsCache,
       @Assisted CachedRefRepository repo,
       @Assisted RefRename delegate,
       @Assisted("src") RefUpdate src,

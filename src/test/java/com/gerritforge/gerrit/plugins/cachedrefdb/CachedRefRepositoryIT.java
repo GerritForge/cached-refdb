@@ -169,8 +169,8 @@ public class CachedRefRepositoryIT {
 
   private CachedRefRepository createCachedRepository(Repository repo) {
     cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
-    RefByNameCacheWrapper wrapper =
-        new RefByNameCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
+    RefDatabaseCacheWrapper wrapper =
+        new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
         new CachedRefDatabase.Factory() {
           @Override

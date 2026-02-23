@@ -36,7 +36,7 @@ class CachedRefDatabase extends RefDatabase {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final RefByNameCacheWrapper refsCache;
+  private final RefDatabaseCacheWrapper refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
@@ -45,7 +45,7 @@ class CachedRefDatabase extends RefDatabase {
 
   @Inject
   CachedRefDatabase(
-      RefByNameCacheWrapper refsCache,
+      RefDatabaseCacheWrapper refsCache,
       BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,

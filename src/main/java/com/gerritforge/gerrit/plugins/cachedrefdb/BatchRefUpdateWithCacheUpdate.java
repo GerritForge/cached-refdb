@@ -33,13 +33,13 @@ class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
   }
 
   private final CachedRefRepository repo;
-  private final RefByNameCacheWrapper refsCache;
+  private final RefDatabaseCacheWrapper refsCache;
   private final BatchRefUpdate delegate;
   private final RefDatabase delegateRefDb;
 
   @Inject
   BatchRefUpdateWithCacheUpdate(
-      RefByNameCacheWrapper refsCache,
+      RefDatabaseCacheWrapper refsCache,
       @Assisted CachedRefRepository repo,
       @Assisted BatchRefUpdate delegate,
       @Assisted CachedRefDatabase cachedRefDatabase) {

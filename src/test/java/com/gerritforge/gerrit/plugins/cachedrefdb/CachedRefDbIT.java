@@ -43,7 +43,7 @@ public class CachedRefDbIT extends AbstractDaemonTest {
 
   @Inject private GitRepositoryManager gitRepoManager;
 
-  @Inject private RefByNameCacheWrapper refByNameCacheWrapper;
+  @Inject private RefDatabaseCacheWrapper refByNameCacheWrapper;
 
   @Inject protected GerritApi gerritApi;
 
