@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ded62ff_b6555908",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T15:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad42f5a_166f0a21",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49c617e4_1e3caa35",
@@ -60,6 +84,30 @@
       "writtenOn": "2026-02-23T15:29:16Z",
       "side": 1,
       "message": "This isn\u0027t useful: we can see from the diff on what has changed. The commit message should explain why it is needed and why the implementation choices were made.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 60
+      },
+      "revId": "22657b8e2452d979a3a221ebab9fce0bd31b96ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6566cd72_08ce2d30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-23T15:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cbf7a0c_911007b2",
       "range": {
         "startLine": 19,
         "startChar": 0,
