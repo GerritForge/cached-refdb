@@ -22,6 +22,30 @@
       },
       "revId": "6243e0da696b35d654dbb7688c82d7ecb423bf5b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faa0cefe_71815ee7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NotCachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-25T12:38:02Z",
+      "side": 1,
+      "message": "`NoOp` means an empty shell; here is simply a ref-database. Maybe `PassthroughRefDatabase`?\n\nNaming things is a lot harder than generating code :-(",
+      "parentUuid": "dff87134_24910389",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "6243e0da696b35d654dbb7688c82d7ecb423bf5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
