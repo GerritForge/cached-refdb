@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
-class NotCachedRefDatabase implements RefDatabaseCache {
+class PassThroughRefDatabase implements RefDatabaseCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public Ref get(String identifier, String ref, RefDatabase delegate) throws IOException {

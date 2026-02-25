@@ -30,7 +30,9 @@ public class LibModule extends LifecycleModule {
         .to(CachedGitRepositoryManager.class);
 
     DynamicItem.itemOf(binder(), RefDatabaseCache.class);
-    DynamicItem.bind(binder(), RefDatabaseCache.class).to(NotCachedRefDatabase.class).in(SINGLETON);
+    DynamicItem.bind(binder(), RefDatabaseCache.class)
+        .to(PassThroughRefDatabase.class)
+        .in(SINGLETON);
 
     factory(RefUpdateWithCacheUpdate.Factory.class);
     factory(RefRenameWithCacheUpdate.Factory.class);
