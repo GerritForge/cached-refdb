@@ -46,6 +46,30 @@
       },
       "revId": "6243e0da696b35d654dbb7688c82d7ecb423bf5b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cddb9be7_c6c53e5e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NotCachedRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-25T12:46:19Z",
+      "side": 1,
+      "message": "Yeah, `Passthrough` would have also been good.\nAnyway, was just making sure, not a biggie.",
+      "parentUuid": "faa0cefe_71815ee7",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "6243e0da696b35d654dbb7688c82d7ecb423bf5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
