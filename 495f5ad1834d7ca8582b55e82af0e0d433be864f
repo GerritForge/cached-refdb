@@ -1,4 +1,28 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de5dc7b_a3caa047",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefByNameCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-26T11:58:04Z",
+      "side": 1,
+      "message": "This should have been removed too, as this change removes all uses of the method.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 3
+      },
+      "revId": "495f5ad1834d7ca8582b55e82af0e0d433be864f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
