@@ -1,4 +1,28 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10db5e4b_4c70b185",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/NoOpRefByNameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-02-26T10:39:36Z",
+      "side": 1,
+      "message": "Since we removed the below logging, this is no longer used in this class and can be removed.\n\nWill follow-up",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 78
+      },
+      "revId": "4eae6e7916fa9badcf66f8db740be7c226d781d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
