@@ -180,8 +180,4 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   public void evict(String identifier, String refName) throws ExecutionException {
     deleteRefInPrefixesByProjectCache(identifier, refName);
   }
-
-  private static String getUniqueName(String identifier, String ref) {
-    return String.format("%s$%s", identifier, ref);
-  }
 }
