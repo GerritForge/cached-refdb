@@ -84,11 +84,13 @@ being loaded when the Gerrit instance is started. Note that the following
 configuration options need to be added
 
 ```
-git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
-  com.gerritforge.gerrit.plugins.cachedrefdb;.LibDbModule
-git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
-  com.gerritforge.gerrit.plugins.cachedrefdb;.LibSysModule
+git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule \
+  com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule
+git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule \
+  com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule
 ```
+git config --file etc/gerrit.config --add gerrit.installDbModule com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule
+git config --file etc/gerrit.config --add gerrit.installModule  com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule
 
 > NOTE: There are situations where binding CachedGitRepositoryManager to replace
 > Gerrit's GitRepositoryManager is not desired; e.g., when using this module
@@ -98,10 +100,10 @@ git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
 > options:
 >
 > ```
-> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule\
->   com.gerritforge.gerrit.plugins.cachedrefdb;.LibModule
-> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule\
->   com.gerritforge.gerrit.plugins.cachedrefdb;.LibSysModule
+> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installDbModule \
+>   com.gerritforge.gerrit.plugins.cachedrefdb.LibModule
+> git config --file ${GERRIT_SITE}/etc/gerrit.config --add gerrit.installModule \
+>   com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule
 > ```
 > This allows users to expose the ref_by_name cache to other plugins without
 > enforcing the interception behavior native to CachedGitRepositoryManager on
