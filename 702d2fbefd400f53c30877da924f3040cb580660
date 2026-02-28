@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adf873a4_fe396b15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "Just started reviewing 69 lines added to one file, and found 12 issues. The change is big (366 lines), and I fear I would add hundreds of comments that would take a lot of time to write and even more to address. \n\nPutting this change in WIP, and let\u0027s do some old-style pair-programming on this.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7c601e_47f5c403",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "We will access the entries of this map concurrently, best to use a `ConcurrentHashMap` here.\n\n\n\n```suggestion\n        cache(REFS_BY_OBJECT_ID, ObjectId.class, new TypeLiteral\u003cConcurrentHashMap\u003cString, Set\u003cRef\u003e\u003e\u003e() {});\n```",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 68
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24219b08_f89fb69d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "```suggestion\n  private final Cache\u003cObjectId, ConcurrentHashMap\u003cString, Set\u003cRef\u003e\u003e\u003e refsByObjectId;\n```",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c37ab600_f409cc6f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "```suggestion\n      @Named(REFS_BY_OBJECT_ID) Cache\u003cObjectId, ConcurrentHashMap\u003cString, Set\u003cRef\u003e\u003e\u003e refsByObjectId) {\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 48,
+        "endLine": 65,
+        "endChar": 51
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb019a41_f6c04d5b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "`oldId` isn\u0027t nullable, this check is unneeded.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "555e5e82_1a54c8da",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "Use \u0027{\u0027 \u0027}\u0027 in blocks.\n\n\n\n```suggestion\n    if (projectMap \u003d\u003d null) {\n      return;\n    }\n```",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfcd51aa_ff21e244",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "We know it is present, we don\u0027t have to do the `IfPresent` here.",
+      "range": {
+        "startLine": 219,
+        "startChar": 15,
+        "endLine": 219,
+        "endChar": 31
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "902aa541_9b58e138",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "This is expensive and creates JVM heap fragmentation.\n\nEvery time you update, you destroy the previous set and create a new one.\nJust remove the element from the set.",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 58
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e35abc25_655a6362",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "You can check this case before the L222:L225; most likely, this will be the scenario executed, and you can avoid all the computation and just remove the entry from the map, instead of even trying to perform the update of its values.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9208f63c_cab84a6e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "`newId` isn\u0027t nullable, therefore we shouldn\u0027t check for nulls.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b86f39_ae702192",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "If the project hasn\u0027t been loaded in the `refNamesByProject`, then we should load it. That\u0027s a cache, the entry could be evicted, therefore we should load it as necessary.",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 29
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de8fd85_71b5f2ba",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "Why returning with nothing done in this case?\nWe are adding a ref-\u003eobjectId entry, it need to add the entry if isn\u0027t there.",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 28
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a93b16da_4387d299",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-28T11:44:05Z",
+      "side": 1,
+      "message": "This looks like quite a complex way to update a cache: why not simply use a `get` with an associated loader?",
+      "range": {
+        "startLine": 239,
+        "startChar": 20,
+        "endLine": 239,
+        "endChar": 32
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
