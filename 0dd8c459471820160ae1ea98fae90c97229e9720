@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc46742_ffd4ce4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-03T18:23:25Z",
+      "side": 1,
+      "message": "I believe the current solution of reading from the refdb on disk works, let\u0027s keep it as-is.",
+      "parentUuid": "f5b56afe_39c3051f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "0dd8c459471820160ae1ea98fae90c97229e9720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7e259f1_0be84470",
