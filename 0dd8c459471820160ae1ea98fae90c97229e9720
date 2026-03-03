@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69262222_55c1ba43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-03T16:50:05Z",
+      "side": 1,
+      "message": "Because this is a rename, we can get the SHA1 from the source `Ref` object as well.\n\nHowever, reading it from the underlying ref-db also works.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "0dd8c459471820160ae1ea98fae90c97229e9720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
