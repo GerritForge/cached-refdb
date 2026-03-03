@@ -63,6 +63,24 @@
       "message": "Reformat long line.\n\n\n\n```suggestion\n        refsCache.renameRef(\n            projectName,\n            src.getRef(),\n            repo.getCachedRefDatabase().getDelegate().exactRef(dst.getName()));\n\n```",
       "revId": "0dd8c459471820160ae1ea98fae90c97229e9720",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b898654_366324ca",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T17:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e259f1_0be84470",
+      "revId": "0dd8c459471820160ae1ea98fae90c97229e9720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
