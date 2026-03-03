@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "145e3bd9_9da50da3",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea7c601e_47f5c403",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 68
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24219b08_f89fb69d",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "```suggestion\n  private final Cache\u003cObjectId, ConcurrentHashMap\u003cString, Set\u003cRef\u003e\u003e\u003e refsByObjectId;\n```",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ff85ae_75cd0d59",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24219b08_f89fb69d",
       "revId": "702d2fbefd400f53c30877da924f3040cb580660",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -81,6 +123,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12557bcf_6a1d60f7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c37ab600_f409cc6f",
+      "range": {
+        "startLine": 65,
+        "startChar": 48,
+        "endLine": 65,
+        "endChar": 51
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb019a41_f6c04d5b",
@@ -94,6 +160,24 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "`oldId` isn\u0027t nullable, this check is unneeded.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c43ca3a_f1e6ef43",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb019a41_f6c04d5b",
       "revId": "702d2fbefd400f53c30877da924f3040cb580660",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -115,6 +199,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc8a0034_c997406c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "555e5e82_1a54c8da",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfcd51aa_ff21e244",
@@ -128,6 +230,30 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "We know it is present, we don\u0027t have to do the `IfPresent` here.",
+      "range": {
+        "startLine": 219,
+        "startChar": 15,
+        "endLine": 219,
+        "endChar": 31
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f900d6_af5dc7a1",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfcd51aa_ff21e244",
       "range": {
         "startLine": 219,
         "startChar": 15,
@@ -161,6 +287,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f27ec41e_a5a52bee",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "902aa541_9b58e138",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 58
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e35abc25_655a6362",
@@ -174,6 +324,24 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "You can check this case before the L222:L225; most likely, this will be the scenario executed, and you can avoid all the computation and just remove the entry from the map, instead of even trying to perform the update of its values.",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac59389_8df6132c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e35abc25_655a6362",
       "revId": "702d2fbefd400f53c30877da924f3040cb580660",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -195,6 +363,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff21d4bc_a619900d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9208f63c_cab84a6e",
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10b86f39_ae702192",
@@ -208,6 +394,30 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "If the project hasn\u0027t been loaded in the `refNamesByProject`, then we should load it. That\u0027s a cache, the entry could be evicted, therefore we should load it as necessary.",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 29
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "252b5d9c_9dbb7a37",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10b86f39_ae702192",
       "range": {
         "startLine": 233,
         "startChar": 0,
@@ -241,6 +451,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39bdd6ad_ae7d48f9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de8fd85_71b5f2ba",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 28
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a93b16da_4387d299",
@@ -254,6 +488,30 @@
       "writtenOn": "2026-02-28T11:44:05Z",
       "side": 1,
       "message": "This looks like quite a complex way to update a cache: why not simply use a `get` with an associated loader?",
+      "range": {
+        "startLine": 239,
+        "startChar": 20,
+        "endLine": 239,
+        "endChar": 32
+      },
+      "revId": "702d2fbefd400f53c30877da924f3040cb580660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbc527d9_a2422098",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-03T15:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a93b16da_4387d299",
       "range": {
         "startLine": 239,
         "startChar": 20,
