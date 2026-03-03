@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -183,22 +184,31 @@ public class CachedRefDbIT extends AbstractDaemonTest {
     createBranch(oldKey);
 
     Repository repo = gitRepoManager.openRepository(project);
-    assertThat(repo.getRefDatabase().exactRef(oldName)).isNotNull();
+    Ref originalRef = repo.getRefDatabase().exactRef(oldName);
+    assertThat(originalRef).isNotNull();
     assertThat(repo.getRefDatabase().exactRef(newName)).isNull();
+    ObjectId originalObjectId = originalRef.getObjectId();
 
     renameBranch(oldName, newName);
 
     repo = gitRepoManager.openRepository(project);
     assertThat(repo.getRefDatabase().exactRef(oldName)).isNull();
-    assertThat(repo.getRefDatabase().exactRef(newName)).isNotNull();
+    Ref renamedRef = repo.getRefDatabase().exactRef(newName);
+    assertThat(renamedRef).isNotNull();
+    assertThat(renamedRef.getObjectId()).isEqualTo(originalObjectId);
 
-    assertThat(repo.getRefDatabase().getRefsByPrefix("refs/heads/"))
+    List<Ref> refsAfterRename = repo.getRefDatabase().getRefsByPrefix("refs/heads/");
+    assertThat(refsAfterRename)
         .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
         .contains(newName);
-
-    assertThat(repo.getRefDatabase().getRefsByPrefix("refs/heads/"))
+    assertThat(refsAfterRename)
         .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
         .doesNotContain(oldName);
+
+    Optional<Ref> renamedRefInListing =
+        refsAfterRename.stream().filter(r -> r.getName().equals(newName)).findFirst();
+    assertThat(renamedRefInListing).isPresent();
+    assertThat(renamedRefInListing.get().getObjectId()).isEqualTo(originalObjectId);
   }
 
   private void renameBranch(String oldName, String newName) throws Exception {
