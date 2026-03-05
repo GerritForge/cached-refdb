@@ -35,18 +35,18 @@ class RefDatabaseCacheWrapper implements RefDatabaseCache {
   }
 
   @Override
-  public boolean containsKey(String identifier, String ref) {
-    return cache.containsKey(identifier, ref);
+  public boolean containsKey(String identifier, String ref, RefDatabase delegate) {
+    return cache.containsKey(identifier, ref, delegate);
   }
 
   @Override
-  public void put(String identifier, Ref ref) throws IOException {
-    cache.put(identifier, ref);
+  public void put(String identifier, Ref ref, RefDatabase delegate) throws IOException {
+    cache.put(identifier, ref, delegate);
   }
 
   @Override
-  public void evict(String identifier, String ref) throws ExecutionException {
-    cache.evict(identifier, ref);
+  public void evict(String identifier, String ref, RefDatabase delegate) throws ExecutionException {
+    cache.evict(identifier, ref, delegate);
   }
 
   @Override
@@ -61,8 +61,9 @@ class RefDatabaseCacheWrapper implements RefDatabaseCache {
   }
 
   @Override
-  public void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException {
-    cache.renameRef(identifier, srcRef, destRef);
+  public void renameRef(String identifier, Ref srcRef, Ref destRef, RefDatabase delegate)
+      throws ExecutionException {
+    cache.renameRef(identifier, srcRef, destRef, delegate);
   }
 
   @Override

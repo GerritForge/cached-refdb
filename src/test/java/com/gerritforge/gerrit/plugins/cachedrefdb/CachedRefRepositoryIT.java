@@ -13,9 +13,8 @@ package com.gerritforge.gerrit.plugins.cachedrefdb;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
@@ -77,6 +76,21 @@ public class CachedRefRepositoryIT {
     assertThat(cache.cacheCalled).isEqualTo(0);
     assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
     assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo().resolve(fullTag));
+    assertThat(cache.cacheCalled).isEqualTo(2);
+  }
+
+  @Test
+  public void shouldGetExactRefFromCache() throws Exception {
+    String master = RefNames.fullName("master");
+    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    String tag = "test_tag";
+    String fullTag = RefNames.REFS_TAGS + tag;
+    tr.update(fullTag, tr.tag(tag, first));
+    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+
+    assertThat(cache.cacheCalled).isEqualTo(0);
+    assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo().exactRef(master));
+    assertThat(objectUnderTest.exactRef(fullTag)).isEqualTo(repo().exactRef(fullTag));
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
@@ -157,18 +171,8 @@ public class CachedRefRepositoryIT {
     return tr.getRepository();
   }
 
-  private CacheLoader<String, TernarySearchTree<Ref>> newCacheLoader() {
-    return new CacheLoader<>() {
-
-      @Override
-      public TernarySearchTree<Ref> load(String project) throws Exception {
-        return new TernarySearchTree<>();
-      }
-    };
-  }
-
   private CachedRefRepository createCachedRepository(Repository repo) {
-    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build(newCacheLoader()));
+    cache = new TestRefByNameCacheImpl(CacheBuilder.newBuilder().build());
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
@@ -184,7 +188,7 @@ public class CachedRefRepositoryIT {
   private static class TestRefByNameCacheImpl extends RefDatabaseCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(LoadingCache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
+    private TestRefByNameCacheImpl(Cache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
       super(refsNamesByPrefix);
       cacheCalled = 0;
     }
