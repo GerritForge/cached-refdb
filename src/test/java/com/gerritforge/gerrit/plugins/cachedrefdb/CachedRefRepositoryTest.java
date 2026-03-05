@@ -35,6 +35,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 public class CachedRefRepositoryTest {
+  private static final String TEST_TAG = "test_tag";
+  private static final String TEST_TAG_REF_NAME = RefNames.REFS_TAGS + TEST_TAG;
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private TestRepository<Repository> tr;
@@ -63,34 +65,24 @@ public class CachedRefRepositoryTest {
 
   @Test
   public void shouldResolveFullRefsFromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
-    String tag = "test_tag";
-    String fullTag = RefNames.REFS_TAGS + tag;
-    tr.update(fullTag, tr.tag(tag, first));
-    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
-
+    String master = initialiseTestRepository();
     assertThat(cache.cacheCalled).isEqualTo(0);
+
     try (Repository repo = repo()) {
       assertThat(objectUnderTest.resolve(master)).isEqualTo(repo.resolve(master));
-      assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo.resolve(fullTag));
+      assertThat(objectUnderTest.resolve(TEST_TAG_REF_NAME)).isEqualTo(repo.resolve(TEST_TAG_REF_NAME));
     }
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
   @Test
   public void shouldGetExactRefFromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
-    String tag = "test_tag";
-    String fullTag = RefNames.REFS_TAGS + tag;
-    tr.update(fullTag, tr.tag(tag, first));
-    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
-
+    String master = initialiseTestRepository();
     assertThat(cache.cacheCalled).isEqualTo(0);
+
     try (Repository repo = repo()) {
       assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo.exactRef(master));
-      assertThat(objectUnderTest.exactRef(fullTag)).isEqualTo(repo.exactRef(fullTag));
+      assertThat(objectUnderTest.exactRef(TEST_TAG_REF_NAME)).isEqualTo(repo.exactRef(TEST_TAG_REF_NAME));
     }
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
@@ -172,6 +164,14 @@ public class CachedRefRepositoryTest {
     }
 
     assertThat(cache.cacheCalled).isEqualTo(0);
+  }
+
+  private String initialiseTestRepository() throws Exception {
+    String master = RefNames.fullName("master");
+    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG, first));
+    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    return master;
   }
 
   private Repository repo() {
