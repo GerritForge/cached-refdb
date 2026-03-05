@@ -372,6 +372,40 @@
       },
       "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee285e6c_b2c320c9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T21:08:42Z",
+      "side": 1,
+      "message": "How can `dstRef` be null? The rename just happened, and the destination name must exist.\n\nBest to throw an exception in this case, as something strange is happening.",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc1ce7f3_16510319",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T21:08:42Z",
+      "side": 1,
+      "message": "How can `updated` be null? The update just happened, and the ref must exist.\n\nBest to throw an exception in this case, as something strange is happening.",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
