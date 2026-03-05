@@ -176,12 +176,7 @@ public class CachedRefRepositoryTest {
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
-        new CachedRefDatabase.Factory() {
-          @Override
-          public CachedRefDatabase create(CachedRefRepository repo, RefDatabase delegate) {
-            return new CachedRefDatabase(wrapper, null, null, null, repo, delegate);
-          }
-        };
+	    (repo1, delegate) -> new CachedRefDatabase(wrapper, null, null, null, repo1, delegate);
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
