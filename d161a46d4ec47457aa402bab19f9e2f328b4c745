@@ -326,6 +326,52 @@
       },
       "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f992e7d_2b30f86c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T20:55:22Z",
+      "side": 1,
+      "message": "If this condition is not met, it means that the `addRefToObjectIdCache` was called by mistake, as the operation was a removal, not an addition of a new ref.\n\nShould we throw an exception instead of doing nothing?\nIt would be best to detect these situation and report them.",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 76
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9afb1466_087c4a01",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T20:55:22Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is correct. You are assuming that if the cache entry is not there, it means that it does not have any entry on disk either.\n\nThe assumption is incorrect, because caches may have evicted their entries because of space compaction, whilst their counterparts on disk still exist.",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 58
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
