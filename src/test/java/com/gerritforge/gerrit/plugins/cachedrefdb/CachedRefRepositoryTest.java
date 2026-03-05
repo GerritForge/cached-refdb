@@ -35,7 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class CachedRefRepositoryIT {
+public class CachedRefRepositoryTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private TestRepository<Repository> tr;
