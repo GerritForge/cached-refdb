@@ -81,6 +81,21 @@ public class CachedRefRepositoryIT {
   }
 
   @Test
+  public void shouldGetExactRefFromCache() throws Exception {
+    String master = RefNames.fullName("master");
+    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    String tag = "test_tag";
+    String fullTag = RefNames.REFS_TAGS + tag;
+    tr.update(fullTag, tr.tag(tag, first));
+    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+
+    assertThat(cache.cacheCalled).isEqualTo(0);
+    assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo().exactRef(master));
+    assertThat(objectUnderTest.exactRef(fullTag)).isEqualTo(repo().exactRef(fullTag));
+    assertThat(cache.cacheCalled).isEqualTo(2);
+  }
+
+  @Test
   public void shouldNotResolveRefsFromCache() throws Exception {
     String master = RefNames.fullName("master");
     String filename = "first";

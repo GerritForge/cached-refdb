@@ -223,7 +223,8 @@ class RefUpdateWithCacheUpdate extends RefUpdate {
   private Result evictCacheOnSuccessfulUpdate(Result r) throws IOException {
     try {
       if (SUCCESSFUL_UPDATES.contains(r)) {
-        refsCache.evict(repo.getProjectName(), getName());
+        refsCache.evict(
+            repo.getProjectName(), getName(), repo.getCachedRefDatabase().getDelegate());
       }
       return r;
     } catch (ExecutionException e) {

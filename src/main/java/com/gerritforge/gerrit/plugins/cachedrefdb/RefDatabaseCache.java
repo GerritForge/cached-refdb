@@ -20,18 +20,19 @@ import org.eclipse.jgit.lib.RefDatabase;
 interface RefDatabaseCache {
   Ref get(String identifier, String ref, RefDatabase delegate) throws IOException;
 
-  boolean containsKey(String identifier, String ref);
+  boolean containsKey(String project, String ref, RefDatabase delegate);
 
-  void put(String identifier, Ref ref) throws IOException;
+  void put(String project, Ref ref, RefDatabase delegate) throws IOException;
 
-  void evict(String identifier, String ref) throws ExecutionException;
+  void evict(String identifier, String refName, RefDatabase delegate) throws ExecutionException;
 
   List<Ref> allByPrefixes(String identifier, String[] prefixes, RefDatabase delegate)
       throws ExecutionException;
 
   List<Ref> all(String identifier, RefDatabase delegate) throws ExecutionException;
 
-  void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException;
+  void renameRef(String project, Ref srcRef, Ref destRef, RefDatabase delegate)
+      throws ExecutionException;
 
   void updateRef(String identifier, String refName, RefDatabase delete) throws IOException;
 }
