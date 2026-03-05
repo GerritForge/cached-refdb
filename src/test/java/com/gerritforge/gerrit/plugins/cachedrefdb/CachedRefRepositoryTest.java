@@ -18,7 +18,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -49,9 +48,7 @@ public class CachedRefRepositoryTest {
     repo.create(true);
 
     // enable reflog for a repository so that references to it could be resolved
-    Files.write(
-        repoPath.resolve("config"),
-        "[core]\n  logAllRefUpdates = true\n".getBytes(StandardCharsets.UTF_8));
+    Files.writeString(repoPath.resolve("config"), "[core]\n  logAllRefUpdates = true\n");
 
     objectUnderTest = createCachedRepository(repo);
     tr = new TestRepository<>(repo);
@@ -74,8 +71,10 @@ public class CachedRefRepositoryTest {
     tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
     assertThat(cache.cacheCalled).isEqualTo(0);
-    assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
-    assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo().resolve(fullTag));
+    try (Repository repo = repo()) {
+      assertThat(objectUnderTest.resolve(master)).isEqualTo(repo.resolve(master));
+      assertThat(objectUnderTest.resolve(fullTag)).isEqualTo(repo.resolve(fullTag));
+    }
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
@@ -89,8 +88,10 @@ public class CachedRefRepositoryTest {
     tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
     assertThat(cache.cacheCalled).isEqualTo(0);
-    assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo().exactRef(master));
-    assertThat(objectUnderTest.exactRef(fullTag)).isEqualTo(repo().exactRef(fullTag));
+    try (Repository repo = repo()) {
+      assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo.exactRef(master));
+      assertThat(objectUnderTest.exactRef(fullTag)).isEqualTo(repo.exactRef(fullTag));
+    }
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
@@ -104,27 +105,29 @@ public class CachedRefRepositoryTest {
     tr.update(fullTag, tr.tag(tag, first));
     tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
-    assertThat(objectUnderTest.resolve("master")).isEqualTo(repo().resolve("master"));
-    assertThat(objectUnderTest.resolve(RefNames.HEAD)).isEqualTo(repo().resolve(RefNames.HEAD));
-    assertThat(objectUnderTest.resolve(tag)).isEqualTo(repo().resolve(tag));
+    try (Repository repo = repo()) {
+      assertThat(objectUnderTest.resolve("master")).isEqualTo(repo.resolve("master"));
+      assertThat(objectUnderTest.resolve(RefNames.HEAD)).isEqualTo(repo.resolve(RefNames.HEAD));
+      assertThat(objectUnderTest.resolve(tag)).isEqualTo(repo.resolve(tag));
 
-    String mastersParent = master + "^";
-    ObjectId resolved = objectUnderTest.resolve(mastersParent);
-    assertThat(resolved).isEqualTo(first);
-    assertThat(resolved).isEqualTo(repo().resolve(mastersParent));
+      String mastersParent = master + "^";
+      ObjectId resolved = objectUnderTest.resolve(mastersParent);
+      assertThat(resolved).isEqualTo(first);
+      assertThat(resolved).isEqualTo(repo.resolve(mastersParent));
 
-    String mastersParentByTilde = master + "~";
-    ObjectId resolvedByTilde = objectUnderTest.resolve(mastersParentByTilde);
-    assertThat(resolvedByTilde).isEqualTo(first);
-    assertThat(resolvedByTilde).isEqualTo(repo().resolve(mastersParent));
+      String mastersParentByTilde = master + "~";
+      ObjectId resolvedByTilde = objectUnderTest.resolve(mastersParentByTilde);
+      assertThat(resolvedByTilde).isEqualTo(first);
+      assertThat(resolvedByTilde).isEqualTo(repo.resolve(mastersParent));
 
-    String mastersFilename = master + ":" + filename;
-    ObjectId resolvedByFilename = objectUnderTest.resolve(mastersFilename);
-    assertThat(resolvedByFilename).isEqualTo(repo().resolve(mastersFilename));
+      String mastersFilename = master + ":" + filename;
+      ObjectId resolvedByFilename = objectUnderTest.resolve(mastersFilename);
+      assertThat(resolvedByFilename).isEqualTo(repo.resolve(mastersFilename));
 
-    String mastersPreviousRevision = master + "@{1}";
-    ObjectId resolvedByPreviousRevision = objectUnderTest.resolve(mastersPreviousRevision);
-    assertThat(resolvedByPreviousRevision).isEqualTo(repo().resolve(mastersPreviousRevision));
+      String mastersPreviousRevision = master + "@{1}";
+      ObjectId resolvedByPreviousRevision = objectUnderTest.resolve(mastersPreviousRevision);
+      assertThat(resolvedByPreviousRevision).isEqualTo(repo.resolve(mastersPreviousRevision));
+    }
 
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
@@ -139,16 +142,18 @@ public class CachedRefRepositoryTest {
     RevCommit second = tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
     String secondAbbreviatedName = second.getName().substring(0, 6);
-    assertThat(objectUnderTest.resolve(second.name())).isEqualTo(repo().resolve(second.name()));
-    assertThat(objectUnderTest.resolve(secondAbbreviatedName))
-        .isEqualTo(repo().resolve(secondAbbreviatedName));
-    String parentRevString = second.name() + "^";
-    String resolvedName = objectUnderTest.resolve(parentRevString).getName();
-    assertThat(resolvedName).isEqualTo(first.getName());
-    assertThat(resolvedName).isEqualTo(repo().resolve(parentRevString).getName());
-    String ensureIdIsCommit = secondAbbreviatedName + "(commit)";
-    assertThat(objectUnderTest.resolve(ensureIdIsCommit))
-        .isEqualTo(repo().resolve(ensureIdIsCommit));
+    try (Repository repo = repo()) {
+      assertThat(objectUnderTest.resolve(second.name())).isEqualTo(repo.resolve(second.name()));
+      assertThat(objectUnderTest.resolve(secondAbbreviatedName))
+          .isEqualTo(repo.resolve(secondAbbreviatedName));
+      String parentRevString = second.name() + "^";
+      String resolvedName = objectUnderTest.resolve(parentRevString).getName();
+      assertThat(resolvedName).isEqualTo(first.getName());
+      assertThat(resolvedName).isEqualTo(repo.resolve(parentRevString).getName());
+      String ensureIdIsCommit = secondAbbreviatedName + "(commit)";
+      assertThat(objectUnderTest.resolve(ensureIdIsCommit))
+          .isEqualTo(repo.resolve(ensureIdIsCommit));
+    }
 
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
@@ -162,7 +167,9 @@ public class CachedRefRepositoryTest {
     RevCommit second = tr.update(master, tr.commit().parent(first).add("second", "foo").create());
 
     String tagAndSha = tag + "-1-g" + second.getName().substring(0, 6);
-    assertThat(objectUnderTest.resolve(tagAndSha)).isEqualTo(repo().resolve(tagAndSha));
+    try (Repository repo = repo()) {
+      assertThat(objectUnderTest.resolve(tagAndSha)).isEqualTo(repo.resolve(tagAndSha));
+    }
 
     assertThat(cache.cacheCalled).isEqualTo(0);
   }
@@ -176,7 +183,7 @@ public class CachedRefRepositoryTest {
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
-	    (repo1, delegate) -> new CachedRefDatabase(wrapper, null, null, null, repo1, delegate);
+        (repo1, delegate) -> new CachedRefDatabase(wrapper, null, null, null, repo1, delegate);
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
