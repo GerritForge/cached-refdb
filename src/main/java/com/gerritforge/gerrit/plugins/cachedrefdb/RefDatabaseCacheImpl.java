@@ -11,13 +11,10 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -25,13 +22,13 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
-import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 class RefDatabaseCacheImpl implements RefDatabaseCache {
@@ -42,46 +39,35 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {})
-            .loader(RefNamesByProjectLoader.class);
+        cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {});
       }
     };
   }
 
-  private final LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject;
+  private final Cache<String, TernarySearchTree<Ref>> refNamesByProject;
 
   @Inject
   RefDatabaseCacheImpl(
-      @Named(REF_NAMES_BY_PROJECT) LoadingCache<String, TernarySearchTree<Ref>> refNamesByProject) {
+      @Named(REF_NAMES_BY_PROJECT) Cache<String, TernarySearchTree<Ref>> refNamesByProject) {
     this.refNamesByProject = refNamesByProject;
   }
 
-  static class RefNamesByProjectLoader extends CacheLoader<String, TernarySearchTree<Ref>> {
+  static class RefNamesByProjectLoader {
 
-    private final LocalDiskRepositoryManager repositoryManager;
+    static TernarySearchTree<Ref> load(RefDatabase refDatabaseDelegate) throws IOException {
 
-    @Inject
-    RefNamesByProjectLoader(LocalDiskRepositoryManager repositoryManager) {
-      this.repositoryManager = repositoryManager;
-    }
-
-    @Override
-    public TernarySearchTree<Ref> load(String project) throws Exception {
-
-      try (Repository repo = repositoryManager.openRepository(Project.nameKey(project)); ) {
-        TernarySearchTree<Ref> tree = new TernarySearchTree<>();
-        for (Ref ref : repo.getRefDatabase().getRefs()) {
-          tree.insert(ref.getName(), ref);
-        }
-        return tree;
+      TernarySearchTree<Ref> tree = new TernarySearchTree<>();
+      for (Ref ref : refDatabaseDelegate.getRefs()) {
+        tree.insert(ref.getName(), ref);
       }
+      return tree;
     }
   }
 
   @Override
   public Ref get(String project, String ref, RefDatabase delegate) {
     try {
-      return refNamesByProject.get(project).get(ref);
+      return refNamesByProject.get(project, getLoader(delegate)).get(ref);
     } catch (ExecutionException e) {
       logger.atSevere().withCause(e).log("Getting ref for [%s, %s] failed.", project, ref);
       throw new IllegalStateException(e);
@@ -89,9 +75,9 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   }
 
   @Override
-  public boolean containsKey(String project, String ref) {
+  public boolean containsKey(String project, String ref, RefDatabase delegate) {
     try {
-      return refNamesByProject.get(project).contains(ref);
+      return refNamesByProject.get(project, getLoader(delegate)).contains(ref);
     } catch (ExecutionException e) {
       logger.atSevere().withCause(e).log(
           "Checking ref existence for [%s, %s] failed.", project, ref);
@@ -102,7 +88,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   @Override
   public List<Ref> allByPrefixes(String projectName, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> projectRefs = refNamesByProject.get(projectName);
+    TernarySearchTree<Ref> projectRefs = refNamesByProject.get(projectName, getLoader(delegate));
     AtomicReference<String> lastPrefix = new AtomicReference<>();
     ImmutableList.Builder<Ref> refs = ImmutableList.builder();
     Arrays.stream(prefixes)
@@ -111,6 +97,10 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
         .map(projectRefs::getValuesWithPrefix)
         .forEach(refs::addAll);
     return refs.build();
+  }
+
+  private static Callable<TernarySearchTree<Ref>> getLoader(RefDatabase delegate) {
+    return () -> RefNamesByProjectLoader.load(delegate);
   }
 
   private static boolean isDuplicated(String prefix, AtomicReference<String> lastPrefix) {
@@ -124,38 +114,39 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
 
   @Override
   public List<Ref> all(String projectName, RefDatabase delegate) throws ExecutionException {
-    return refNamesByProject.get(projectName).getAllValues();
+    return refNamesByProject.get(projectName, getLoader(delegate)).getAllValues();
   }
 
-  public void updateRefInPrefixesByProjectCache(String projectName, Ref ref)
+  public void updateRefInPrefixesByProjectCache(String projectName, Ref ref, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(projectName);
+    TernarySearchTree<Ref> tree = refNamesByProject.get(projectName, getLoader(delegate));
     tree.insert(ref.getName(), ref);
   }
 
   public void updateRefInPrefixesByProjectCache(
       String projectName, String refName, RefDatabase delegate)
       throws IOException, ExecutionException {
-    updateRefInPrefixesByProjectCache(projectName, delegate.exactRef(refName));
+    updateRefInPrefixesByProjectCache(projectName, delegate.exactRef(refName), delegate);
   }
 
-  public void deleteRefInPrefixesByProjectCache(String projectName, String refName)
-      throws ExecutionException {
-    refNamesByProject.get(projectName).delete(refName);
+  public void deleteRefInPrefixesByProjectCache(
+      String projectName, String refName, RefDatabase delegate) throws ExecutionException {
+    refNamesByProject.get(projectName, getLoader(delegate)).delete(refName);
   }
 
   @Override
-  public void put(String project, Ref ref) throws IOException {
+  public void put(String project, Ref ref, RefDatabase delegate) throws IOException {
     try {
-      updateRefInPrefixesByProjectCache(project, ref);
+      updateRefInPrefixesByProjectCache(project, ref, delegate);
     } catch (ExecutionException e) {
       throw new IOException(e);
     }
   }
 
   @Override
-  public void renameRef(String project, Ref srcRef, Ref destRef) throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(project);
+  public void renameRef(String project, Ref srcRef, Ref destRef, RefDatabase delegate)
+      throws ExecutionException {
+    TernarySearchTree<Ref> tree = refNamesByProject.get(project, getLoader(delegate));
     Lock lock = tree.getLock().writeLock();
     lock.lock();
     try {
@@ -177,7 +168,8 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   }
 
   @Override
-  public void evict(String identifier, String refName) throws ExecutionException {
-    deleteRefInPrefixesByProjectCache(identifier, refName);
+  public void evict(String identifier, String refName, RefDatabase delegate)
+      throws ExecutionException {
+    deleteRefInPrefixesByProjectCache(identifier, refName, delegate);
   }
 }

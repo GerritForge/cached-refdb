@@ -147,8 +147,8 @@ class CachedRefDatabase extends RefDatabase {
   public List<Ref> getRefs() throws IOException {
     List<Ref> allRefs = delegate.getRefs();
     for (Ref ref : allRefs) {
-      if (!refsCache.containsKey(repo.getProjectName(), ref.getName())) {
-        refsCache.put(repo.getProjectName(), ref);
+      if (!refsCache.containsKey(repo.getProjectName(), ref.getName(), delegate)) {
+        refsCache.put(repo.getProjectName(), ref, delegate);
       }
     }
     return allRefs;

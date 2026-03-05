@@ -24,15 +24,15 @@ class PassThroughRefDatabase implements RefDatabaseCache {
   }
 
   @Override
-  public boolean containsKey(String identifier, String ref) {
+  public boolean containsKey(String identifier, String ref, RefDatabase delegate) {
     return false;
   }
 
   @Override
-  public void put(String identifier, Ref ref) {}
+  public void put(String identifier, Ref ref, RefDatabase delegate) {}
 
   @Override
-  public void evict(String identifier, String ref) {
+  public void evict(String identifier, String ref, RefDatabase delegate) {
     // do nothing as there is no cache to be evicted
   }
 
@@ -56,7 +56,8 @@ class PassThroughRefDatabase implements RefDatabaseCache {
   }
 
   @Override
-  public void renameRef(String identifier, Ref srcRef, Ref destRef) throws ExecutionException {}
+  public void renameRef(String identifier, Ref srcRef, Ref destRef, RefDatabase delegate)
+      throws ExecutionException {}
 
   @Override
   public void updateRef(String identifier, String refName, RefDatabase delete) {}
