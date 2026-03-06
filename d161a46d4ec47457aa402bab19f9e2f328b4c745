@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64c36c36_61e7a01b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-03-06T15:52:34Z",
+      "side": 1,
+      "message": "Why not getting it from `refCache`? We could get into a situation where:\n- ref1 -\u003e Ref(ref1, obj1)\n- obj1 -\u003e ref2",
+      "range": {
+        "startLine": 190,
+        "startChar": 39,
+        "endLine": 190,
+        "endChar": 52
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c4fbb1c_be713f2b",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
         "patchSetId": 33
@@ -549,6 +572,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f155c4f_8ca6389d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-03-06T15:52:34Z",
+      "side": 1,
+      "message": "Is this used anywhere?",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93ae6e4a_d3973617",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
         "patchSetId": 33
@@ -771,6 +817,30 @@
       "writtenOn": "2026-03-06T14:10:09Z",
       "side": 1,
       "message": "That\u0027s true, but I\u0027m leaving that to be fixed later on, now we care about adding an element, not also loading everything that\u0027s on disk, that can be done by someone else when we get to loading the events. We don\u0027t need to do that here.",
+      "parentUuid": "9afb1466_087c4a01",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 58
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28a76e8_5579d368",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-03-06T15:52:34Z",
+      "side": 1,
+      "message": "+1, I think here you should pass the `delegate` and get it from there. I think this method is the main reason why this cache could not be a `LoadingCache`.",
       "parentUuid": "9afb1466_087c4a01",
       "range": {
         "startLine": 234,

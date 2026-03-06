@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72ff05e9_8859fe09",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-03-06T15:52:34Z",
+      "side": 1,
+      "message": "Should we get it from the cache ?",
+      "range": {
+        "startLine": 105,
+        "startChar": 22,
+        "endLine": 105,
+        "endChar": 58
+      },
+      "revId": "d61d2a684e6cefc58c5f8a523f2ce0b9dc820da3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
