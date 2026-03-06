@@ -595,6 +595,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2c7cf8c_6ed8d334",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T18:02:59Z",
+      "side": 1,
+      "message": "I\u0027ve struggled to figure out where it\u0027s used but yes, Gerrit at some point does check if the provider has a object-id -\u003e refs mapping.\n\nIf this is not true then the cache isn\u0027t used.",
+      "parentUuid": "5f155c4f_8ca6389d",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93ae6e4a_d3973617",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
         "patchSetId": 33
@@ -842,6 +866,30 @@
       "side": 1,
       "message": "+1, I think here you should pass the `delegate` and get it from there. I think this method is the main reason why this cache could not be a `LoadingCache`.",
       "parentUuid": "9afb1466_087c4a01",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 58
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ba0b09d_b892bf74",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T18:02:59Z",
+      "side": 1,
+      "message": "This method is called on every ref update (`refreshCachesOnSuccessfulUpdate` calls it). So I didn\u0027t want to either call the delegate or read from the other cache(as we don\u0027t have a great way of doing that at the moment).\n\nThe intention of this method is to add to whatever is there at the moment, not reload everything.\n\nHowever, I can share the concern that a subsequent call could only see a partial view of the refs associated with that object id.\n\nI really don\u0027t want to go to the delegate here, as otherwise we might as well not use this cache at all. I\u0027ll tie this up with Luca\u0027s comment about incorporating the search for an object id in the ternary tree itself, at that point we could look to do something else here.",
+      "parentUuid": "b28a76e8_5579d368",
       "range": {
         "startLine": 234,
         "startChar": 30,
