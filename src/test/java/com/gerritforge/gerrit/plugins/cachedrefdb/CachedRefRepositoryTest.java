@@ -37,16 +37,16 @@ import org.junit.rules.TemporaryFolder;
 public class CachedRefRepositoryTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-  private final String TEST_TAG_NAME = "test_tag";
-  private final String TEST_TAG_REF_NAME = RefNames.REFS_TAGS + TEST_TAG_NAME;
+  private static final String TEST_TAG_NAME = "test_tag";
+  private static final String TEST_TAG_REF_NAME = RefNames.REFS_TAGS + TEST_TAG_NAME;
   private static final String MASTER_BRANCH_NAME = "master";
-  private final String MASTER_REF_NAME = RefNames.fullName(MASTER_BRANCH_NAME);
+  private static final String MASTER_REF_NAME = RefNames.fullName(MASTER_BRANCH_NAME);
+  private static final String FIRST_FILENAME = "first";
 
   private TestRepository<Repository> tr;
   private CachedRefRepository objectUnderTest;
   private TestRefByNameCacheImpl cache;
 
-  private final String FIRST_FILENAME = "first";
   private RevCommit firstCommit;
   private RevCommit secondCommit;
 
