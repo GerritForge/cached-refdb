@@ -165,6 +165,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7603fc61_2a75a7c2",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/ObjectIdAndProject.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:18:24Z",
+      "side": 1,
+      "message": "Sorry, I must have been smoking when I wrote that.",
+      "parentUuid": "35b6067b_1a6ec654",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b95c22c1_4fb3e94f",
@@ -182,6 +200,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5793ccf5_196d5f9e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/ObjectIdAndProject.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:18:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b95c22c1_4fb3e94f",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd79e8dd_55df76d0",
@@ -195,6 +231,30 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "All of these are automatic if you use a Java record.\n\n\n```suggestion\n}\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab55860_6bdc32e9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/ObjectIdAndProject.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:18:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd79e8dd_55df76d0",
       "range": {
         "startLine": 32,
         "startChar": 0,
