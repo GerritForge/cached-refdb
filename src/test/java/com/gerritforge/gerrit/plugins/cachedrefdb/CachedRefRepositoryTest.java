@@ -39,6 +39,8 @@ public class CachedRefRepositoryTest {
 
   private final String TEST_TAG_NAME = "test_tag";
   private final String TEST_TAG_REF_NAME = RefNames.REFS_TAGS + TEST_TAG_NAME;
+  private static final String MASTER_BRANCH_NAME = "master";
+  private final String MASTER_REF_NAME = RefNames.fullName(MASTER_BRANCH_NAME);
 
   private TestRepository<Repository> tr;
   private CachedRefRepository objectUnderTest;
@@ -66,57 +68,58 @@ public class CachedRefRepositoryTest {
 
   @Test
   public void shouldResolveFullRefsFromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    RevCommit first = tr.update(MASTER_REF_NAME, tr.commit().add("first", "foo").create());
     tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG_NAME, first));
-    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    tr.update(MASTER_REF_NAME, tr.commit().parent(first).add("second", "foo").create());
 
     assertThat(cache.cacheCalled).isEqualTo(0);
-    assertThat(objectUnderTest.resolve(master)).isEqualTo(repo().resolve(master));
-    assertThat(objectUnderTest.resolve(TEST_TAG_REF_NAME)).isEqualTo(repo().resolve(TEST_TAG_REF_NAME));
+    assertThat(objectUnderTest.resolve(MASTER_REF_NAME)).isEqualTo(repo().resolve(MASTER_REF_NAME));
+    assertThat(objectUnderTest.resolve(TEST_TAG_REF_NAME))
+        .isEqualTo(repo().resolve(TEST_TAG_REF_NAME));
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
   @Test
   public void shouldGetExactRefFromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    RevCommit first = tr.update(MASTER_REF_NAME, tr.commit().add("first", "foo").create());
     tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG_NAME, first));
-    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    tr.update(MASTER_REF_NAME, tr.commit().parent(first).add("second", "foo").create());
 
     assertThat(cache.cacheCalled).isEqualTo(0);
-    assertThat(objectUnderTest.exactRef(master)).isEqualTo(repo().exactRef(master));
-    assertThat(objectUnderTest.exactRef(TEST_TAG_REF_NAME)).isEqualTo(repo().exactRef(TEST_TAG_REF_NAME));
+    assertThat(objectUnderTest.exactRef(MASTER_REF_NAME))
+        .isEqualTo(repo().exactRef(MASTER_REF_NAME));
+    assertThat(objectUnderTest.exactRef(TEST_TAG_REF_NAME))
+        .isEqualTo(repo().exactRef(TEST_TAG_REF_NAME));
     assertThat(cache.cacheCalled).isEqualTo(2);
   }
 
   @Test
   public void shouldNotResolveRefsFromCache() throws Exception {
-    String master = RefNames.fullName("master");
     String filename = "first";
-    RevCommit first = tr.update(master, tr.commit().add(filename, "foo").create());
+    RevCommit first = tr.update(MASTER_REF_NAME, tr.commit().add(filename, "foo").create());
     tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG_NAME, first));
-    tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    tr.update(MASTER_REF_NAME, tr.commit().parent(first).add("second", "foo").create());
 
-    assertThat(objectUnderTest.resolve("master")).isEqualTo(repo().resolve("master"));
+    assertThat(objectUnderTest.resolve(MASTER_BRANCH_NAME))
+        .isEqualTo(repo().resolve(MASTER_BRANCH_NAME));
     assertThat(objectUnderTest.resolve(RefNames.HEAD)).isEqualTo(repo().resolve(RefNames.HEAD));
     assertThat(objectUnderTest.resolve(TEST_TAG_NAME)).isEqualTo(repo().resolve(TEST_TAG_NAME));
 
-    String mastersParent = master + "^";
+    String mastersParent = MASTER_REF_NAME + "^";
     ObjectId resolved = objectUnderTest.resolve(mastersParent);
     assertThat(resolved).isEqualTo(first);
     assertThat(resolved).isEqualTo(repo().resolve(mastersParent));
 
-    String mastersParentByTilde = master + "~";
+    String mastersParentByTilde = MASTER_REF_NAME + "~";
     ObjectId resolvedByTilde = objectUnderTest.resolve(mastersParentByTilde);
     assertThat(resolvedByTilde).isEqualTo(first);
     assertThat(resolvedByTilde).isEqualTo(repo().resolve(mastersParent));
 
-    String mastersFilename = master + ":" + filename;
+    String mastersFilename = MASTER_REF_NAME + ":" + filename;
     ObjectId resolvedByFilename = objectUnderTest.resolve(mastersFilename);
     assertThat(resolvedByFilename).isEqualTo(repo().resolve(mastersFilename));
 
-    String mastersPreviousRevision = master + "@{1}";
+    String mastersPreviousRevision = MASTER_REF_NAME + "@{1}";
     ObjectId resolvedByPreviousRevision = objectUnderTest.resolve(mastersPreviousRevision);
     assertThat(resolvedByPreviousRevision).isEqualTo(repo().resolve(mastersPreviousRevision));
 
@@ -125,10 +128,10 @@ public class CachedRefRepositoryTest {
 
   @Test
   public void shouldNotResolveSha1sFromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    RevCommit first = tr.update(MASTER_REF_NAME, tr.commit().add("first", "foo").create());
     tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG_NAME, first));
-    RevCommit second = tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    RevCommit second =
+        tr.update(MASTER_REF_NAME, tr.commit().parent(first).add("second", "foo").create());
 
     String secondAbbreviatedName = second.getName().substring(0, 6);
     assertThat(objectUnderTest.resolve(second.name())).isEqualTo(repo().resolve(second.name()));
@@ -147,10 +150,10 @@ public class CachedRefRepositoryTest {
 
   @Test
   public void shouldNotResolveTagAndSha1FromCache() throws Exception {
-    String master = RefNames.fullName("master");
-    RevCommit first = tr.update(master, tr.commit().add("first", "foo").create());
+    RevCommit first = tr.update(MASTER_REF_NAME, tr.commit().add("first", "foo").create());
     tr.update(TEST_TAG_REF_NAME, tr.tag(TEST_TAG_NAME, first));
-    RevCommit second = tr.update(master, tr.commit().parent(first).add("second", "foo").create());
+    RevCommit second =
+        tr.update(MASTER_REF_NAME, tr.commit().parent(first).add("second", "foo").create());
 
     String tagAndSha = TEST_TAG_NAME + "-1-g" + second.getName().substring(0, 6);
     assertThat(objectUnderTest.resolve(tagAndSha)).isEqualTo(repo().resolve(tagAndSha));
