@@ -525,6 +525,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "effcfbe8_586deb9f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:36:19Z",
+      "side": 1,
+      "message": "What if we used the first call to this to populate the refs_by_object_id cache? So instead of filtering out the objectid, we key by it and add all elements to the cache?",
+      "parentUuid": "3a8d931b_0c6784d1",
+      "range": {
+        "startLine": 204,
+        "startChar": 11,
+        "endLine": 205,
+        "endChar": 52
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93ae6e4a_d3973617",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
         "patchSetId": 33
@@ -583,6 +607,30 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "These are not nullable, these checks aren\u0027t needed.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 5
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8367de9_7c4b1b60",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65cf2d9_bd124c09",
       "range": {
         "startLine": 216,
         "startChar": 0,
@@ -653,6 +701,30 @@
       "writtenOn": "2026-03-05T20:55:22Z",
       "side": 1,
       "message": "If this condition is not met, it means that the `addRefToObjectIdCache` was called by mistake, as the operation was a removal, not an addition of a new ref.\n\nShould we throw an exception instead of doing nothing?\nIt would be best to detect these situation and report them.",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 76
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5c68e3_1b4eec36",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f992e7d_2b30f86c",
       "range": {
         "startLine": 232,
         "startChar": 4,
