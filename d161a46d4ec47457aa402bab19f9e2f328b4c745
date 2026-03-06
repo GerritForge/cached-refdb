@@ -617,6 +617,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4030b86_488230a4",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T18:25:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2c7cf8c_6ed8d334",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93ae6e4a_d3973617",
