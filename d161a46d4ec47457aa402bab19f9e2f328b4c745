@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89631f9_a318437d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53489c39_2ab2b954",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 95
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c4fbb1c_be713f2b",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "IntelliJ says: _\"Condition \u0027ref !\u003d null\u0027 is always \u0027true\u0027\"_ and I agree 😀",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc57973b_da7f0a4a",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c4fbb1c_be713f2b",
       "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e6e8a86_ed76150b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc31778_c5eb5c34",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 13
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd5dd1a9_fbe101e6",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "This can be a record.\n\n\n\n```suggestion\npublic record ObjectIdAndProject(ObjectId objectId, int projectIndex) {\n```",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b6067b_1a6ec654",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/ObjectIdAndProject.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "yeah, but I can\u0027t have instance fields in a record, i.e. objectId and projectIndex",
+      "parentUuid": "dd5dd1a9_fbe101e6",
       "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -144,6 +228,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3a1ae4e_a503642e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/PassThroughRefDatabase.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26ad9cd6_dc2d3f3f",
+      "range": {
+        "startLine": 87,
+        "startChar": 59,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5bcbbbe_38e4f9ed",
@@ -157,6 +265,30 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "```suggestion\n  void addRefToObjectIdCache(String identifier, Ref ref) throws ExecutionException;\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 52,
+        "endLine": 47,
+        "endChar": 59
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac650e53_63f2b051",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCache.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5bcbbbe_38e4f9ed",
       "range": {
         "startLine": 47,
         "startChar": 52,
@@ -190,6 +322,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5acf5378_6c8022b7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "In this case, but we use it in passthrough cache, if I remove it then the override breaks.\n\nAfter the rebase it\u0027s used anyway.",
+      "parentUuid": "2fe57202_f97e5257",
+      "range": {
+        "startLine": 191,
+        "startChar": 75,
+        "endLine": 191,
+        "endChar": 95
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbc82171_4bf29d64",
@@ -213,6 +369,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c84831b_bdb19506",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc82171_4bf29d64",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 5
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caf1a43f_d18e9de3",
@@ -226,6 +406,30 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "nit: can be inlined at L198",
+      "range": {
+        "startLine": 197,
+        "startChar": 23,
+        "endLine": 197,
+        "endChar": 26
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6656b6_24b97c3d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf1a43f_d18e9de3",
       "range": {
         "startLine": 197,
         "startChar": 23,
@@ -272,6 +476,30 @@
       "writtenOn": "2026-03-05T18:01:19Z",
       "side": 1,
       "message": "Why `oldId`? Why `ref` and not `refName`?\n\n\n\n```suggestion\n  public void removeRefFromObjectIdCache(String projectName, String refName, ObjectId objId) {\n```",
+      "range": {
+        "startLine": 215,
+        "startChar": 82,
+        "endLine": 215,
+        "endChar": 87
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9de7e00_ed9c0b68",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ae6e4a_d3973617",
       "range": {
         "startLine": 215,
         "startChar": 82,
@@ -330,6 +558,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4cf6f34_d2d09bda",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "But now we\u0027re doing 2 checks rather than 1? \nIs this really better?",
+      "parentUuid": "89c7ce03_eb3bad60",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 37
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f992e7d_2b30f86c",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
         "patchSetId": 33
@@ -376,6 +628,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "533ea05e_b88d2324",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "That\u0027s true, but I\u0027m leaving that to be fixed later on, now we care about adding an element, not also loading everything that\u0027s on disk, that can be done by someone else when we get to loading the events. We don\u0027t need to do that here.",
+      "parentUuid": "9afb1466_087c4a01",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 58
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee285e6c_b2c320c9",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
         "patchSetId": 33
@@ -393,6 +669,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a41ed3eb_4863a9cc",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefRenameWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "I believe this was addressed in the rebase, even if no exception is being throw.\nDo we want to stick with current approach?",
+      "parentUuid": "ee285e6c_b2c320c9",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc1ce7f3_16510319",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
         "patchSetId": 33
@@ -404,6 +698,24 @@
       "writtenOn": "2026-03-05T21:08:42Z",
       "side": 1,
       "message": "How can `updated` be null? The update just happened, and the ref must exist.\n\nBest to throw an exception in this case, as something strange is happening.",
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10632e56_5d2db236",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-06T14:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1ce7f3_16510319",
       "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
