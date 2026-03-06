@@ -18,7 +18,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -49,9 +48,7 @@ public class CachedRefRepositoryTest {
     repo.create(true);
 
     // enable reflog for a repository so that references to it could be resolved
-    Files.write(
-        repoPath.resolve("config"),
-        "[core]\n  logAllRefUpdates = true\n".getBytes(StandardCharsets.UTF_8));
+    Files.writeString(repoPath.resolve("config"), "[core]\n  logAllRefUpdates = true\n");
 
     objectUnderTest = createCachedRepository(repo);
     tr = new TestRepository<>(repo);
@@ -176,7 +173,7 @@ public class CachedRefRepositoryTest {
     RefDatabaseCacheWrapper wrapper =
         new RefDatabaseCacheWrapper(DynamicItem.itemOf(RefDatabaseCache.class, cache));
     CachedRefDatabase.Factory refDbFactory =
-	    (repo1, delegate) -> new CachedRefDatabase(wrapper, null, null, null, repo1, delegate);
+        (repo1, delegate) -> new CachedRefDatabase(wrapper, null, null, null, repo1, delegate);
     return new CachedRefRepository(refDbFactory, null, null, "repo", repo);
   }
 
