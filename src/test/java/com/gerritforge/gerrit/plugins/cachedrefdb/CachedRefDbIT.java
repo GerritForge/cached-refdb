@@ -29,15 +29,25 @@ import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+<<<<<<< HEAD
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+=======
+import org.eclipse.jgit.lib.Constants;
+>>>>>>> 59e032832d (Use reverse index to get refs by objectId)
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+<<<<<<< HEAD
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+=======
+import org.eclipse.jgit.lib.TagBuilder;
+>>>>>>> 59e032832d (Use reverse index to get refs by objectId)
 import org.junit.Test;
 
 @UseLocalDisk
@@ -235,6 +245,45 @@ public class CachedRefDbIT extends AbstractDaemonTest {
       assertThat(tips)
           .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
           .contains(branchName);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldReturnAnnotatedTagWhenLookingUpByPeeledCommit() throws Exception {
+    String tagName = "refs/tags/v1.0";
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      ObjectId headCommit = repo.resolve("HEAD");
+
+      TagBuilder tag = new TagBuilder();
+      tag.setTag("v1.0");
+      tag.setObjectId(headCommit, Constants.OBJ_COMMIT);
+      tag.setMessage("Annotated tag for testing");
+      tag.setTagger(new PersonIdent("Tester", "test@example.com", 0, 0));
+
+      ObjectId tagObjectId;
+      try (ObjectInserter inserter = repo.newObjectInserter()) {
+        tagObjectId = inserter.insert(tag);
+        inserter.flush();
+      }
+
+      RefUpdate update = repo.updateRef(tagName);
+      update.setNewObjectId(tagObjectId);
+      assertThat(update.update()).isEqualTo(RefUpdate.Result.NEW);
+
+      // Look up refs by the peeled commit SHA — the cache only indexes the tag
+      // object SHA (ref.getObjectId()), so it misses annotated tags when the
+      // caller searches by the commit they point to.
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(headCommit);
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(tagName);
     }
   }
 

@@ -124,12 +124,20 @@ public class RefTernarySearchTree extends TernarySearchTree<Ref> {
   private void addToIndex(ObjectId objectId, Ref ref) {
     if (objectId != null) {
       byObjectId.put(objectId, ref);
+      ObjectId peeled = ref.getPeeledObjectId();
+      if (peeled != null) {
+        byObjectId.put(peeled, ref);
+      }
     }
   }
 
   private void removeFromIndex(Ref old, String refName) {
     if (old != null && old.getObjectId() != null) {
       byObjectId.get(old.getObjectId()).removeIf(r -> r.getName().equals(refName));
+      ObjectId peeled = old.getPeeledObjectId();
+      if (peeled != null) {
+        byObjectId.get(peeled).removeIf(r -> r.getName().equals(refName));
+      }
     }
   }
 }
