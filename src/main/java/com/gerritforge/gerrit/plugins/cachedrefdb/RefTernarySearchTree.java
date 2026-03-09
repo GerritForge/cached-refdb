@@ -1,0 +1,27 @@
+/*
+ * Copyright (C) 2026 GerritForge, Inc.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+package com.gerritforge.gerrit.plugins.cachedrefdb;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+
+/**
+ * A {@link TernarySearchTree} specialised for {@link Ref} values, keyed by ref
+ * name, with the ability to look up refs by the {@link ObjectId} they point to.
+ *
+ * @since 6.5
+ */
+public class RefTernarySearchTree extends TernarySearchTree<Ref> {
+
+}
