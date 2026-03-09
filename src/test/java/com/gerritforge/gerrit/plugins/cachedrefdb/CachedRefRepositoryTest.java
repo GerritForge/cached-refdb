@@ -177,7 +177,7 @@ public class CachedRefRepositoryTest {
   private static class TestRefByNameCacheImpl extends RefDatabaseCacheImpl {
     private int cacheCalled;
 
-    private TestRefByNameCacheImpl(Cache<String, TernarySearchTree<Ref>> refsNamesByPrefix) {
+    private TestRefByNameCacheImpl(Cache<String, RefTernarySearchTree> refsNamesByPrefix) {
       super(refsNamesByPrefix);
       cacheCalled = 0;
     }
