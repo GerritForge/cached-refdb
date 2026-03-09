@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
-import com.gerritforge.gerrit.plugins.cachedrefdb.TernarySearchTree;
+import com.gerritforge.gerrit.plugins.cachedrefdb.RefTernarySearchTree;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 
@@ -39,24 +39,24 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<TernarySearchTree<Ref>>() {});
+        cache(REF_NAMES_BY_PROJECT, String.class, new TypeLiteral<RefTernarySearchTree>() {});
       }
     };
   }
 
-  private final Cache<String, TernarySearchTree<Ref>> refNamesByProject;
+  private final Cache<String, RefTernarySearchTree> refNamesByProject;
 
   @Inject
   RefDatabaseCacheImpl(
-      @Named(REF_NAMES_BY_PROJECT) Cache<String, TernarySearchTree<Ref>> refNamesByProject) {
+      @Named(REF_NAMES_BY_PROJECT) Cache<String, RefTernarySearchTree> refNamesByProject) {
     this.refNamesByProject = refNamesByProject;
   }
 
   static class RefNamesByProjectLoader {
 
-    static TernarySearchTree<Ref> load(RefDatabase refDatabaseDelegate) throws IOException {
+    static RefTernarySearchTree load(RefDatabase refDatabaseDelegate) throws IOException {
 
-      TernarySearchTree<Ref> tree = new TernarySearchTree<>();
+      RefTernarySearchTree tree = new RefTernarySearchTree();
       for (Ref ref : refDatabaseDelegate.getRefs()) {
         tree.insert(ref.getName(), ref);
       }
@@ -88,7 +88,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   @Override
   public List<Ref> allByPrefixes(String projectName, String[] prefixes, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> projectRefs = refNamesByProject.get(projectName, getLoader(delegate));
+    RefTernarySearchTree projectRefs = refNamesByProject.get(projectName, getLoader(delegate));
     AtomicReference<String> lastPrefix = new AtomicReference<>();
     ImmutableList.Builder<Ref> refs = ImmutableList.builder();
     Arrays.stream(prefixes)
@@ -99,7 +99,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
     return refs.build();
   }
 
-  private static Callable<TernarySearchTree<Ref>> getLoader(RefDatabase delegate) {
+  private static Callable<RefTernarySearchTree> getLoader(RefDatabase delegate) {
     return () -> RefNamesByProjectLoader.load(delegate);
   }
 
@@ -119,7 +119,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
 
   public void updateRefInPrefixesByProjectCache(String projectName, Ref ref, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(projectName, getLoader(delegate));
+    RefTernarySearchTree tree = refNamesByProject.get(projectName, getLoader(delegate));
     tree.insert(ref.getName(), ref);
   }
 
@@ -146,7 +146,7 @@ class RefDatabaseCacheImpl implements RefDatabaseCache {
   @Override
   public void renameRef(String project, Ref srcRef, Ref destRef, RefDatabase delegate)
       throws ExecutionException {
-    TernarySearchTree<Ref> tree = refNamesByProject.get(project, getLoader(delegate));
+    RefTernarySearchTree tree = refNamesByProject.get(project, getLoader(delegate));
     Lock lock = tree.getLock().writeLock();
     lock.lock();
     try {
