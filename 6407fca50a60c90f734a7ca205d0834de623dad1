@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9846e97_89e1dec5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T13:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a27aed78_83e2820e",
+      "revId": "6407fca50a60c90f734a7ca205d0834de623dad1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6967a682_695a62d9",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-03-19T13:40:40Z",
       "side": 1,
       "message": "Can you add a pointer? So that we know that *when* they\u0027ll be sorted out, we could then use again the JGit\u0027s version of it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "6407fca50a60c90f734a7ca205d0834de623dad1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "257e9bc8_d7b92ca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T13:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6967a682_695a62d9",
       "range": {
         "startLine": 9,
         "startChar": 10,
