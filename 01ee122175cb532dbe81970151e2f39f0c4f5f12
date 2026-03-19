@@ -16,6 +16,24 @@
       "message": "_Else_ condition isn\u0027t needed here.",
       "revId": "01ee122175cb532dbe81970151e2f39f0c4f5f12",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21a84d1_3afb9225",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T19:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b297209_e833165b",
+      "revId": "01ee122175cb532dbe81970151e2f39f0c4f5f12",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

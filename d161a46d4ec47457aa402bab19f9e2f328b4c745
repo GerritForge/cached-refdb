@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "377f033d_be3d8f82",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T19:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046c2fb1_e07b4e75",
+      "range": {
+        "startLine": 190,
+        "startChar": 39,
+        "endLine": 190,
+        "endChar": 52
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c4fbb1c_be713f2b",
@@ -594,6 +618,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d4dc621_35f20440",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T19:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "effcfbe8_586deb9f",
+      "range": {
+        "startLine": 204,
+        "startChar": 11,
+        "endLine": 205,
+        "endChar": 52
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f155c4f_8ca6389d",
@@ -830,6 +878,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ee0a625_194aeb46",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T19:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70bed9cc_8aa573ab",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 37
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f992e7d_2b30f86c",
@@ -986,6 +1058,30 @@
       "side": 1,
       "message": "This is a critical issue: please add a test case that shows that loading entries with a `newKeySet` creates a stale cache entry.",
       "parentUuid": "6ba0b09d_b892bf74",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 58
+      },
+      "revId": "d161a46d4ec47457aa402bab19f9e2f328b4c745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a6409e7_7d796fcc",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCacheImpl.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-19T19:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d4d38d4_a68cc196",
       "range": {
         "startLine": 234,
         "startChar": 30,
