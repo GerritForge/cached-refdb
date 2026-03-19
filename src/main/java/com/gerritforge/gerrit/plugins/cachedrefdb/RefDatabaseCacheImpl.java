@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import org.eclipse.jgit.internal.storage.memory.TernarySearchTree;
+import com.gerritforge.gerrit.plugins.cachedrefdb.TernarySearchTree;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
