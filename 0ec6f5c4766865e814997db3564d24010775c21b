@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee012089_6dac9a21",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "Consider using Guava\u0027s Multimap instead, see [1].\nIt would avoid you to manage the multimap manually and rely on well-tested and optimised code.\n\n[1] https://guava.dev/releases/23.0/api/docs/com/google/common/collect/Multimap.html",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2387614_4d4965d6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "The `super.insert(key, ref)` at L47 already does a `get(key)` internally for checking if the key already exists or not.\n\nWe can avoid scanning the tree twice and just expose the `insertImpl()` as a protected method and just use it here.\n\n\u003e **NOTE**: It would be best to isolate in separate commits the modifications to the `TernarySearchTree.java` source file, so that we keep track of what we changed in the _\"original JGit\"_ source code.",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c6ecb9_5647a10e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "`Bucket`? I believe `Index` would be a better choice for an ObjectId -\u003e Ref index lookup table.\n\n```suggestion\n        removeFromIndex(old.getObjectId(), key);\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2b0af6_a1168068",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "Is this change in WIP? When are you planning to address this TODO?",
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3deb032_784c8a07",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "We could make a version of the `delete()` method that returns the existing one being deleted, so that we can avoid this double-scanning.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee39ffb3_d254dbc0",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "```suggestion\n        removeFromIndex(old.getObjectId(), key);\n```",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eff9f11_97efeb3a",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "Use a more modern construct for an empty set.\n\n```suggestion\n        return Set.of();\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a8e172b_0a3bf6e9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "Return a more modern `Set.copyOf(refs)`.",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 95,
+        "endChar": 61
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "233ec0a6_5f1ade39",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "Why aren\u0027t them supported here?\nThe base implementation does support them, so it would be quite expected to have them supported here also.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1369d781_bc2c7695",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "```suggestion\n  private void addToIndex(ObjectId objectId, Ref ref) {\n```",
+      "range": {
+        "startLine": 131,
+        "startChar": 15,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990a32e5_0b1f9ade",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-20T17:30:02Z",
+      "side": 1,
+      "message": "```suggestion\n  private void removeFromIndex(ObjectId objectId, String refName) {\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
