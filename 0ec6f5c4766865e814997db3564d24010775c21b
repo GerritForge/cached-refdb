@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2658978_7c343748",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T10:09:47Z",
+      "side": 1,
+      "message": "Great shout, makes so much more sense! Code is a lot cleaner too.",
+      "parentUuid": "ee012089_6dac9a21",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2387614_4d4965d6",
