@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8630760_668e364c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:38:12Z",
+      "side": 1,
+      "message": "Yeah, the idea was that each objectId has a \"bucket\" with refs in it. I thought it made sense, but fair, happy to change it.",
+      "parentUuid": "81c6ecb9_5647a10e",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba2b0af6_a1168068",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
         "patchSetId": 14
@@ -192,6 +216,30 @@
       "writtenOn": "2026-03-20T17:30:02Z",
       "side": 1,
       "message": "Why aren\u0027t them supported here?\nThe base implementation does support them, so it would be quite expected to have them supported here also.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0d7385b_ed7f4aeb",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:38:12Z",
+      "side": 1,
+      "message": "These methods are currently not used by any callers of RefTernarySearchTree.\nNot overriding them as unsupported would risk callers breaking the reverse index without realising.\n\nAs they\u0027re not used I would not implement them as it would be a considerable amount of effort(and code to review).\n\nI suggest that we implement these as/if they\u0027re needed.",
+      "parentUuid": "233ec0a6_5f1ade39",
       "range": {
         "startLine": 101,
         "startChar": 0,
