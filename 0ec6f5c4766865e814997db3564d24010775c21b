@@ -183,6 +183,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3306b77f_5e2f0561",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T14:06:05Z",
+      "side": 1,
+      "message": "Looked into this more and turns out that the assumption that symbolic refs return null is already taken care of in real life paths.\n\nRemoved the todo as there\u0027s nothing to do here.",
+      "parentUuid": "ba2b0af6_a1168068",
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3deb032_784c8a07",
