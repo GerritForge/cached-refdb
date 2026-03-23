@@ -271,17 +271,33 @@ public class TernarySearchTree<Value> {
 	 * @return number of key-value pairs after the deletion
 	 */
 	public int delete(String key) {
-		lock.writeLock().lock();
-		try {
-			if (contains(key)) {
-				size.addAndGet(-1);
-				root = insert(root, key, null, 0);
-			}
-			return size.get();
-		} finally {
-			lock.writeLock().unlock();
-		}
-	}
+    deleteAndReturnOld(key);
+    return size.get();
+  }
+
+  /**
+   * Delete a key-value pair and return the old value. Does nothing if the key
+   * doesn't exist.
+   *
+   * @param key
+   *            the key
+   * @return the value that was associated with the key, or {@code null} if the
+   *         key did not exist
+   */
+  @Nullable
+  public Value deleteAndReturnOld(String key) {
+    lock.writeLock().lock();
+    try {
+      Value old = get(key);
+      if (old != null) {
+        size.addAndGet(-1);
+        root = insert(root, key, null, 0);
+      }
+      return old;
+    } finally {
+      lock.writeLock().unlock();
+    }
+  }
 
 	/**
 	 * Remove all key value pairs from this tree
