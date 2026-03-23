@@ -71,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db7461d_72018ce5",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T11:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2387614_4d4965d6",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81c6ecb9_5647a10e",
