@@ -237,11 +237,17 @@ public class TernarySearchTree<Value> {
   }
 
   private void insertImpl(String key, Value value) {
+    insertImplAndReturnOld(key, value);
+  }
+
+  protected Value insertImplAndReturnOld(String key, Value value) {
     validateValue(value);
-    if (!contains(key)) {
+    Value old = get(key);
+    if (old == null) {
       size.addAndGet(1);
     }
     root = insert(root, key, value, 0);
+    return old;
   }
 
   /**
