@@ -94,6 +94,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce2cb3fc_e78e98da",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8630760_668e364c",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba2b0af6_a1168068",
@@ -157,6 +181,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9da3999_329496f7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee39ffb3_d254dbc0",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eff9f11_97efeb3a",
@@ -180,6 +228,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53918ffc_61821374",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eff9f11_97efeb3a",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a8e172b_0a3bf6e9",
@@ -193,6 +265,30 @@
       "writtenOn": "2026-03-20T17:30:02Z",
       "side": 1,
       "message": "Return a more modern `Set.copyOf(refs)`.",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 95,
+        "endChar": 61
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb059e3_c33bb792",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a8e172b_0a3bf6e9",
       "range": {
         "startLine": 95,
         "startChar": 13,
@@ -273,6 +369,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b95a3f_102b37a6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1369d781_bc2c7695",
+      "range": {
+        "startLine": 131,
+        "startChar": 15,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "990a32e5_0b1f9ade",
@@ -286,6 +406,30 @@
       "writtenOn": "2026-03-20T17:30:02Z",
       "side": 1,
       "message": "```suggestion\n  private void removeFromIndex(ObjectId objectId, String refName) {\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd383693_95e88a00",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-23T09:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990a32e5_0b1f9ade",
       "range": {
         "startLine": 135,
         "startChar": 25,
