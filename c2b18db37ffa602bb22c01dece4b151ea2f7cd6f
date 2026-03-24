@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27ff7b52_13f22474",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-03-24T10:30:25Z",
+      "side": 1,
+      "message": "If this is needed in our implementation only, why not just adding it there? So we won\u0027t diverge from the original `TernarySearchTree` implementation.",
+      "range": {
+        "startLine": 265,
+        "startChar": 15,
+        "endLine": 265,
+        "endChar": 33
+      },
+      "revId": "c2b18db37ffa602bb22c01dece4b151ea2f7cd6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
