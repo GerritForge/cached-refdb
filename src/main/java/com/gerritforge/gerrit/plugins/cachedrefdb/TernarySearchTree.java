@@ -85,7 +85,7 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	private static <V> void validateValue(V value) {
+	protected static <V> void validateValue(V value) {
 		if (value == null) {
 			throw new IllegalArgumentException(
 					JGitText.get().illegalTernarySearchTreeValue);
@@ -112,6 +112,34 @@ public class TernarySearchTree<Value> {
 	 */
 	public ReadWriteLock getLock() {
 		return lock;
+	}
+
+	/**
+	 * Get the root node of the tree.
+	 *
+	 * @return root node, or {@code null} if the tree is empty
+	 */
+	public Node<Value> getRoot() {
+		return root;
+	}
+
+	/**
+	 * Replace the root node of the tree.
+	 * <p>
+	 *
+	 * @param root new root node
+	 */
+	public void setRoot(Node<Value> root) {
+		this.root = root;
+	}
+
+	/**
+	 * Get the atomic counter that tracks the number of entries in the tree.
+	 *
+	 * @return atomic size counter
+	 */
+	public AtomicInteger getSize() {
+		return size;
 	}
 
 	/**
@@ -512,7 +540,7 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	private Node<Value> insert(Node<Value> node, String key, Value val,
+	protected Node<Value> insert(Node<Value> node, String key, Value val,
 			int depth) {
 		char c = key.charAt(depth);
 		if (node == null) {
