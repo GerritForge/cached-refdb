@@ -46,6 +46,30 @@
       },
       "revId": "c2b18db37ffa602bb22c01dece4b151ea2f7cd6f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db920f9_91b0f87f",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-04-10T07:53:40Z",
+      "side": 1,
+      "message": "Why not simply make the members you need `protected` then? We must minimize the changes we make to this forked class.",
+      "parentUuid": "4c76df09_436fb9fe",
+      "range": {
+        "startLine": 265,
+        "startChar": 15,
+        "endLine": 265,
+        "endChar": 33
+      },
+      "revId": "c2b18db37ffa602bb22c01dece4b151ea2f7cd6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
