@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39b340b8_b5d3c858",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-04-10T07:54:52Z",
+      "side": 1,
+      "message": "Same as the previous change in the chain: why not simply make the instance variables you need as protected? We need to minimize changes to this forked class.",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 3
+      },
+      "revId": "b9207e0a03d51130c15633a4c5d6e00a958cfdde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
