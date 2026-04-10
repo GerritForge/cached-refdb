@@ -92,11 +92,11 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	private final ReadWriteLock lock;
+	protected final ReadWriteLock lock;
 
-	private final AtomicInteger size = new AtomicInteger(0);
+  protected final AtomicInteger size = new AtomicInteger(0);
 
-	private Node<Value> root;
+  protected Node<Value> root;
 
 	/**
 	 * Construct a new ternary search tree
