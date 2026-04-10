@@ -47,7 +47,7 @@ public class TernarySearchTree<Value> {
 
 	private static final char WILDCARD = '?';
 
-	private static class Node<Value> {
+	protected static class Node<Value> {
 		final char c;
 
 		Node<Value> lo, eq, hi;
@@ -85,18 +85,18 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	private static <V> void validateValue(V value) {
+	protected static <V> void validateValue(V value) {
 		if (value == null) {
 			throw new IllegalArgumentException(
 					JGitText.get().illegalTernarySearchTreeValue);
 		}
 	}
 
-	private final ReadWriteLock lock;
+	protected final ReadWriteLock lock;
 
-	private final AtomicInteger size = new AtomicInteger(0);
+	protected final AtomicInteger size = new AtomicInteger(0);
 
-	private Node<Value> root;
+	protected Node<Value> root;
 
 	/**
 	 * Construct a new ternary search tree
@@ -512,7 +512,7 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	private Node<Value> insert(Node<Value> node, String key, Value val,
+	protected Node<Value> insert(Node<Value> node, String key, Value val,
 			int depth) {
 		char c = key.charAt(depth);
 		if (node == null) {
