@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "062c7920_70f6296e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9224803_9b13bbf7",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05f3080a_1ba33d35",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-04-14T14:16:57Z",
       "side": 1,
       "message": "nit:\n```suggestion\n        size.incrementAndGet();\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e90b7fa_0e44da58",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05f3080a_1ba33d35",
       "range": {
         "startLine": 49,
         "startChar": 8,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10ea009_d3b8c701",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cdd1ca7_e8ea1f55",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c4bda99_2c9d84e0",
@@ -83,6 +155,24 @@
       "writtenOn": "2026-04-14T14:16:57Z",
       "side": 1,
       "message": "Should we add tests to document the behaviour of\n1 - ref pointing to `null` object ID is not indexed?\n2 - deleting a missing key is a no-op",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4b4a65_29fd704d",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c4bda99_2c9d84e0",
       "revId": "2695affa070934cd55485fc466e5c849d18a1356",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -106,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30313f6e_fa2368e4",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "I get the point about `SymbolicRef`, as we need to ensure jgit is peeling them- so I\u0027ve added a test - but for loose and packed refs there is no difference in behaviour, so I don\u0027t think it makes sense to test that.",
+      "parentUuid": "724887e1_7b38c47e",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61fe7550_110d33eb",
         "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
         "patchSetId": 31
@@ -117,6 +225,24 @@
       "writtenOn": "2026-04-14T14:16:57Z",
       "side": 1,
       "message": "Should this also assert the size stays as `1`?",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d930bc49_3d1f398c",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:55:38Z",
+      "side": 1,
+      "message": "I don\u0027t believe so, containsExactly should be enough, as if there was more than one element then that would fail.",
+      "parentUuid": "61fe7550_110d33eb",
       "revId": "2695affa070934cd55485fc466e5c849d18a1356",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
