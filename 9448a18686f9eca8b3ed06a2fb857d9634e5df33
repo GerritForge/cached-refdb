@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6034637d_8ff36fb2",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-14T19:58:19Z",
+      "side": 1,
+      "message": "Just to triple check my thinking here. Symbolic Ref `REF_A` is what we\u0027re storing in the tree here, which points to `OID_1`, therefore, `REF_B` is not in the tree, hence is not returned.\n\nIn real life `REF_B` would be inserted in the tree by another operation, and at that point it would be returned, but strictly speaking about symbolicRefs,  I believe this is the correct behaviour.\n\n@syntonyze@gmail.com WDYT?",
+      "range": {
+        "startLine": 93,
+        "startChar": 68,
+        "endLine": 93,
+        "endChar": 92
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
