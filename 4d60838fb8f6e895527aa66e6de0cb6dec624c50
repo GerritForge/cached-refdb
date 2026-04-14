@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f45da1_c9e0831d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-14T14:40:26Z",
+      "side": 1,
+      "message": "The index is only populated for refs that have `ref.getObjectId()`.\nWould looking up the commit pointed to by an annotated tag work, for example?\n\nCan we have some tests to cover these scenarios?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 78
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b574ec_7a9eeb8e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/PassThroughRefDatabase.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-14T14:40:26Z",
+      "side": 1,
+      "message": "Why `false` here?\nWe have a delegate, we could just delegate to `delegate.hasFastTipsWithSha1()`.",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 16
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7346acae_208028f8",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCache.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-14T14:40:26Z",
+      "side": 1,
+      "message": "I think this should be allowed to throw `IOException` to be in-line with Jgit\u0027s `RefDatabase`. This will also allow us to implement it via `delegate.hasFastTipsWithSha1` (see `PassThroughRefDatabase` for example).",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30409b82_5caa0fae",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-14T14:40:26Z",
+      "side": 1,
+      "message": "nit: unrelated?",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 3
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f25a5c7_43163940",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefRepositoryTest.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-14T14:40:26Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
