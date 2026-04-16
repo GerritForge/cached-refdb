@@ -3,6 +3,121 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b91bc9c9_e9a51137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "Can you give a bit more context on how you performed the tests, see an example here [1]\n\n[1]: https://review.gerrithub.io/c/GerritForge/cached-refdb/+/1229541",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0853dbc5_f2ad7804",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "What about calling it `refName`",
+      "range": {
+        "startLine": 42,
+        "startChar": 27,
+        "endLine": 42,
+        "endChar": 30
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d8d12a_955d3c2e",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "Why not delegating this logic to `removeFromIndex`? The `insert` would be more readable I think.",
+      "range": {
+        "startLine": 52,
+        "startChar": 7,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9376ebe5_d4de209b",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "Why not delegating this logic to `addToIndex`? The `insert` would be more readable I think.",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa83b3e5_7d28010d",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "I would say \"returns an empty `Set` if no `Ref`s are associated to the objectId\"",
+      "range": {
+        "startLine": 92,
+        "startChar": 68,
+        "endLine": 92,
+        "endChar": 86
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6034637d_8ff36fb2",
         "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
         "patchSetId": 32
@@ -20,6 +135,46 @@
         "endLine": 93,
         "endChar": 92
       },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a01d6c76_0ededf09",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand the need of this test. Which kind of error would it catch ?",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 3
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b62202ed_e29fc0ab",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T13:32:49Z",
+      "side": 1,
+      "message": "I would add a small test to show the `getByObjectId` behaviour when you get a non-existent objectId",
       "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
