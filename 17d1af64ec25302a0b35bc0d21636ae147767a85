@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f21fe34_0d8667b6",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T10:34:27Z",
+      "side": 1,
+      "message": "Is this needed? I done\u0027t see `Node` being used in the followup changes.",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 10
+      },
+      "revId": "17d1af64ec25302a0b35bc0d21636ae147767a85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54468dc3_9d0ed490",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T10:34:27Z",
+      "side": 1,
+      "message": "If we really need to expose these values, I would keep them private and add getters/setters.\n\nAlso it might be worth adding them",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "17d1af64ec25302a0b35bc0d21636ae147767a85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
