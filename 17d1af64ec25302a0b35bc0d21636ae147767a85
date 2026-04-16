@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "065714a4_dd8ce2ba",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-16T10:47:42Z",
+      "side": 1,
+      "message": "`lock` already has a getter. I think you can avoid exposing this.",
+      "range": {
+        "startLine": 95,
+        "startChar": 31,
+        "endLine": 95,
+        "endChar": 36
+      },
+      "revId": "17d1af64ec25302a0b35bc0d21636ae147767a85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54468dc3_9d0ed490",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
         "patchSetId": 3
