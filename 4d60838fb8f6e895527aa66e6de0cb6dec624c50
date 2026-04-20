@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8e97b21_a5f06429",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:41:19Z",
+      "side": 1,
+      "message": "Good question, I was gonna address this in a follow-up but probably makes sense to do here at this point.\n\nWhat should the correct behaviour for the cache be? Advertise the tag both both the peeled comit id and the tag id?",
+      "parentUuid": "a0f45da1_c9e0831d",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 78
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4b574ec_7a9eeb8e",
         "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/PassThroughRefDatabase.java",
         "patchSetId": 60
