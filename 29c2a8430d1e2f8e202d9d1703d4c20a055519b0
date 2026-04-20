@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1671b40f_f0ed2528",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:35:54Z",
+      "side": 1,
+      "message": "These tests are not relevant to what\u0027s being added in this commit. Removing them.",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 3
+      },
+      "revId": "29c2a8430d1e2f8e202d9d1703d4c20a055519b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
