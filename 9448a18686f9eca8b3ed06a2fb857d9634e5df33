@@ -235,6 +235,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f69082_914b8180",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-20T13:47:47Z",
+      "side": 1,
+      "message": "Yes, I would expect in the index to have only the Ref that is being added, not the one that is peeling to.",
+      "parentUuid": "6034637d_8ff36fb2",
+      "range": {
+        "startLine": 93,
+        "startChar": 68,
+        "endLine": 93,
+        "endChar": 92
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a01d6c76_0ededf09",

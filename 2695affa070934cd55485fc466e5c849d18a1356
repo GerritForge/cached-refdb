@@ -212,6 +212,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1292a89b_6a717e0a",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-20T13:47:47Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "30313f6e_fa2368e4",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61fe7550_110d33eb",
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "I don\u0027t believe so, containsExactly should be enough, as if there was more than one element then that would fail.",
       "parentUuid": "61fe7550_110d33eb",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249b5c43_797276e7",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-04-20T13:47:47Z",
+      "side": 1,
+      "message": "But `size` is something that _we_ keep up-to-date, correct?\nIs not just a property of the _content_ of the index.",
+      "parentUuid": "d930bc49_3d1f398c",
       "revId": "2695affa070934cd55485fc466e5c849d18a1356",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
