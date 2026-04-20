@@ -47,6 +47,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d26b46_8dabe674",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/PassThroughRefDatabase.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b574ec_7a9eeb8e",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 16
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7346acae_208028f8",
@@ -60,6 +84,30 @@
       "writtenOn": "2026-04-14T14:40:26Z",
       "side": 1,
       "message": "I think this should be allowed to throw `IOException` to be in-line with Jgit\u0027s `RefDatabase`. This will also allow us to implement it via `delegate.hasFastTipsWithSha1` (see `PassThroughRefDatabase` for example).",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e1d96a_d809aed7",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefDatabaseCache.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7346acae_208028f8",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -93,6 +141,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64785e8a_fdf5f97c",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30409b82_5caa0fae",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 3
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f25a5c7_43163940",
@@ -106,6 +178,30 @@
       "writtenOn": "2026-04-14T14:40:26Z",
       "side": 1,
       "message": "unused?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de924796_1b7ee216",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefRepositoryTest.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-20T11:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f25a5c7_43163940",
       "range": {
         "startLine": 23,
         "startChar": 0,
