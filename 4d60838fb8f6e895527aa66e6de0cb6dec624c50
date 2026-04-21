@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bd9c62_56010d32",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDatabase.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-21T17:53:58Z",
+      "side": 1,
+      "message": "Turns out that annotated tags is actually a bit more involved than expect, so will do in a follow-up change.",
+      "parentUuid": "0e8ca060_c3a60561",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 78
+      },
+      "revId": "4d60838fb8f6e895527aa66e6de0cb6dec624c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4b574ec_7a9eeb8e",
