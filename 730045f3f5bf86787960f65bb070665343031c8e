@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e4d8e4_e67eddf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 66
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T07:33:30Z",
+      "side": 1,
+      "message": "Same comment as here: https://review.gerrithub.io/c/GerritForge/cached-refdb/+/1233966/comment/b91bc9c9_e9a51137/",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "730045f3f5bf86787960f65bb070665343031c8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
