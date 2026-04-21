@@ -281,6 +281,24 @@
       "parentUuid": "d930bc49_3d1f398c",
       "revId": "2695affa070934cd55485fc466e5c849d18a1356",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48133c33_58780ad4",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-21T07:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249b5c43_797276e7",
+      "revId": "2695affa070934cd55485fc466e5c849d18a1356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

@@ -436,6 +436,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "019eb636_912c91a9",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTree.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-21T07:37:03Z",
+      "side": 1,
+      "message": "Believe we discussed this and agreed on this approach, let me know if not.",
+      "parentUuid": "a0d7385b_ed7f4aeb",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "0ec6f5c4766865e814997db3564d24010775c21b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1369d781_bc2c7695",
