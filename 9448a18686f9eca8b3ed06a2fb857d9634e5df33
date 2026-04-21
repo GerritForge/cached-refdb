@@ -308,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf91c1fe_5fae39b4",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T07:32:12Z",
+      "side": 1,
+      "message": "If that\u0027s the case, the minimal test would be:\n\n```\nassertThat(tree.size()).isEqualTo(0);\ntree.delete(REF_B);\nassertThat(tree.size()).isEqualTo(0);\n```\n\nOr even:\n\n```\ntree.delete(REF_B);\n```\n\nHowever, unless you are covering a particular code path I would remove it.",
+      "parentUuid": "9a6204a3_8a940436",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 3
+      },
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b62202ed_e29fc0ab",
         "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
         "patchSetId": 32
@@ -337,6 +361,24 @@
       "side": 1,
       "message": "Isn\u0027t that `refWithNullObjectIdIsStoredButNotIndexed`?",
       "parentUuid": "b62202ed_e29fc0ab",
+      "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2512307_f38674f3",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/RefTernarySearchTreeTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T07:32:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "58d50cf0_d89d80d1",
       "revId": "9448a18686f9eca8b3ed06a2fb857d9634e5df33",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
