@@ -22,6 +22,30 @@
       },
       "revId": "29c2a8430d1e2f8e202d9d1703d4c20a055519b0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f384f18c_e3064f9e",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-21T15:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1671b40f_f0ed2528",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 3
+      },
+      "revId": "29c2a8430d1e2f8e202d9d1703d4c20a055519b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
