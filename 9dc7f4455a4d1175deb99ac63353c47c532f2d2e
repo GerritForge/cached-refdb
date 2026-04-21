@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb3469a_a0667ab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T09:56:32Z",
+      "side": 1,
+      "message": "Missing link",
+      "range": {
+        "startLine": 20,
+        "startChar": 58,
+        "endLine": 20,
+        "endChar": 61
+      },
+      "revId": "9dc7f4455a4d1175deb99ac63353c47c532f2d2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
