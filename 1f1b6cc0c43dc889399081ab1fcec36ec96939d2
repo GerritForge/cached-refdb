@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6810c98_6a78aa4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T07:20:35Z",
+      "side": 1,
+      "message": "Can you expand the commit message?\n\nMaybe something like:\n\n```suggestion\nExpose TernarySearchTree internals for subclassing\n\nRelax TernarySearchTree visibility so subclasses can extend and\ncustomize the tree implementation without duplicating core logic.\n\nMake validateValue() and insert() protected so derived classes can\nreuse the existing validation and insertion behavior.\n\nAlso add accessors for the internal root node and size counter so\nsubclasses can inspect and update tree state when implementing\nspecialized behavior on top of the base structure.\n```",
+      "revId": "1f1b6cc0c43dc889399081ab1fcec36ec96939d2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c6b971_6d1a48c3",
+        "filename": "src/main/java/com/gerritforge/gerrit/plugins/cachedrefdb/TernarySearchTree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-21T07:20:35Z",
+      "side": 1,
+      "message": "Missing javadoc for public methods",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 2
+      },
+      "revId": "1f1b6cc0c43dc889399081ab1fcec36ec96939d2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
