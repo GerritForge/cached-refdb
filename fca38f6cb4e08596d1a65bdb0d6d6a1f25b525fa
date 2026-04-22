@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86d177af_193af9d9",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-04-22T21:30:49Z",
+      "side": 1,
+      "message": "Why not also doing the inverse cross-reference in Gerrit docs? (see https://gerrit-documentation.storage.googleapis.com/Documentation/3.13.5/config-gerrit.html#receive.enableInMemoryRefCache).\n\nWe could say that it can be disabled when using an objectId \u003d\u003e ref fast lookup, e.g., cached-refdb.",
+      "range": {
+        "startLine": 123,
+        "startChar": 28,
+        "endLine": 123,
+        "endChar": 66
+      },
+      "revId": "fca38f6cb4e08596d1a65bdb0d6d6a1f25b525fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
