@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af026b6a_b671d4d2",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-22T18:09:31Z",
+      "side": 1,
+      "message": "Maybe you could add an assertion that shows the object is not indexed by the unpeeled objectId",
+      "range": {
+        "startLine": 274,
+        "startChar": 3,
+        "endLine": 276,
+        "endChar": 29
+      },
+      "revId": "be620c9cadd5740f1794e9acf93a157472d9934c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
