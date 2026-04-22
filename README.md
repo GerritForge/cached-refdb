@@ -117,3 +117,10 @@ git config --file ${GERRIT_SITE}/etc/gerrit.config cache.ref_by_name.memoryLimit
 
 Note that library module requires the Gerrit instance restart in order to pick
 up the configuration changes.
+
+NOTE: As this RefDatabase implements an extremely efficient objectId -> ref lookup, you should disable Gerrit's default,
+inefficient, implementation. You can do this by setting `receive.enableInMemoryRefCache = false` in your gerrit.config
+
+```
+git config --file ${GERRIT_SITE}/etc/gerrit.config receive.enableInMemoryRefCache false
+```
