@@ -29,6 +29,7 @@ public class RefTernarySearchTreeTest {
 
   private static final String REF_A = "refs/heads/a";
   private static final String REF_B = "refs/heads/b";
+  private static final String TAG_V1 = "refs/tags/v1.0";
 
   private RefTernarySearchTree tree;
 
@@ -39,6 +40,10 @@ public class RefTernarySearchTreeTest {
 
   private static Ref ref(String name, ObjectId objectId) {
     return new ObjectIdRef.Unpeeled(Ref.Storage.PACKED, name, objectId);
+  }
+
+  private static Ref peeledTagRef(String name, ObjectId tagObjectId, ObjectId commitObjectId) {
+    return new ObjectIdRef.PeeledTag(Ref.Storage.PACKED, name, tagObjectId, commitObjectId);
   }
 
   private static Ref symbolicRef(String name, String targetName, ObjectId targetOid) {
@@ -111,5 +116,14 @@ public class RefTernarySearchTreeTest {
     assertThat(tree.contains(REF_B)).isTrue();
     assertThat(tree.size()).isEqualTo(1);
     assertThat(tree.getByObjectId(OID_1).stream().map(Ref::getName)).containsExactly(REF_B);
+  }
+
+  @Test
+  public void annotatedTagIsIndexedOnlyByUnpeeledObjectId() {
+    // OID_1 = tag object SHA, OID_2 = commit SHA the tag points to
+    tree.insert(TAG_V1, peeledTagRef(TAG_V1, OID_1, OID_2));
+
+    assertThat(tree.getByObjectId(OID_1).stream().map(Ref::getName)).containsExactly(TAG_V1);
+    assertThat(tree.getByObjectId(OID_2).stream().map(Ref::getName)).isEmpty();
   }
 }

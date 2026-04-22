@@ -31,15 +31,15 @@ import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.lib.TagBuilder;
 import org.junit.Test;
 
 @UseLocalDisk
@@ -238,6 +238,42 @@ public class CachedRefDbIT extends AbstractDaemonTest {
       assertThat(tips)
           .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
           .contains(patchSetRef);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "gerrit.installDbModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibDbModule")
+  @GerritConfig(
+      name = "gerrit.installModule",
+      value = "com.gerritforge.gerrit.plugins.cachedrefdb.LibSysModule")
+  public void shouldReturnAnnotatedTagOnlyWhenLookingUpByUnpeeledCommit() throws Exception {
+    String tagName = "refs/tags/v1.0";
+
+    try (Repository repo = gitRepoManager.openRepository(project)) {
+      ObjectId peeledCommitId = repo.resolve("HEAD");
+
+      TagBuilder annotatedTagObject = new TagBuilder();
+      annotatedTagObject.setTag("v1.0");
+      annotatedTagObject.setObjectId(peeledCommitId, Constants.OBJ_COMMIT);
+      annotatedTagObject.setMessage("Annotated tag for testing");
+      annotatedTagObject.setTagger(new PersonIdent("Tester", "test@example.com", 0, 0));
+
+      ObjectId unpeeledTagObjectId;
+      try (ObjectInserter inserter = repo.newObjectInserter()) {
+        unpeeledTagObjectId = inserter.insert(annotatedTagObject);
+        inserter.flush();
+      }
+
+      RefUpdate update = repo.updateRef(tagName);
+      update.setNewObjectId(unpeeledTagObjectId);
+      assertThat(update.update()).isEqualTo(RefUpdate.Result.NEW);
+
+      Set<Ref> tips = repo.getRefDatabase().getTipsWithSha1(unpeeledTagObjectId);
+      assertThat(tips)
+          .comparingElementsUsing(Correspondence.transforming(Ref::getName, "name"))
+          .contains(tagName);
     }
   }
 
