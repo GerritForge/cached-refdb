@@ -39,6 +39,48 @@
       "message": "nit: we should probably asssert",
       "revId": "4705547b353daa77e7e6d444c61f270dbfa12356",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "025f47f0_cd49442e",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 75
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-22T09:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8355dec3_e74e98e6",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 234,
+        "endChar": 21
+      },
+      "revId": "4705547b353daa77e7e6d444c61f270dbfa12356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f458d838_b55f865f",
+        "filename": "src/test/java/com/gerritforge/gerrit/plugins/cachedrefdb/CachedRefDbIT.java",
+        "patchSetId": 75
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-22T09:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "203649a3_f43c97b1",
+      "revId": "4705547b353daa77e7e6d444c61f270dbfa12356",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
