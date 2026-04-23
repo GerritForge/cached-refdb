@@ -22,6 +22,30 @@
       },
       "revId": "fca38f6cb4e08596d1a65bdb0d6d6a1f25b525fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f4be7b3_cca40010",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-04-23T09:05:47Z",
+      "side": 1,
+      "message": "We already say that, no?\n\n\u003e This cache provides value when the ref database is slow and/or does not offer an \u003e inverse lookup of object ID to ref name.",
+      "parentUuid": "86d177af_193af9d9",
+      "range": {
+        "startLine": 123,
+        "startChar": 28,
+        "endLine": 123,
+        "endChar": 66
+      },
+      "revId": "fca38f6cb4e08596d1a65bdb0d6d6a1f25b525fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
