@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5af298_521a1d6d",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-06-11T18:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "424e1986_1aa991bf",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60035105_f86dc4ff",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-11T09:22:25Z",
       "side": 1,
       "message": "This is wrong and could be removed, gerrit_plugin_tests would set its for you.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9788971_7cd1afab",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-06-11T18:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60035105_f86dc4ff",
       "range": {
         "startLine": 29,
         "startChar": 0,
