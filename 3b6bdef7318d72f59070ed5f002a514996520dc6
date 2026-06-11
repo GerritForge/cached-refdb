@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "424e1986_1aa991bf",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-11T09:22:25Z",
+      "side": 1,
+      "message": "Remove. If plugin is passed, is not needed.\n\n```suggestion\n    srcs \u003d glob([\"src/test/java/**/*IT.java\"]),\n    jvm_flags \u003d [\"-Xmx2G\"],\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60035105_f86dc4ff",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-11T09:22:25Z",
+      "side": 1,
+      "message": "This is wrong and could be removed, gerrit_plugin_tests would set its for you.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
