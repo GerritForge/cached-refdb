@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c572d981_c6ba53c6",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-06-13T06:28:49Z",
+      "side": 1,
+      "message": "One of the test targets need a name as otherwise test will fail. I have dropped it from unit tests but then it is needed in integration tests.",
+      "parentUuid": "ca5af298_521a1d6d",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60035105_f86dc4ff",
