@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e052a9a_ffebd5a1",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-13T07:34:12Z",
+      "side": 1,
+      "message": "🆗",
+      "parentUuid": "c572d981_c6ba53c6",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3b6bdef7318d72f59070ed5f002a514996520dc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60035105_f86dc4ff",
