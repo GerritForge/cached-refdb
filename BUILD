@@ -15,9 +15,10 @@ gerrit_plugin(
         "Gerrit-PluginName: cached-refdb",
         "Implementation-Title: cached-refdb plugin",
         "Implementation-URL: https://github.com/GerritForge/cached-refdb",
+        "Gerrit-HttpModule: com.gerritforge.gerrit.plugins.bsl.HttpModule",
     ],
     resources = glob(["src/main/resources/**/*"]),
-    deps = [],
+    deps = ["//plugins/gerrit-bsl-license"],
 )
 
 junit_tests(
