@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b613fd_e9a56f89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-07-04T00:01:48Z",
+      "side": 1,
+      "message": "This is a libModule, therefore the HttpModule won\u0027t be used.\nWe need to find a different strategy for modules.",
+      "revId": "cf457cef09518651fa6c26d52d768d1689a47461",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
