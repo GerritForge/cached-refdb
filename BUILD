@@ -17,7 +17,8 @@ gerrit_plugin(
         "Implementation-URL: https://github.com/GerritForge/cached-refdb",
     ],
     resources = glob(["src/main/resources/**/*"]),
-    deps = [],
+    plugin = "cached-refdb",
+    deps = ["//plugins/gerrit-bsl-license"],
 )
 
 junit_tests(

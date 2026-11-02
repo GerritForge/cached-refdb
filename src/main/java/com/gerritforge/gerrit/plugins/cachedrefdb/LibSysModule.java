@@ -11,6 +11,7 @@
 
 package com.gerritforge.gerrit.plugins.cachedrefdb;
 
+import com.gerritforge.gerrit.plugins.bsl.BslLibModule;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -26,6 +27,7 @@ public class LibSysModule extends LifecycleModule {
   protected void configure() {
     install(RefDatabaseCacheImpl.module());
     listener().to(RefByNameCacheSetter.class);
+    install(new BslLibModule("cached-refdb"));
     logger.atInfo().log("Sys library loaded");
   }
 
