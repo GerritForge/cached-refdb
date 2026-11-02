@@ -12,6 +12,7 @@ gerrit_plugin(
         "Implementation-URL: https://github.com/GerritForge/cached-refdb",
     ],
     plugin = "cached-refdb",
+    deps = ["//plugins/gerrit-bsl-license"],
 )
 
 gerrit_plugin_tests(
