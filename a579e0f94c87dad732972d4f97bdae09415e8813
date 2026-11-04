@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c982f6_a16b1b75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-04T08:45:41Z",
+      "side": 1,
+      "message": "Needs to be directed to stable-3.13 when the BSL starts.",
+      "revId": "a579e0f94c87dad732972d4f97bdae09415e8813",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
